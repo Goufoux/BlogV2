@@ -79,7 +79,7 @@ input[type='button']:hover, button:hover
 	border: solid;
 	display: inline-block;
 	margin: 2% auto;
-	height: 180px;
+	vertical-align: top;
 	overflow: hidden;
 	background-color: rgb(33, 37, 41);
 	color: white;
