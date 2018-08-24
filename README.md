@@ -9,3 +9,5 @@ Principaux changements: <br />
   -> Possibilité de rechercher un book <br />
   -> Possibilité de consulter un profil <br />
   -> Admin: Gestion des utilisateurs <br />
+  <br />
+Changements à venir: <br />
