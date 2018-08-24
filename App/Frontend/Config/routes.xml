@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<routes>
+
+	<route url="/openclassroom/BlogV2/Web/" module="index" action="index"></route>
+	<route url="/openclassroom/BlogV2/Web/billet-([0-9]+)" module="index" action="showBillet" vars="id"></route>
+	<route url="/openclassroom/BlogV2/Web/book-([0-9]+)" module="index" action="showBook" vars="id"></route>
+	<!-- <route url="/openclassroom/BlogV2/Web/list" module="index" action="listBillet"></route> -->
+	<route url="/openclassroom/BlogV2/Web/deconnect" module="index" action="deconnect"></route>
+	<route url="/openclassroom/BlogV2/Web/profil-([0-9]+)" module="index" action="profil" vars="id"></route>
+	<route url="/openclassroom/BlogV2/Web/profil" module="index" action="profil"></route>
+	<route url="/openclassroom/BlogV2/Web/writeBillet-([0-9]+)" module="index" action="writeBillet" vars="id"></route>
+	<!-- <route url="/openclassroom/BlogV2/Web/write" module="index" action="write"></route> -->
+	<!-- BOOK -->
+	<route url="/openclassroom/BlogV2/Web/readUb" module="index" action="readUb"></route>
+	<route url="/openclassroom/BlogV2/Web/modBook-([0-9]+)" module="index" action="modBook" vars="id"></route>
+	
+	<!-- <route url="/openclassroom/BlogV2/Web/readBillet-([0-9]+)" module="index" action="readBillet" vars="id"></route> -->
+	<route url="/openclassroom/BlogV2/Web/modUb-([0-9]+)" module="index" action="modUb" vars="id"></route>
+</routes>

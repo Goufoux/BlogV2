@@ -1,0 +1,8 @@
+@media screen and (min-width: 768px) and (max-width: 991px)
+{
+	.formGenerator
+	{
+		width: 70%;
+		left: 15%;
+	}
+}

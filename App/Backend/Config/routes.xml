@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<routes>
+	<route url="/openclassroom/BlogV2/Web/admin/" module="index" action="index"></route>
+	<route url="/openclassroom/BlogV2/Web/admin/commentReport" module="index" action="commentReport"></route>
+	<route url="/openclassroom/BlogV2/Web/admin/listUser" module="index" action="listUser"></route>
+</routes>

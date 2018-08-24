@@ -1,0 +1,18 @@
+.boxComment
+{
+	text-align: center;
+	background-color: rgb(33, 37, 41);
+	color: white;
+	padding: 1%;
+	margin: 1% auto;
+}
+.boxComment article
+{
+	border: solid white;
+	background-color: white;
+	color: black;
+}
+.boxComment article ul
+{
+	list-style: none;
+}

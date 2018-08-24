@@ -1,0 +1,309 @@
+body, html
+{
+	height: 100%;
+	background-color: rgb(33, 37, 41);
+	margin: 0;
+	padding: 0;
+}
+input[type='button']:hover, button:hover
+{
+	cursor: pointer;
+	box-shadow: 0px 0px 5px black;
+}
+/* Bloc pour remplir l'espace du menu de navigation */
+.bloc
+{
+	height: 80px;
+}
+.navbar button
+{
+	margin: 0 10px;
+	padding: 5px;
+	transition: all .5s;
+}
+.navbar button:hover
+{
+	cursor: pointer;
+	box-shadow: 0px 0px 5px black;
+}
+/* Container principal */
+.container-fluid
+{
+	margin: 1% auto;
+	background-color: white;
+	padding: 2%;
+	text-align: center;
+	width: 100%;
+	transition: all .5s;
+}
+.container-fluid a
+{
+	text-decoration: none;
+}
+.container-fluid h1
+{
+	text-align: center;
+	padding-bottom: 1%;
+}
+.container-fluid h3
+{
+	text-align: center;
+}
+/* Affichage des books */
+.book
+{
+	border: solid;
+	background-color: rgb(33, 37, 41);
+	color: white;
+}
+.book .adm button
+{
+	display: block;
+	margin: 1% auto;
+}
+.book nav ul button
+{
+	display: inline-block;
+}
+.book nav ul
+{
+	list-style: none;
+}
+.book nav ul li
+{
+	display: inline-block;
+}
+/* Preview */
+.bookPreview
+{
+	border: solid;
+	display: inline-block;
+	margin: 2% auto;
+	height: 180px;
+	overflow: hidden;
+	background-color: rgb(33, 37, 41);
+	color: white;
+	padding: 1%;
+}
+.bookPreview h3 .hInfo
+{
+	font-size: 15px;
+	font-variant: small-caps;
+}
+.bookPreview p
+{
+	margin: 1% auto;
+}
+.bookPreview ul
+{
+	margin-top: 2%;
+	padding: 1%;
+	list-style: none;
+	text-align: right;
+}
+.bookPreview .row
+{
+	margin: auto;
+}
+.bookPreview i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
+	color: white;
+}
+.bookPreview i:hover
+{
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
+}
+/* Affichage des billets */
+.billet
+{
+	margin: 5% auto;
+	background-color: rgb(33, 37, 41);
+	border-radius: 4px;
+	color: white;
+	overflow: hidden;
+	padding: 1%;
+}
+.billet .content
+{
+	margin: 2% auto;
+}
+.billet ul
+{
+	text-align: right;
+	list-style-type: none;
+}
+.billet i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
+	color: white;
+}
+.billet i:hover
+{
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
+}
+/* Prévisualisation d'un billet */
+.prevBillet
+{
+	background-color: rgb(33, 37, 41);
+	color: white;
+	display: inline-block;
+	margin: 2% auto;
+	padding-top: 0.5%;
+	vertical-align: middle;
+	padding: 1%;
+}
+.prevBillet .row
+{
+	margin: auto;
+}
+.prevBillet i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
+	color: white;
+}
+.prevBillet i:hover
+{
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
+}
+.prevBillet ul
+{
+	list-style: none;
+	color: white;
+}
+.prevBillet ul li
+{
+	color: white;
+}
+/* Formulaire d'inscription et de connexion */
+.formGenerator
+{
+	position: fixed;
+	width: 40%;
+	left: 30%;
+	top: 15%;
+}
+.formGenerator input[type='text'], input[type='password'], input[type='email'], input[type='submit'], #bCreateBook
+{
+	display: block;
+	margin: 1% auto;
+	text-align: center;
+}
+.formGenerator .formCatEl
+{
+	display: inline-block;
+	margin: 1%;
+}
+.formGenerator textarea
+{
+	display: block;
+	margin: 1% auto;
+	text-align: center;
+	height: 150px;
+}
+.formCatEl
+{
+	display: inline-block;
+	border: solid grey 1px;
+}
+.formCatEl:hover
+{
+	cursor: pointer;
+	box-shadow: 0px 0px 5px black;
+}
+.formCatEl[data-sel='0']
+{
+	background-color: white;
+}
+.formCatEl[data-sel='1']
+{
+	background-color: #287BC7;
+	color: white;
+}
+/* Formulaire Intégré (POST) */
+.form input
+{
+	margin: 1% auto;
+}
+.form textarea
+{
+	height: 150px;
+}
+/* Article */
+article
+{
+	margin-bottom: 2%;
+}
+article h4 a
+{
+	font-size: 15px;
+}
+/* Affichage des msg */
+.alertP
+{
+	margin: auto;
+}
+.alertP h4
+{
+	text-align: center;
+	padding: 1%;
+}
+.alertP #ucForm label
+{
+	text-align: left;
+	padding: 0;
+}
+.alertP input[type='button'], .alertP input[type='submit']
+{
+	display: block;
+	margin: auto;
+}
+.alertP span
+{
+	margin: 1% auto;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+}
+.error
+{
+	display: block;
+	font-weight: bold;
+}
+/* Utilisateur */
+.user
+{
+	display: inline-block;
+	background-color: rgb(33, 37, 41);
+	color: white;
+	margin: 1%;
+}
+.user input
+{
+	display: block;
+	margin: 1% auto;
+}
+/* Bandeau cookie */
+.cookieInfo
+{
+	position: fixed;
+	bottom: 0;
+	color: white;
+	text-align: center;
+	width: 100%;
+}

@@ -1,0 +1,288 @@
+<?php
+	
+	/*
+		Genarkys
+		
+		Ver 1.1
+		
+			-> Mise à jour des méthodes pour la V2
+	*/
+	
+	namespace Model;
+	
+	use \Entity\Billet;
+	
+	class BilletManagerPDO extends BilletManager
+	{
+		protected $managerError = '';
+		
+		/*
+			getBillet()
+			
+			$cat = all | auteur | id | book;
+			$data = false | auteurName | idBillet | idBook;
+		*/
+		
+		public function addLike($id)
+		{
+			if(!empty($id))
+			{
+				$billet = $this->getBillet('id', $id);
+				$listLike = $billet->getListLike();
+				if(!empty($listLike))
+				{
+					if(!in_array($_SESSION['membre']->getId(), $listLike))
+					{
+						$listLike[] = $_SESSION['membre']->getId();
+						$req = $this->dao->prepare('UPDATE billet SET nbLike = :nbLike WHERE id = :id');
+						$req->bindValue(':nbLike', serialize($listLike), \PDO::PARAM_STR);
+						$req->bindValue(':id', $id, \PDO::PARAM_INT);
+						$req->execute();
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					$listLike[] = $_SESSION['membre']->getId();
+					$req = $this->dao->prepare('UPDATE billet SET nbLike = :nbLike WHERE id = :id');
+					$req->bindValue(':nbLike', serialize($listLike), \PDO::PARAM_STR);
+					$req->bindValue(':id', $id, \PDO::PARAM_INT);
+					$req->execute();
+					return true;
+				}
+			}
+			else
+			{
+				$this->setManagerError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		public function getBillet($cat, $data = false)
+		{
+			if(is_string($cat))
+			{
+				$sql = '';
+				switch($cat)
+				{
+					case 'all':	
+						$sql = 'SELECT * FROM billet ORDER BY datePub DESC';
+							break;
+					case 'idUtilisateur':
+						if(!empty($data))
+						{
+							$sql = 'SELECT b.*, u.pseudo AS pseudo FROM utilisateur u INNER JOIN billet b ON b.idUtilisateur = u.id WHERE b.idUtilisateur = :idUtilisateur ORDER BY datePub DESC';
+						}
+						else
+						{
+							$this->setManagerError('Une erreur est survenue.');
+							return false;
+						}
+						break;
+					case 'id':
+						if(!empty($data))
+						{
+							$sql = 'SELECT b.*, u.pseudo AS pseudo FROM utilisateur u INNER JOIN billet b ON b.idUtilisateur = u.id WHERE b.id = :id';
+						}
+						else
+						{
+							$this->setManagerError('Une erreur est survenue.');
+							return false;
+						}
+						break;
+					case 'idBook':
+						if(!empty($data))
+						{
+							$sql = 'SELECT bI.*, bO.id AS idBook FROM book bO INNER JOIN billet bI ON bI.idBook = bO.id WHERE bO.id = :idBook';
+						}
+						else
+						{
+							$this->setManagerError('Une erreur est survenue.');
+							return false;
+						}
+						break;
+					default:
+						break;
+				}
+				if($cat == 'all')
+				{
+					$req = $this->dao->query($sql);
+					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Billet');
+					$req->execute();
+					if($rs = $req->fetchAll())
+					{
+						return $rs;
+					}
+					else
+					{
+						$this->setManagerError('Une erreur est survenue.');
+						return false;
+					}
+				}
+				else
+				{
+					$req = $this->dao->prepare($sql);
+					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Billet');
+					$req->bindValue(':'.$cat, $data);
+					$req->execute();
+					if($cat == 'id')
+					{
+						if($rs = $req->fetch())
+						{
+							return $rs;
+						}
+						else
+						{
+							$this->setManagerError('Aucune publication.');
+							return false;
+						}
+					}
+					else
+					{
+						if($rs = $req->fetchAll())
+						{
+							return $rs;
+						}
+						else
+						{
+							$this->setManagerError('Aucune publication.');
+							return false;
+						}
+					}
+				}
+			}
+			else
+			{
+				$this->setManagerError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
+		/*
+			existBillet()
+			
+			id = id du billet 
+		*/
+		
+		public function existBillet($id)
+		{
+			if((int)$id)
+			{
+				$req = $this->dao->prepare('SELECT id FROM billet WHERE id = :id');
+				$req->bindValue(':id', $id, \PDO::PARAM_INT);
+				$req->execute();
+				if($rs = $req->fetch())
+					return true;
+				else
+				{
+					$this->setManagerError('Le billet est introuvable.<br />Il a peut-être était déplacé ou supprimé !');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setManagerError('L\'id est invalide.');
+				return false;
+			}
+		}
+		
+		public function delBillet($id)
+		{
+			if($this->existBillet($id))
+			{
+				$req = $this->dao->prepare('DELETE FROM billet WHERE id = :id');
+				$req->bindValue(':id', $id, \PDO::PARAM_INT);
+				$req->execute();
+				return true;
+			}
+			else
+			{
+				$this->setManagerError('Une erreur est survenue. {Code : 200}');
+				return false;
+			}
+			
+			$cmt = $this->dao->prepare('DELETE FROM comment WHERE idAttach = :idAttach');
+			$cmt->bindValue(':idAttach', $id, \PDO::PARAM_INT);
+			$cmt->execute();
+			
+			$req = $this->dao->prepare('DELETE FROM view WHERE idView = :idView');
+			$req->bindValue(':idView', $id, \PDO::PARAM_INT);
+			$req->execute();
+		}
+		
+		public function updBillet(Billet $billet)
+		{
+			$req = $this->dao->prepare('UPDATE billet SET titre = :titre, contenu = :contenu, dateMod = :dateMod WHERE id = :id');
+			$req->bindValue(':titre', $billet->getTitre(), \PDO::PARAM_STR);
+			$req->bindValue(':contenu', $billet->getContenu(), \PDO::PARAM_STR);
+			$req->bindValue(':dateMod', time(), \PDO::PARAM_STR);
+			$req->bindValue(':id', $billet->getId(), \PDO::PARAM_INT);
+			$req->execute();
+			$_SESSION['success'] = 'Le billet a bien été modifié !';
+			return true;
+		}
+		
+		public function addBillet(Billet $billet)
+		{
+			/* On prépare l'insertion en bdd */
+			$req = $this->dao->prepare('INSERT INTO billet(titre, contenu, idUtilisateur, datePub, dateMod, idBook, nbLike) VALUES(:titre, :contenu, :idUtilisateur, :datePub, :dateMod, :idBook, :nbLike)');
+			$req->bindValue(':titre', $billet->getTitre(), \PDO::PARAM_STR);
+			$req->bindValue(':contenu', $billet->getContenu(), \PDO::PARAM_STR);
+			$req->bindValue(':idUtilisateur', $billet->getIdUtilisateur(), \PDO::PARAM_STR);
+			$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
+			$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
+			$req->bindValue(':idBook', $billet->getIdBook(), \PDO::PARAM_INT);
+			$req->bindValue(':nbLike', serialize(array()), \PDO::PARAM_INT);
+			$req->execute();
+			$_SESSION['success'] = 'Billet Ajoutée !';
+			return true;
+		}
+		
+		public function existTitle($title)
+		{
+			$req = $this->dao->prepare('SELECT titre FROM billet WHERE titre = :titre');
+			$req->bindValue(':titre', $title, \PDO::PARAM_STR);
+			$req->execute();
+			if($rs = $req->fetch())
+				return true;
+			else
+				return false;
+		}
+		
+		public function getNbBilletOfBook($idBook)
+		{
+			if((int) $idBook)
+			{
+				$req = $this->dao->prepare('SELECT COUNT(idBook) AS nbBillet FROM billet WHERE idBook = :idBook');
+				$req->bindValue(':idBook', $idBook, \PDO::PARAM_INT);
+				$req->execute();
+				if($rs = $req->fetchAll())
+				{
+					return $rs;
+				}
+				else
+				{
+					return 'Aucun Billet';
+				}
+			}
+			else
+			{
+				$this->setManagerError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
+		public function setManagerError($error)
+		{
+			$this->managerError = $error;
+		}
+		
+		public function getManagerError()
+		{
+			return $this->managerError;
+		}
+	}
