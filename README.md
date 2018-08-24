@@ -10,5 +10,6 @@ Principaux changements: <br />
   -> Possibilité de rechercher un book <br />
   -> Possibilité de consulter un profil <br />
   -> Admin: Gestion des utilisateurs <br />
+  -> Gestion des erreurs via une session et affichage à l'aide de Bootstrap <br />
   <br />
 Changements à venir: <br />
