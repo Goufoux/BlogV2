@@ -1,5 +1,5 @@
 # BlogV2
-Lien: https://genarkys.fr/openclassroom/BlogV2/Web/
+Lien: https://genarkys.fr/openclassroom/BlogV2/Web/ <br />
 Amélioration du projet Blog <br />
 Principaux changements: <br />
   -> Plusieurs Écrivains peuvent publier <br />
