@@ -53,7 +53,7 @@
 			else
 			{
 				?>
-				<article class="alert alert-info fade show col-lg-5 col-md-6 col-sm-10 col-12" role="alert">
+				<article class="alert alert-info fade show col-lg-5 col-md-6 col-sm-10 col-12 alertP" role="alert">
 					<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
