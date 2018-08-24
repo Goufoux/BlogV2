@@ -1,7 +1,7 @@
 # BlogV2
 Amélioration du projet Blog
 Principaux changements:
-  -> Plusieurs Écrivains peuvent publier
+  -> Plusieurs Écrivains peuvent publier <br />
   -> Un membre peut être Lecteur/Écrivain
   -> Ajout d'un système de vue (sur les billets d'un book)
   -> Ajout d'un système de like (sur les books)
