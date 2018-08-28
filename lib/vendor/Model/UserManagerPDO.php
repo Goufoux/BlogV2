@@ -171,7 +171,7 @@
 		
 		public function printUser($id)
 		{
-			$req = $this->dao->prepare('SELECT pseudo, dti, categoryUser FROM utilisateur WHERE id = :id');
+			$req = $this->dao->prepare('SELECT id, pseudo, dti, categoryUser FROM utilisateur WHERE id = :id');
 			$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Membre');
 			$req->bindValue(':id', $id, \PDO::PARAM_INT);
 			$req->execute();
@@ -256,6 +256,38 @@
 			else
 			{
 				$this->setError('Il semblerait que le lien soit cassé.<br />Contactez nous à : admin@genarkys.fr');
+				return false;
+			}
+		}
+		
+		/*
+			getPseudo()
+		*/
+		
+		public function getPseudo($id)
+		{
+			if((int) $id)
+			{
+				try
+				{
+					if(!$this->existId($id))
+						throw new MyError('Book introuvable');
+					
+					$req = $this->dao->prepare('SELECT id, pseudo FROM utilisateur WHERE id = :id');
+					$req->bindValue(':id', $id, \PDO::PARAM_INT);
+					$req->execute();
+					$rs = $req->fetch();
+					return $rs;
+				}
+				catch(MyError $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Une erreur est survenue.');
 				return false;
 			}
 		}
@@ -417,7 +449,7 @@
 						$dti = getDate();
 						$keyEmail = mt_rand($dti[0], strtotime('+30 days'));
 						$pseudo = 'Utilisateur_'.$this->countUser();
-						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser)');
+						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser)');
 						$req->bindValue(':pseudo', $pseudo, \PDO::PARAM_STR);
 						$req->bindValue(':pass', password_hash($pass, PASSWORD_BCRYPT), \PDO::PARAM_STR);
 						$req->bindValue(':email', $login, \PDO::PARAM_STR);
@@ -425,6 +457,8 @@
 						$req->bindValue(':accessLevel', 0, \PDO::PARAM_INT);
 						$req->bindValue(':keyEmail', $keyEmail, \PDO::PARAM_INT);
 						$req->bindValue(':categoryUser', 0, \PDO::PARAM_INT);
+						$req->bindValue(':followBook', serialize(array()), \PDO::PARAM_STR);
+						$req->bindValue(':followUser', serialize(array()), \PDO::PARAM_STR);
 						$tryAdd = $req->execute();
 						if($tryAdd)
 						{
