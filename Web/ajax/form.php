@@ -16,7 +16,8 @@
 		else
 			$sData = false;
 		$AjaxRequest = new AjaxRequest($role, $data, $sData);
-		if($AjaxRequest->run())
+		// echo $AjaxRequest->run();
+		if($AjaxRequest->run() == true)
 			// var_dump($AjaxRequest->run());
 			echo true;
 		else
