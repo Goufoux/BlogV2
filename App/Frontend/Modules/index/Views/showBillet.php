@@ -40,6 +40,7 @@
 							}
 						?>
 					<li class="nbLike"> <?php echo $billet->getNbLike(); ?> j'aime </li>
+					<li class="nbVue"> <?php echo $billet->getNbVue(true); ?> </li>
 			</article>
 			<span class="error"> </span>
 			<?php
