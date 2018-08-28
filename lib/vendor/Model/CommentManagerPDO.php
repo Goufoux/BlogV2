@@ -3,6 +3,7 @@
 	namespace Model;
 	
 	use \Entity\Comment;
+	use \Core\MyError;
 	
 	class CommentManagerPDO extends CommentManager
 	{
@@ -46,15 +47,24 @@
 			}
 			if($module == 'once') // Retourne le nombre de signalement du commentaire avec l'id spécifié
 			{
-				$req = $this->dao->prepare('SELECT report FROM comment WHERE id = :id');
-				$req->bindValue(':id', $id, \PDO::PARAM_INT);
-				$req->execute();
-				if($rs = $req->fetch())
+				try
 				{
-					return $rs;
+					$req = $this->dao->prepare('SELECT report FROM comment WHERE id = :id');
+					$req->bindValue(':id', $id, \PDO::PARAM_INT);
+					$req->execute();
+					if($rs = $req->fetch())
+					{
+						return $rs;
+					}
+					else
+					{
+						$this->setError('Le commentaire est introuvable...<br />Il a peut-être été supprimé !');
+						return false;
+					}
 				}
-				else
+				catch(MyError $e)
 				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 			}
@@ -62,11 +72,19 @@
 		
 		public function signalerComment($id, $nb)
 		{
-			$req = $this->dao->prepare('UPDATE comment SET report = :report WHERE id = :id');
-			$req->bindValue(':report', $nb, \PDO::PARAM_INT);
-			$req->bindValue(':id', $id, \PDO::PARAM_INT);
-			$req->execute();
-			return true;
+			try
+			{
+				$req = $this->dao->prepare('UPDATE comment SET report = :report WHERE id = :id');
+				$req->bindValue(':report', $nb, \PDO::PARAM_INT);
+				$req->bindValue(':id', $id, \PDO::PARAM_INT);
+				$req->execute();
+				return true;
+			}
+			catch(MyError $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
 		}
 		
 		public function getCommentReport()

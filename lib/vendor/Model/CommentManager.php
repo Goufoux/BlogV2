@@ -35,4 +35,8 @@
 		*/
 		
 		abstract public function delComment($id, $report = false);
+		
+		abstract public function getCommentReport();
+		
+		
 	}
