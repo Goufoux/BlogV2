@@ -145,6 +145,20 @@
 					$this->page->addVar('title', 'Profil - ' . $_SESSION['membre']->getPseudo());
 					$this->page->addVar('userMod', true);
 					$this->hasMsg($HTTPRequest);
+					$followUser = $_SESSION['membre']->getFollowUser();
+					$followUser = [];
+					for($i = 0; $i < count($_SESSION['membre']->getFollowUser('unserialize')); $i++)
+					{
+						$followUser []= $this->managers->getManagerOf('User')->getPseudo($_SESSION['membre']->getFollowUser('unserialize')[$i]);
+					}
+					$this->page->addVar('followUser', $followUser);
+					$followBook = [];
+					for($i = 0; $i < count($_SESSION['membre']->getFollowBook('unserialize')); $i++)
+					{
+						$followBook []= $this->managers->getManagerOf('Book')->getName($_SESSION['membre']->getFollowBook('unserialize')[$i]);
+					}
+					$this->page->addVar('followBook', $followBook);
+					$this->detectForm($HTTPRequest);
 				}
 				else
 				{
@@ -544,7 +558,7 @@
 					$uManager = $this->managers->getManagerOf('User');
 					if($uManager->userConnect(htmlspecialchars($HTTPRequest->getData('uLogin')), htmlspecialchars($HTTPRequest->getData('uPass'))))
 					{
-						$this->app->HTTPResponse()->redirect('./?success');
+						$this->app->HTTPResponse()->redirectClean($this->app->HTTPRequest()->requestURI(), 'success');
 					}
 					else
 						$this->page->addVar('error', $uManager->getManagerError());
