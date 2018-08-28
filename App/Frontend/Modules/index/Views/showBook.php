@@ -7,19 +7,7 @@
 				<blockquote> De <?php echo $book->getPseudo(); ?> </blockquote>
 				<blockquote> Catégorie: <?php echo $book->getListCat(); ?> </blockquote>
 				<blockquote> 
-					<?php
-						if(!empty($view))
-						{
-							if($view->getTabView() > 1)
-							{
-								echo $view->getTabView() . ' Vues';
-							}
-							else
-							{
-								echo $view->getTabView() . ' Vue';
-							}
-						}
-					?>
+					<?php echo $book->getNbVue(true); ?>
 				</blockquote>
 				<p>
 					<?php echo nl2br($book->getContent()); ?> 
