@@ -208,7 +208,7 @@ var Form = {
 	
 	createCategorie: function()
 	{
-		Form.formCatList = ['Roman', 'Nouvelle', 'Science', 'Fiction', 'Humour'];
+		Form.formCatList = ['Aventure', 'Action', 'Classique', 'Espionnage', 'Fantastique', 'Frisson', 'Terreur', 'Guerre', 'Historique', 'Policier', 'Roman', 'Science-Fiction', 'Thriller', 'Western'];
 		for(var i = 0; i < Form.formCatList.length; i++)
 		{
 			var cat = document.createElement('input');
