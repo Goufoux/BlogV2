@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 24 août 2018 à 14:53
+-- Généré le :  mar. 28 août 2018 à 12:55
 -- Version du serveur :  5.7.21
--- Version de PHP :  5.6.35
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `billet` (
   `dateMod` int(11) NOT NULL,
   `idBook` int(11) NOT NULL,
   `nbLike` text NOT NULL,
+  `nbVue` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -56,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `content` text NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
   `categorie` text NOT NULL,
+  `nbVue` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -86,26 +88,12 @@ DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(25) NOT NULL,
-  `pass` text NOT NULL,
-  `email` text NOT NULL,
+  `pass` varchar(60) NOT NULL,
+  `email` varchar(70) NOT NULL,
   `dti` int(11) NOT NULL,
   `accessLevel` int(11) NOT NULL,
   `keyEmail` varchar(20) NOT NULL,
   `categoryUser` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `view`
---
-
-DROP TABLE IF EXISTS `view`;
-CREATE TABLE IF NOT EXISTS `view` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idView` int(11) NOT NULL,
-  `tabView` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
