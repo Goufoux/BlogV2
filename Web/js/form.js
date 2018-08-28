@@ -271,7 +271,7 @@ var Form = {
 		
 		Form.form.appendChild(Form.imgClose);
 		Form.form.appendChild(Form.title);
-		if(type == 'cBook')
+		if(type == 'CBook')
 		{
 			for(var j = 0; j < Form.formCatInput.length; j++)
 			{
