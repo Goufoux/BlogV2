@@ -2,7 +2,6 @@ $(function()
 {
 	var el = document.getElementById('formInfo');
 	var submit = document.createElement('button');
-	submit.type = 'button';
 	submit.innerHTML = 'Mettre à jour';
 	submit.id = 'majInfo';
 	$('#formInfo').on('change', 'input', function()
