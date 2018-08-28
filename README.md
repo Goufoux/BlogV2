@@ -11,7 +11,8 @@ Principaux changements: <br />
   -> Possibilité de consulter un profil <br />
   -> Admin: Gestion des utilisateurs <br />
   -> Gestion des erreurs via une session et affichage à l'aide de Bootstrap <br />
+  -> Ajouter la possibilité de récupération du mot de passe <br />
   <br />
 Changements à venir: <br />
   -> Ajouter la possibilité de suivre un écrivain <br />
-  -> Ajouter la possibilité de récupération du mot de passe <br />
+  -> Ajouter un historique des books/billets consultés <br />
