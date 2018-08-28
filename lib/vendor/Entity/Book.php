@@ -12,7 +12,7 @@
 		protected $content;
 		protected $idUtilisateur;
 		protected $categorie = [];
-		
+		protected $nbVue;
 		protected $pseudo;
 		
 		/* Getters */
@@ -52,6 +52,19 @@
 			return unserialize($this->categorie);
 		}
 		
+		public function getNbVue($module = false)
+		{
+			if($module)
+			{
+				if($this->nbVue > 1)
+					return $this->nbVue . ' Vues';
+				else
+					return $this->nbVue . ' Vue';
+			}
+			else
+				return $this->nbVue;
+		}
+		
 		public function getPseudo()
 		{
 			return $this->pseudo;
@@ -87,6 +100,11 @@
 		public function setCategorie($categorie)
 		{
 			$this->categorie = $categorie;
+		}
+		
+		public function setNbVue($vue)
+		{
+			$this->nbVue = $vue;
 		}
 		
 		public function setPseudo($pseudo)

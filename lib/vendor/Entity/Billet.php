@@ -14,6 +14,7 @@
 		protected $pseudo;
 		protected $idBook;
 		protected $nbLike = [];
+		protected $nbVue;
 		
 		/* Getters */
 		
@@ -62,6 +63,20 @@
 			return unserialize($this->nbLike);
 		}
 		
+		public function getNbVue($module = false)
+		{
+			if($module)
+			{
+				if($this->nbVue > 1)
+					return $this->nbVue . ' Vues';
+				else
+					return $this->nbVue . ' Vue';
+			}
+			else
+			{
+				return $this->nbVue;
+			}
+		}
 		/* Setters */
 		
 		public function setTitre($titre)
@@ -102,5 +117,10 @@
 		public function setNbLike($like)
 		{
 			$this->nbLike[] = $like;
+		}
+		
+		public function setNbVue($vue)
+		{
+			$this->nbVue = $vue;
 		}
 	}
