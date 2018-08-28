@@ -11,6 +11,7 @@
 	namespace Model;
 	
 	use \Entity\Billet;
+	use \Core\MyError;
 	
 	class BilletManagerPDO extends BilletManager
 	{
@@ -58,6 +59,37 @@
 			else
 			{
 				$this->setManagerError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		public function addVue($id, $nb)
+		{
+			try
+			{
+				if($this->existBillet($id))
+				{
+					if((int) $nb)
+					{
+						$req = $this->dao->prepare('UPDATE billet SET nbVue = :nbVue WHERE id = :id');
+						$req->bindValue(':nbVue', $nb, \PDO::PARAM_INT);
+						$req->bindValue(':id', $id, \PDO::PARAM_INT);
+						$req->execute();
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(MyError $e)
+			{
+				$this->setManagerError($e->getMessage());
 				return false;
 			}
 		}
@@ -229,17 +261,26 @@
 		public function addBillet(Billet $billet)
 		{
 			/* On prépare l'insertion en bdd */
-			$req = $this->dao->prepare('INSERT INTO billet(titre, contenu, idUtilisateur, datePub, dateMod, idBook, nbLike) VALUES(:titre, :contenu, :idUtilisateur, :datePub, :dateMod, :idBook, :nbLike)');
-			$req->bindValue(':titre', $billet->getTitre(), \PDO::PARAM_STR);
-			$req->bindValue(':contenu', $billet->getContenu(), \PDO::PARAM_STR);
-			$req->bindValue(':idUtilisateur', $billet->getIdUtilisateur(), \PDO::PARAM_STR);
-			$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
-			$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
-			$req->bindValue(':idBook', $billet->getIdBook(), \PDO::PARAM_INT);
-			$req->bindValue(':nbLike', serialize(array()), \PDO::PARAM_INT);
-			$req->execute();
-			$_SESSION['success'] = 'Billet Ajoutée !';
-			return true;
+			try
+			{
+				$req = $this->dao->prepare('INSERT INTO billet(titre, contenu, idUtilisateur, datePub, dateMod, idBook, nbLike, nbVue) VALUES(:titre, :contenu, :idUtilisateur, :datePub, :dateMod, :idBook, :nbLike, :nbVue)');
+				$req->bindValue(':titre', $billet->getTitre(), \PDO::PARAM_STR);
+				$req->bindValue(':contenu', $billet->getContenu(), \PDO::PARAM_STR);
+				$req->bindValue(':idUtilisateur', $billet->getIdUtilisateur(), \PDO::PARAM_STR);
+				$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
+				$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
+				$req->bindValue(':idBook', $billet->getIdBook(), \PDO::PARAM_INT);
+				$req->bindValue(':nbLike', serialize(array()), \PDO::PARAM_STR);
+				$req->bindValue(':nbVue', 0, \PDO::PARAM_INT);
+				$req->execute();
+				$_SESSION['success'] = 'Billet Ajoutée !';
+				return true;
+			}
+			catch(MyError $e)
+			{
+				$this->setManagerError($e->getMessage());
+				return false;
+			}
 		}
 		
 		public function existTitle($title)
