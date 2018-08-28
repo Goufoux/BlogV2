@@ -65,6 +65,7 @@
 		{
 			if(!empty($cat))
 			{
+				$cat = explode(',', $cat);
 				for($i = 0; $i < count($cat); $i++)
 				{
 					if($cat[$i] != 0 AND $cat[$i] != 1)
