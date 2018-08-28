@@ -13,3 +13,5 @@ Principaux changements: <br />
   -> Gestion des erreurs via une session et affichage à l'aide de Bootstrap <br />
   <br />
 Changements à venir: <br />
+  -> Ajouter la possibilité de suivre un écrivain <br />
+  -> Ajouter la possibilité de récupération du mot de passe <br />
