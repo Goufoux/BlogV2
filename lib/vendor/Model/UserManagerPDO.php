@@ -23,43 +23,150 @@
 	use \Entity\Membre;
 	use \Core\Form;
 	use \Core\Email;
+	use \Core\Generator;
+	use \Core\MyError;
 	
 	class UserManagerPDO extends UserManager
 	{
 		protected $error = '';
 		
+		public function getData($dataName, $dataGiven, $valueGiven)
+		{
+			$sql = 'SELECT ' . $dataName . ' FROM utilisateur WHERE ' . $dataGiven . ' = :' . $dataGiven;
+			$req = $this->dao->prepare($sql);
+			$req->bindValue(':'.$dataGiven, $valueGiven);
+			$req->execute();
+			if($rs = $req->fetch())
+			{
+				return $rs[$dataName];
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		/*
+			Appelé lorsqu'un utilisateur a oublié son Pass
+		*/
+		
+		public function setNewPass($login)
+		{
+			try
+			{
+				if(!$this->existLogin($login))
+				{
+					throw new MyError("Le login n'existe pas.");
+				}
+				$form = new Form();
+				if(!$form->isEmail($login))
+				{
+					$login = $this->getData('email', 'pseudo', $login);
+				}
+				$Generator = new Generator();
+				$pass = $Generator->generatePass();
+				try
+				{
+					$req = $this->dao->prepare('UPDATE utilisateur SET pass = :pass WHERE email = :email');
+					$req->bindValue(':pass', password_hash($pass, PASSWORD_BCRYPT), \PDO::PARAM_STR);
+					$req->bindValue(':email', $login, \PDO::PARAM_STR);
+					if(!$rs = $req->execute())
+					{
+						$rs = $req->errorInfo();
+						throw new MyError($rs[2]);
+					}
+					$dataEmail = ['pass' => $pass, 'time' => time()];
+					$email = new Email($login, 'pass', $dataEmail);
+					try
+					{
+						$emailSend = $email->launch();
+						// $emailSend = true;
+						if(!$emailSend)
+							throw new MyError($email->getError());
+						else
+						{
+							$_SESSION['success'] = 'Votre pass a été réinitialisé.<br />Consulter vos emails';
+							return true;
+						}
+					}
+					catch(MyError $e)
+					{
+						$this->setError($e->getMessage());
+						return false;
+					}
+				}
+				catch(MyError $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
+			}
+			catch(MyError $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
+		
+		/* 
+			Retourne la liste des utilisateurs 
+		*/
+		
 		public function getUser($module, $id = false)
 		{
 			if($module == 'list')
 			{
-				$req = $this->dao->query('SELECT * FROM utilisateur');
-				$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Membre');
-				$req->execute();
-				$rs = $req->fetchAll();
-				return $rs;
+				try
+				{
+					$req = $this->dao->query('SELECT * FROM utilisateur');
+					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Membre');
+					$req->execute();
+					$rs = $req->fetchAll();
+					return $rs;
+				}
+				catch(MyError $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
 			}
 		}
 		
 		public function existLogin($login)
 		{
-			$req = $this->dao->prepare('SELECT pseudo FROM utilisateur WHERE pseudo = :pseudo');
-			$req->bindValue(':pseudo', $login, \PDO::PARAM_STR);
-			$req->execute();
-			if($rs = $req->fetch())
-				return true;
-			else
+			try
+			{
+				$req = $this->dao->prepare('SELECT pseudo FROM utilisateur WHERE pseudo = :pseudo OR email = :pseudo');
+				$req->bindValue(':pseudo', $login, \PDO::PARAM_STR);
+				$req->execute();
+				if($rs = $req->fetch())
+					return true;
+				else
+					return false;
+			}
+			catch(\PDOException $e)
+			{
 				return false;
+				exit;
+			}
 		}
 		
 		public function existId($id)
 		{
-			$req = $this->dao->prepare('SELECT id FROM utilisateur WHERE id = :id');
-			$req->bindValue(':id', htmlspecialchars($id), \PDO::PARAM_STR);
-			$req->execute();
-			if($rs = $req->fetch())
-				return true;
-			else
-				return false;
+			try
+			{
+				$req = $this->dao->prepare('SELECT id FROM utilisateur WHERE id = :id');
+				$req->bindValue(':id', htmlspecialchars($id), \PDO::PARAM_STR);
+				$req->execute();
+				if($rs = $req->fetch())
+					return true;
+				else
+					return false;
+			}
+			catch(\PDOException $e)
+			{
+				echo "Erreur";
+			}
 		}
 		
 		public function printUser($id)
@@ -153,7 +260,6 @@
 			}
 		}
 		
-		
 		/*
 			majUser()
 			
@@ -168,32 +274,40 @@
 				{
 					if(count($nData) == count($vData))
 					{
-						$setSQL = '';
-						for($i = 0; $i < count($nData); $i++)
+						try
 						{
-							if(($i+1) != count($nData))
-								$setSQL .= ' ' . $nData[$i] . ' = :' . $nData[$i] . ',';
-							else
-								$setSQL .= ' ' . $nData[$i] . ' = :' . $nData[$i];
-						}
-						$req = $this->dao->prepare('UPDATE utilisateur SET' . $setSQL . ' WHERE id = :id');
-						for($j = 0; $j < count($vData); $j++)
-						{
-							$req->bindValue(':'.$nData[$j], $vData[$j]);
-						}
-						$req->bindValue(':id', $_SESSION['membre']->getId());
-						if($req->execute())
-						{
-							for($k = 0; $k < count($nData); $k++)
+							$setSQL = '';
+							for($i = 0; $i < count($nData); $i++)
 							{
-								$_SESSION['membre']->hydrate([$nData[$k] => $vData[$k]]);
+								if(($i+1) != count($nData))
+									$setSQL .= ' ' . $nData[$i] . ' = :' . $nData[$i] . ',';
+								else
+									$setSQL .= ' ' . $nData[$i] . ' = :' . $nData[$i];
 							}
-							return true;
-							
+							$req = $this->dao->prepare('UPDATE utilisateur SET' . $setSQL . ' WHERE id = :id');
+							for($j = 0; $j < count($vData); $j++)
+							{
+								$req->bindValue(':'.$nData[$j], $vData[$j]);
+							}
+							$req->bindValue(':id', $_SESSION['membre']->getId());
+							if($req->execute())
+							{
+								for($k = 0; $k < count($nData); $k++)
+								{
+									$_SESSION['membre']->hydrate([$nData[$k] => $vData[$k]]);
+								}
+								return true;
+								
+							}
+							else
+							{
+								$this->setError('Une erreur est survenue.');
+								return false;
+							}
 						}
-						else
+						catch(MyError $e)
 						{
-							$this->setError('Une erreur est survenue.');
+							$this->setError($e->getMessage());
 							return false;
 						}
 					}
@@ -232,37 +346,46 @@
 					$req = $this->dao->prepare('SELECT * FROM utilisateur WHERE pseudo = :login OR email = :login');
 					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Membre');
 					$req->bindValue(':login', $login, \PDO::PARAM_STR);
-					$req->execute();
-					if($rs = $req->fetch())
+					try
 					{
-						if($rs->getKeyEmail() == 'verified')
+						$req->execute();
+						if($rs = $req->fetch())
 						{
-							if(password_verify($pass, $rs->getPass()))
+							if($rs->getKeyEmail() == 'verified')
 							{
-								if(empty($_COOKIE['alreadySuscribe']))
-									setcookie('alreadySuscribe', true, strtotime('+30 days'), '/', null, false, false);
-								$_SESSION['auth'] = true;
-								$_SESSION['membre'] = $rs;
-								$_SESSION['success'] = 'Bonjour ' . $rs->getPseudo();
-								return true;
+								if(password_verify($pass, $rs->getPass()))
+								{
+									if(empty($_COOKIE['alreadySuscribe']))
+										setcookie('alreadySuscribe', true, strtotime('+30 days'), '/', null, false, false);
+									$_SESSION['auth'] = true;
+									$_SESSION['membre'] = $rs;
+									$_SESSION['success'] = 'Bonjour ' . $rs->getPseudo();
+									return true;
+								}
+								else
+								{
+									$this->setError('Pass incorrect');
+									return false;
+								}
 							}
 							else
 							{
-								$this->setError('Pass incorrect');
+								$this->setError('Adresse Email non vérifié.');
 								return false;
 							}
 						}
 						else
 						{
-							$this->setError('Adresse Email non vérifié.');
+							$this->setError('Le login n\'existe pas.');
 							return false;
 						}
 					}
-					else
+					catch(MyError $e)
 					{
-						$this->setError('Le login n\'existe pas.');
+						$this->setError($e->getMessage());
 						return false;
 					}
+					
 				}
 				else
 				{
