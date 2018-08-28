@@ -27,12 +27,15 @@
 		
 		/* Redirection vers la page courante en supprimant les variables de l'url */
 		
-		public function redirectClean($url)
+		public function redirectClean($url, $module = false)
 		{
 			$lUrl = explode('/', $url);
 			$url = end($lUrl);
 			$lUrl = explode('?', $url);
-			$this->redirect('./'.$lUrl[0]);
+			if($module)
+				$this->redirect('./'.$lUrl[0].'?'.$module);
+			else
+				$this->redirect('./'.$lUrl[0]);
 		}
 		
 		/* Redirection si la page demandée n'existe pas */
