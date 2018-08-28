@@ -75,6 +75,30 @@
 		}
 		
 		/*
+			isEmail()
+		*/
+		
+		public function isEmail($string)
+		{
+			if(preg_match("#@#", $string))
+				return true;
+			else
+				return false;
+		}
+		
+		/*
+			equalString()
+		*/
+		
+		public function equalString($str1, $str2)
+		{
+			if($str1 === $str2)
+				return true;
+			else
+				return false;
+		}
+		
+		/*
 			verifPass()
 			
 			Effectue une vérification d'un champ de type PASSWORD
