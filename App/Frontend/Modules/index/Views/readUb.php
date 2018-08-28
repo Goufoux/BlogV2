@@ -26,6 +26,7 @@
 								<?php
 							}
 						?>
+						<li> <?php echo $book->getNbVue(true); ?> </li>
 					</ul>
 				</article>
 			<?php
