@@ -41,6 +41,190 @@
 			}
 		}
 		
+		public function executeUnfollowUser($data)
+		{
+			$user = explode("_", $data[0]);
+			if((int) $user[1])
+			{
+				try
+				{
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					if(!$managers->getManagerOf('User')->existId($user[1]))
+						throw new MyError('User introuvable');
+					
+					$e = $_SESSION['membre']->getFollowUser('unserialize');
+					
+					if(!in_array($user[1], $e))
+						return true;
+					
+					$key = array_search($user[1], $e);
+					
+					$nData = ['followUser'];
+					$nb = count($e);
+					unset($e[$key]);
+					$vData = [];
+					for($i = 0; $i < $nb; $i++)
+					{
+						if(!empty($e[$i]))
+							$vData []= $e[$i];
+					}
+					$vData = [serialize($vData)];
+					
+					$uManager = $managers->getManagerOf('User');
+					
+					if($uManager->majUser($nData, $vData) !== true)
+						throw new MyError($uManager->getManagerError());
+					
+					return true;
+					// $this->setAjaxError($vData);
+					// return false;
+				}
+				catch(MyError $e)
+				{
+					$this->setAjaxError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		public function executeFollowUser($data)
+		{
+			$user = explode('_', $data[0]);
+			if((int) $user[1])
+			{
+				try
+				{
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					if(!$managers->getManagerOf('User')->existId($user[1]))
+						throw new MyError('User introuvable');
+					
+					$e = $_SESSION['membre']->getFollowUser('unserialize');
+					
+					if(in_array($user[1], $e))
+						return true;
+					
+					$e []= $user[1];
+					
+					$nData = ['followUser'];
+					$vData = [serialize($e)];
+					
+					$uManager = $managers->getManagerOf('User');
+					
+					if($uManager->majUser($nData, $vData) !== true)
+						throw new MyError($uManager->getManagerError());
+					
+					// return true;
+					// $this->setAjaxError($vData);
+					return true;
+				}
+				catch(MyError $e)
+				{
+					$this->setAjaxError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
+		public function executeUnfollowBook($data)
+		{
+			$book = explode("_", $data[0]);
+			if((int) $book[1])
+			{
+				try
+				{
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					if(!$managers->getManagerOf('Book')->existBook($book[1]))
+						throw new MyError('Book introuvable');
+					
+					$e = $_SESSION['membre']->getFollowBook('unserialize');
+					
+					if(!in_array($book[1], $e))
+						return true;
+					
+					$key = array_search($book[1], $e);
+					
+					$nData = ['followBook'];
+					$nb = count($e);
+					unset($e[$key]);
+					$vData = [];
+					for($i = 0; $i < $nb; $i++)
+					{
+						if(!empty($e[$i]))
+							$vData []= $e[$i];
+					}
+					$vData = [serialize($vData)];
+					
+					$uManager = $managers->getManagerOf('User');
+					
+					if($uManager->majUser($nData, $vData) !== true)
+						throw new MyError($uManager->getManagerError());
+					$this->setAjaxError($vData);
+					return true;
+				}
+				catch(MyError $e)
+				{
+					$this->setAjaxError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		public function executeFollowBook($data)
+		{
+			$book = explode('_', $data[0]);
+			if((int) $book[1])
+			{
+				try
+				{
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					if(!$managers->getManagerOf('Book')->existBook($book[1]))
+						throw new MyError('Book introuvable');
+					
+					$e = $_SESSION['membre']->getFollowBook('unserialize');
+					
+					if(in_array($book[1], $e))
+						return true;
+					
+					$e []= $book[1];
+					
+					$nData = ['followBook'];
+					$vData = [serialize($e)];
+					
+					$uManager = $managers->getManagerOf('User');
+					
+					if($uManager->majUser($nData, $vData) !== true)
+						throw new MyError($uManager->getManagerError());
+					
+					return true;
+				}
+				catch(MyError $e)
+				{
+					$this->setAjaxError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
 		/*
 			modPass
 		*/
@@ -354,7 +538,6 @@
 				return false;
 			}
 		}
-		
 		
 		/*
 			Ajoute un like au billet
