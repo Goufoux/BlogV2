@@ -19,9 +19,10 @@
 				$bdd = new \PDO($host, $user, $pass, array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 				return $bdd;
 			}
-			catch(\Exception $e)
+			catch(\PDOException $e)
 			{
-				echo 'Impossible de se connecter à la base de donnée.<br />';
+				echo 'Le serveur est indisponible. Vérifier votre connexion ou rééssayer plus tard.';
+				exit;
 			}
 		}
 	}
