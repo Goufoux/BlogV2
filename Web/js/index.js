@@ -1,5 +1,6 @@
 window.onload = function()
 {
+	
 	var el = document.getElementById('bd');
 	Form.init(el, false, false);
 	
@@ -8,13 +9,13 @@ window.onload = function()
 		/* Form inscription */
 		$('nav').on('click', '#clSuscribe', function()
 		{
-			Form.launchForm('suscribe');
+			Form.launchForm('Suscribe');
 			Form.showForm();
 		});
 		/* Form connexion */
 		$('nav').on('click', '#clConnect', function()
 		{
-			Form.launchForm('connect');
+			Form.launchForm('Connect');
 			Form.showForm();
 		});
 		/* Form catégorie utilisateur */
@@ -46,7 +47,7 @@ window.onload = function()
 		/* Add Comment */
 		$('body').on('click', '#cComment', function()
 		{
-			Form.launchForm('comment');
+			Form.launchForm('Comment');
 			Form.showForm();
 		});
 		/* Add Like */
@@ -91,6 +92,51 @@ window.onload = function()
 				}
 			});
 		});
+		/* Comment report */
+		$('body').on('click', '.btSignaler', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=reportComment&fData="+$(this).val(),
+				success: function(data)
+				{
+					if(data == true)
+					{
+						$('.error').html('Commentaire signalé. Merci');
+						$('.error').show().delay(500).fadeOut();
+					}
+					else
+					{
+						$('.error').html(data);
+					}
+				}
+			});
+		});
+		
+		/* modPass */
+		$('body').on('click', '.uModPass', function()
+		{
+			var fData = [$('#mOldPass').val(), $('#mNewPass').val(), $('#mConfirmPass').val()];
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=modPass&fData="+fData,
+				success: function(data)
+				{
+					if(data == true)
+					{
+						$('#mOldPass, #mNewPass, #mConfirmPass').val('');
+						$('.error').html("Votre Pass a été modifié !").fadeIn().delay(2000).slideUp();
+					}
+					else
+					{
+						$('.error').html(data);
+					}
+				}
+			});
+		});
+		
 		/* Supp Billet */
 		$('article').on('click', '.delBillet', function()
 		{
@@ -108,6 +154,29 @@ window.onload = function()
 					}
 					else
 						$('.error').html(data);
+				}
+			});
+		});
+		
+		/* New Pass */
+		$('body').on('click', '#unPass', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=newPass&fData="+$('#uLogin').val(),
+				success: function(data)
+				{
+					if(data == true)
+					{
+						var url = window.location.href;
+						url = url.split("?");
+						window.location = url[0]+'?success';
+					}
+					else
+					{
+						$('.error').html(data);
+					}
 				}
 			});
 		});
