@@ -198,11 +198,16 @@ input[type='button']:hover, button:hover
 	left: 30%;
 	top: 15%;
 }
-.formGenerator input[type='text'], input[type='password'], input[type='email'], input[type='submit'], #bCreateBook
+.formGenerator input[type='text'], input[type='password'], input[type='email'], input[type='submit']
 {
 	display: block;
 	margin: 1% auto;
 	text-align: center;
+}
+.sButton
+{
+	display: block;
+	margin: auto;
 }
 .formGenerator .formCatEl
 {
@@ -268,11 +273,6 @@ article h4 a
 	text-align: left;
 	padding: 0;
 }
-.alertP input[type='button'], .alertP input[type='submit']
-{
-	display: block;
-	margin: auto;
-}
 .alertP span
 {
 	margin: 1% auto;
@@ -291,7 +291,7 @@ article h4 a
 	display: inline-block;
 	background-color: rgb(33, 37, 41);
 	color: white;
-	margin: 1%;
+	padding: 1%;
 }
 .user input
 {
@@ -305,5 +305,6 @@ article h4 a
 	bottom: 0;
 	text-align: center;
 	width: 100%;
+	padding: 1%;
 	background-color: white;
 }
