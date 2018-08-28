@@ -32,4 +32,26 @@ $(function()
 			}
 		});
 	});
+	/* modPass */
+	$('#formPass').on('click', '.uModPass', function()
+	{
+		var fData = [$('#mOldPass').val(), $('#mNewPass').val(), $('#mConfirmPass').val()];
+		$.ajax({
+			type: "GET",
+			url: "ajax/form.php",
+			data: "role=modPass&fData="+fData,
+			success: function(data)
+			{
+				if(data == true)
+				{
+					$('#mOldPass, #mNewPass, #mConfirmPass').val('');
+					$('.error').html("Votre Pass a été modifié !").fadeIn().delay(2000).slideUp();
+				}
+				else
+				{
+					$('.error').html(data);
+				}
+			}
+		});
+	});
 });
