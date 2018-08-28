@@ -161,7 +161,7 @@
 				<?php
 			}
 		?>
-		<section class="container-fluid">
+		<section class="container-fluid col-12">
 				<?= $content; ?>
 		</section>
 		<?php
