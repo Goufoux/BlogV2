@@ -48,6 +48,14 @@
 		</article>
 		<article>
 			<h4> <?php echo $style->styleCatUser($user->getCategoryUser()); ?> <a href='?modifiedCategory'> Modifier ? </a> </h4>
+				<?php
+					if($user->getCategoryUser() >= 2)
+					{
+						?>
+							<h5> <a href="readUb" title="Consultez la liste de vos Books"> Voir vos Books ? </a> </h5>
+						<?php
+					}
+				?>
 		</article>
 		<?php
 	}
