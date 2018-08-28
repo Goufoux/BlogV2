@@ -10,6 +10,18 @@ input[type='button']:hover, button:hover
 	cursor: pointer;
 	box-shadow: 0px 0px 5px black;
 }
+pre
+{
+	color: white;
+}
+section
+{
+	margin: 0 auto;
+}
+.row
+{
+	margin-left: 0.1%;
+}
 /* Bloc pour remplir l'espace du menu de navigation */
 .bloc
 {
@@ -31,9 +43,9 @@ input[type='button']:hover, button:hover
 {
 	margin: 1% auto;
 	background-color: white;
-	padding: 2%;
+	padding: 2% 0;
 	text-align: center;
-	width: 100%;
+	/* width: 100%; */
 	transition: all .5s;
 }
 .container-fluid a
@@ -72,6 +84,13 @@ input[type='button']:hover, button:hover
 .book nav ul li
 {
 	display: inline-block;
+}
+.book .possAct
+{
+	position: absolute;
+	padding: 1%;
+	/* border: solid white 1px; */
+	/* box-shadow: 2px 2px 2px black; */
 }
 /* Preview */
 .bookPreview
@@ -252,7 +271,7 @@ input[type='button']:hover, button:hover
 /* Article */
 article
 {
-	margin-bottom: 2%;
+	/* margin-bottom: 2%; */
 }
 article h4 a
 {
@@ -286,17 +305,40 @@ article h4 a
 	font-weight: bold;
 }
 /* Utilisateur */
-.user
+.user, .userFollow
 {
-	display: inline-block;
 	background-color: rgb(33, 37, 41);
 	color: white;
-	padding: 1%;
+	/* padding: 1%; */
+}
+.user h3
+{
+	font-size: 25px;
+}
+.user h3 a
+{
+	font-size: 20px;
 }
 .user input
 {
-	display: block;
 	margin: 1% auto;
+	text-align: center;
+}
+.user button
+{
+	display: inline-block;
+	margin: 1% auto;
+}
+.user .userFollow ul
+{
+	list-style: none;
+}
+.user .possAct
+{
+	position: absolute;
+	padding: 1%;
+	/* border: solid white 1px; */
+	/* box-shadow: 2px 2px 2px black; */
 }
 /* Bandeau cookie */
 .cookieInfo
