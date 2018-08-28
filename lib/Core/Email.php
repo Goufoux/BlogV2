@@ -2,12 +2,15 @@
 
 	namespace Core;
 	
+	use \Core\MyError;
+	
 	class Email
 	{
 		protected $destinataire;
 		protected $module;
 		protected $data = [];
 		protected $body;
+		protected $error;
 		
 		public function __construct($destinataire, $module, $data)
 		{
@@ -70,6 +73,54 @@
 			}
 		}
 		
+		public function emailPass($data)
+		{
+			$this->setBodyPass($data);
+			$subject = 'Nouveau Pass - Genarkys';
+			if(!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $this->destinataire)) // On filtre les serveurs qui rencontrent des bogues.
+			{
+				$passage_ligne = "\r\n";
+			}
+			else
+			{
+				$passage_ligne = "\n";
+			}
+			// Création de la boundary
+			$boundary = "-----=".md5(rand());
+			// Création du header de l'e-mail.
+			$header = "From: \"Genarkys\"<genarkys@gmail.com>".$passage_ligne;
+			$header.= "Reply-to: \"Genarkys\"<genarkys@gmail.com>".$passage_ligne;
+			$header.= "MIME-Version: 1.0".$passage_ligne;
+			$header.= "Content-Type: multipart/alternative;".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
+			
+			// Création du message.
+			$message = $passage_ligne."--".$boundary.$passage_ligne;
+			// Ajout du message au format texte.
+			$message.= "Content-Type: text/plain; charset=\"utf-8\"".$passage_ligne;
+			$message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
+			$message.= $passage_ligne.$this->body.$passage_ligne;
+			$message.= $passage_ligne."--".$boundary.$passage_ligne;
+			// Ajout du message au format HTML
+			$message.= "Content-Type: text/html; charset=\"utf-8\"".$passage_ligne;
+			$message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
+			$message.= $passage_ligne.$this->body.$passage_ligne;
+			//
+			$message.= $passage_ligne."--".$boundary."--".$passage_ligne;
+			$message.= $passage_ligne."--".$boundary."--".$passage_ligne;
+			try
+			{
+				$e = mail($this->destinataire, $subject, $message, $header);
+				if(!$e)
+					throw new MyError("Impossible d'envoyer l'email.");
+				return true;
+			}
+			catch(MyError $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
+		
 		public function setBodyInscription($data)
 		{
 			$this->body = '<html>
@@ -96,6 +147,37 @@
 								</section>
 							</body>
 						   </html>';
+		}
+		
+		public function setBodyPass($data)
+		{
+			$this->body = '<html>
+							<head>
+							</head>
+							<body>
+								<section style="background-color: rgb(33, 37, 41);">	
+									<br />
+									<h1 style="color: white; text-align: center;"> Nouveau Pass </h1>
+										<p style="color: white; text-align: center;">
+											Bonjour,<br />
+											Vous avez effectué une demande de mot de pass sur notre site le : ' . date('d-m-Y à H:i:s', $data['time']) . ' <br />
+											Voici votre nouveau Pass: ' . $data['pass'] . '<br />
+											Nous vous invitons à modifié votre Pass lors de votre prochaine connexion.<br />
+											Cordialement,<br />
+											Genarkys.
+								</section>
+							</body>
+						   </html>';
+		}
+		
+		public function getError()
+		{
+			return $this->error;
+		}
+		
+		public function setError($error)
+		{
+			$this->error = $error;
 		}
 		
 	}
