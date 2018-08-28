@@ -21,7 +21,7 @@
 		const MIN_TITLE = 3;
 		const MAX_TITLE = 25;
 		const MIN_CONTENU = 10;
-		const MAX_CONTENU = 3500;
+		const MAX_CONTENU = 10000;
 		
 		protected $formError;
 		
@@ -98,7 +98,7 @@
 					}
 					else
 					{
-						$this->setFormError('Le contenu doit être compris entre ' . FormBillet::MIN_CONTENU . ' et ' . FormBillet::MAX_CONTENU . ' caractères.');
+						$this->setFormError('Le contenu doit être compris entre ' . FormBillet::MIN_CONTENU . ' et ' . FormBillet::MAX_CONTENU . ' caractères. Caractères envoyés : ' . strlen($desc));
 					}
 				}
 				else
