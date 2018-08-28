@@ -50,6 +50,69 @@ window.onload = function()
 			Form.launchForm('Comment');
 			Form.showForm();
 		});
+		/* Follow Book */
+		$('.possAct').on('click', '.folBook', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=followBook&fData="+$(this).val(),
+				success: function(data)
+				{
+					if(data == true)
+						$('.error').html("Abonnement ajoutée").fadeIn().delay(2000).slideUp();
+					else
+						$('.error').html(data);
+				}
+			});
+		});
+		$('.possAct').on('click', '.unfolBook', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=unfollowBook&fData="+$(this).val(),
+				success: function(data)
+				{
+					if(data == true)
+						$('.error').html("Abonnement supprimé").fadeIn().delay(2000).slideUp();
+					else
+						$('.error').html(data);
+				}
+			});
+		});
+		/* Follow User */
+		/* Follow Book */
+		$('.possAct').on('click', '.folUser', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=followUser&fData="+$(this).val(),
+				success: function(data)
+				{
+					if(data == true)
+						$('.error').html("Abonnement ajoutée").fadeIn().delay(2000).slideUp();
+					else
+						$('.error').html(data);
+				}
+			});
+		});
+		$('.possAct').on('click', '.unfolUser', function()
+		{
+			$.ajax({
+				type: "GET",
+				url: "ajax/form.php",
+				data: "role=unfollowUser&fData="+$(this).val(),
+				success: function(data)
+				{
+					if(data == true)
+						$('.error').html("Abonnement supprimé").fadeIn().delay(2000).slideUp();
+					else
+						$('.error').html(data);
+				}
+			});
+		});
 		/* Add Like */
 		$('body').on('click', '.addLike', function()
 		{
