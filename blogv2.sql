@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 28 août 2018 à 12:55
+-- Généré le :  mar. 28 août 2018 à 18:58
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -94,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `accessLevel` int(11) NOT NULL,
   `keyEmail` varchar(20) NOT NULL,
   `categoryUser` int(11) NOT NULL,
+  `followBook` text NOT NULL,
+  `followUser` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
