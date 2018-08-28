@@ -24,6 +24,7 @@ var Form = {
 	formError: null,
 	formCatList: null,
 	formCatInput: [],
+	launcher: 'createForm',
 	
 	/** 
 		Init()
@@ -138,6 +139,15 @@ var Form = {
 			if(required)
 				input.required = required;
 		}
+		
+		if(input.id == 'uMdp')
+		{
+			input.addEventListener('click', function()
+			{
+				Form.newMdp();
+			});
+		}
+		
 		Form.input.push(input);
 	},
 	
@@ -161,6 +171,7 @@ var Form = {
 		var login = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Pseudo ou Email', true);
 		var pass = Form.createInput('password', 'uPass', 'uPass', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Pass', true);
 		var send = Form.createInput('submit', false, false, 'Connexion');
+		var mdp = Form.createInput('button', 'uMdp', 'uMdp', 'Pass oublié ?', 'sButton');
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Connexion';
@@ -169,10 +180,19 @@ var Form = {
 	createFormComment: function()
 	{
 		var contenu = Form.createInput('textarea', 'cDesc', 'cDesc', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Commentaire', true);
-		var send = Form.createInput('button', 'uComment', 'uComment', 'Envoyer', 'col-lg-5 col-md-5 col-sm-5 col-12', false, false);
+		var send = Form.createInput('button', 'uComment', 'uComment', 'Envoyer', 'col-lg-5 col-md-5 col-sm-5 col-12 sButton', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Commenter !';
+	},
+	
+	createFormNewPass: function()
+	{
+		var pass = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Pseudo/E-Mail', true);
+		var send = Form.createInput('button', 'unPass', 'unPass', 'Nouveau Pass', 'col-lg-5 col-md-8 col-sm-12 col-12 sButton', false, false);
+		Form.title = document.createElement('h3');
+		Form.title.id = 'formTitle';
+		Form.title.innerHTML = 'Nouveau Pass';
 	},
 	
 	createFormCBook: function()
@@ -180,7 +200,7 @@ var Form = {
 		var name = Form.createInput('text', 'bName', 'bName', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Nom du Book', true);
 		var cat = Form.createCategorie();
 		var content = Form.createInput('textarea', 'bContenu', 'bContenu', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Description du Book', true);
-		var send = Form.createInput('button', 'bCreateBook', 'bCreateBook', 'Créer', 'col-lg-10 col-md-10 col-sm-12 col-12', false, false);
+		var send = Form.createInput('button', 'bCreateBook', 'bCreateBook', 'Créer', 'col-lg-10 col-md-10 col-sm-12 col-12 sButton', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Création de Book';
@@ -203,6 +223,12 @@ var Form = {
 			});
 			Form.formCatInput.push(cat);
 		}
+	},
+	
+	newMdp: function()
+	{
+		Form.launchForm('NewPass');
+		Form.showForm();
 	},
 	
 	addCategorie: function(cat)
@@ -239,14 +265,9 @@ var Form = {
 		if(Form.launch)
 			Form.deleteForm();
 		
-		if(type == 'connect')
-			Form.createFormConnect();
-		else if(type == 'comment')
-			Form.createFormComment();
-		else if (type == 'cBook')
-			Form.createFormCBook();
-		else
-			Form.createFormSuscribe();
+		var code = "Form."+Form.launcher+type+"()";
+		var e = new Function(code);
+		e();
 		
 		Form.form.appendChild(Form.imgClose);
 		Form.form.appendChild(Form.title);
