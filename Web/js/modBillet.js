@@ -6,7 +6,7 @@ $(function()
 	
 	$('#bd').on('click', '#bCreate', function()
 	{
-		Form.launchForm('cBook');
+		Form.launchForm('CBook');
 		Form.showForm();
 	});
 	
