@@ -87,30 +87,10 @@
 					$billet = $this->managers->getManagerOf('Billet')->getBillet('id', $HTTPRequest->getData('id'));
 					$listComment = $this->managers->getManagerOf('Comment')->getComment($billet->getId(), 'list');
 					$this->page->addVar('billet', $billet);
+					/* AJout d'une vue */
+					$nb = $billet->getNbVue() + 1;
+					$this->managers->getManagerOf('Billet')->addVue($billet->getId(), $nb);
 					$this->page->addVar('listComment', $listComment);
-					
-					/* On regarde si un signalement est effectué */
-					if($HTTPRequest->postExists('btSignaler'))
-					{
-						$idComment = explode('_', $HTTPRequest->postData('btSignaler'));
-						/* On récupére le commentaire */
-						if($cManager = $this->managers->getManagerOf('comment')->getComment('once', $idComment[1]))
-						{
-							$nb = $cManager['report'] + 1;
-							/* Mise à jour du nb de signalement */
-							if($cManager = $this->managers->getManagerOf('comment')->signalerComment($idComment[1], $nb))
-							{
-								$_SESSION['success'] = 'Votre signalement a été pris en compte. Merci.';
-								$this->app->HTTPResponse()->redirect('./?success');
-							}
-							
-						}
-						else
-						{
-							$this->page->addVar('title', 'errur 1');
-						}
-						
-					}
 				}
 				else
 				{
@@ -135,12 +115,21 @@
 					$userView = $userManager->printUser(htmlspecialchars($HTTPRequest->getData('id')));
 					if($userView)
 					{
-						$this->page->addVar('userView', $userView);
+						$this->page->addVar('userView', $userView); // Info de l'utilisateur
+						if($userView->getCategoryUser() >= 2)
+						{
+							$bookManager = $this->managers->getManagerOf('Book');
+							$listBook = $bookManager->getBook('idUtilisateur', $HTTPRequest->getData('id'));
+							$this->page->addVar('title', 'profil de ' . $userView->getPseudo());
+							$this->page->addVar('listBook', $listBook);
+							$this->detectForm($HTTPRequest);
+							$this->hasMsg($HTTPRequest);
+						}
 					}
 					else
 					{
 						$_SESSION['error'] = $userManager->getManagerError();
-						return false;
+						$this->app->HTTPResponse()->redirect('./?error');
 					}
 				}
 				else
@@ -250,7 +239,7 @@
 					$bManager = $this->managers->getManagerOf('Book');
 					$listBillet = $bManager->getBook('idUtilisateur', $_SESSION['membre']->getId());
 					$this->page->addVar('list', $listBillet);
-							$this->hasMsg($HTTPRequest);
+					$this->hasMsg($HTTPRequest);
 				}
 				else
 				{
@@ -282,15 +271,12 @@
 					/* Récupération des billets du book */
 					$billetManager = $this->managers->getManagerOf('Billet');
 					$listBillet = $billetManager->getBillet('idBook', $book->getId());
-					$viewManager = $this->managers->getManagerOf('View');
 					/* Ajout d'une vue */
-					$addView = $viewManager->addView($HTTPRequest->getData('id'));
-					/* Récupération des vues */
-					$view = $viewManager->getView($HTTPRequest->getData('id'));
+					$addView = $bManager->addView($HTTPRequest->getData('id'), $book->getNbVue());
 					$this->page->addVar('book', $book);
 					$this->page->addVar('listBillet', $listBillet);
-					$this->page->addVar('view', $view);
 					$this->hasMsg($HTTPRequest);
+					$this->detectForm($HTTPRequest);
 				}
 				else
 				{
