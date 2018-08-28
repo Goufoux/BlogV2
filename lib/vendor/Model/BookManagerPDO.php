@@ -9,6 +9,34 @@
 	{
 		protected $managerError;
 		
+		public function getName($id)
+		{
+			if((int) $id)
+			{
+				try
+				{
+					if(!$this->existBook($id))
+						throw new MyError('Book introuvable');
+					
+					$req = $this->dao->prepare('SELECT id, name FROM book WHERE id = :id');
+					$req->bindValue(':id', $id, \PDO::PARAM_INT);
+					$req->execute();
+					$rs = $req->fetch();
+					return $rs;
+				}
+				catch(MyError $e)
+				{
+					$this->setManagerError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setManagerError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
 		/*
 			addview
 		*/
@@ -34,7 +62,10 @@
 							return 'e';
 					}
 					else
+					{
+						$this->setManagerError('Book Introuvable');
 						return false;
+					}
 				}
 				else
 				{
