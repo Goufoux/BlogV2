@@ -31,9 +31,7 @@
 							if(!empty($_SESSION['auth']))
 							{
 								?>
-									<form action="#" method="post">
-										<button class="btSignaler" value="comment_<?php echo $comment->getId(); ?>" name="btSignaler"> Signaler </button>
-									</form>
+									<button class="btSignaler" value="comment_<?php echo $comment->getId(); ?>" name="btSignaler"> Signaler </button>
 								<?php
 							}
 						?>
