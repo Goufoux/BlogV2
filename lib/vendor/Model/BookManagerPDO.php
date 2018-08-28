@@ -3,21 +3,62 @@
 	namespace Model;
 	
 	use \Entity\Book;
+	use \Core\MyError;
 	
 	class BookManagerPDO extends BookManager
 	{
 		protected $managerError;
 		
+		/*
+			addview
+		*/
+		
+		public function addView($id, $nb)
+		{
+			try
+			{
+				if((int) $id)
+				{
+					if($this->existBook($id))
+					{
+						if($nb >= 0)
+						{
+							$nb++;
+							$req = $this->dao->prepare('UPDATE book SET nbVue = :nbVue WHERE id = :id');
+							$req->bindValue(':nbVue', $nb, \PDO::PARAM_INT);
+							$req->bindValue(':id', $id, \PDO::PARAM_INT);
+							$req->execute();
+							return true;
+						}
+						else
+							return 'e';
+					}
+					else
+						return false;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(MyError $e)
+			{
+				$this->setManagerError($e->getMessage());
+				return false;
+			}
+		}
+		
 		public function addBook(Book $book)
 		{
 			/* On prépare l'insertion en bdd */
-			$req = $this->dao->prepare('INSERT INTO book(name, datePub, dateMod, content, idUtilisateur, categorie) VALUES(:name, :datePub, :dateMod, :content, :idUtilisateur, :categorie)');
+			$req = $this->dao->prepare('INSERT INTO book(name, datePub, dateMod, content, idUtilisateur, categorie, nbVue) VALUES(:name, :datePub, :dateMod, :content, :idUtilisateur, :categorie, :nbVue)');
 			$req->bindValue(':name', $book->getName(), \PDO::PARAM_STR);
 			$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
 			$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
 			$req->bindValue(':content', $book->getContent(), \PDO::PARAM_STR);
 			$req->bindValue(':idUtilisateur', $book->getIdUtilisateur(), \PDO::PARAM_INT);
 			$req->bindValue(':categorie', serialize($book->getCategorie()), \PDO::PARAM_STR);
+			$req->bindValue(':nbVue', 0, \PDO::PARAM_INT);
 			$req->execute();
 			$_SESSION['success'] = 'Book Créé !';
 			return true;
@@ -40,7 +81,7 @@
 						}
 						else
 						{
-							$this->setManagerError('Une erreur est survenue.');
+							$this->setManagerError('Une erreur est survenue. {Code 43}');
 							return false;
 						}
 						break;
@@ -56,9 +97,10 @@
 						}
 						break;
 					default:
+						$sql = false;
 						break;
 				}
-				if($cat == 'all')
+				if($cat == 'all' AND $sql != false)
 				{
 					$req = $this->dao->query($sql);
 					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Book');
@@ -73,7 +115,7 @@
 						return false;
 					}
 				}
-				else
+				else if($sql != false)
 				{
 					$req = $this->dao->prepare($sql);
 					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Book');
