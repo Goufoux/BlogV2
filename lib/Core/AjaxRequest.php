@@ -5,6 +5,7 @@
 	use Core\PDOFactory;
 	use Core\Managers;
 	use Core\FormBillet;
+	use Core\MyError;
 	use Core\Form;
 	
 	use Entity\Billet;
@@ -36,6 +37,194 @@
 			else
 			{
 				$this->setAjaxError('Une erreur est survenue. {Code : 103}');
+				return false;
+			}
+		}
+		
+		/*
+			modPass
+		*/
+		
+		public function executeModPass($data)
+		{
+			$data = explode(',', $data[0]);
+			if(!empty($data[0]))
+			{
+				$form = new Form();
+				if(!empty($data[1]))
+				{
+					if(!empty($data[2]))
+					{
+						if($form->equalString($data[1], $data[2]))
+						{
+							if($form->verifPass($data[1]))
+							{
+								try
+								{
+									$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+									$userManager = $managers->getManagerOf('User');
+									$actPass = $userManager->getData('pass', 'id', $_SESSION['membre']->getId());
+									if(password_verify($data[0], $actPass))
+									{
+										$nData = ['pass'];
+										$vData = [password_hash($data[1], PASSWORD_BCRYPT)];
+										if($userManager->majUser($nData, $vData))
+										{
+											return true;
+										}
+										else
+										{
+											$this->setAjaxError($userManager->getManagerError());
+											return false;
+										}
+									}
+									else
+									{
+										$this->setAjaxError('Erreur, pass incorrect.');
+										return false;
+									}
+								}
+								catch(MyError $e)
+								{
+									$this->setAjaxError($e->getMessage());
+									return false;
+								}
+							}
+							else
+							{
+								$this->setAjaxError($form->getFormError());
+								return false;
+							}
+						}
+						else
+						{
+							$this->setAjaxError('La confirmation du Pass est incorrecte.');
+							return false;
+						}
+					}
+					else
+					{
+						$this->setAjaxError('Confirmer votre nouveau Pass');
+						return false;
+					}
+				}
+				else
+				{
+					$this->setAjaxError('Indiquer votre nouveau Pass');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Renseigné votre pass');
+				return false;
+			}
+		}
+		
+		/*
+			reportComment
+		*/
+		
+		public function executeReportComment($data)
+		{
+			if(!empty($data))
+			{
+				$comment = explode("_", $data[0]);
+				if((int) $comment[1])
+				{
+					try
+					{
+						$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+						$commentManager = $managers->getManagerOf('Comment');
+						if($nbReport = $commentManager->getComment('once', $comment[1]))
+						{
+							$nb = $nbReport['report'] + 1;
+							if($commentManager->signalerComment($comment[1], $nb))
+							{
+								return true;
+							}
+							else
+							{
+								$this->setAjaxError($commentManager->getError());
+								return false;
+							}
+						}
+						else
+						{
+							$this->setAjaxError($commentManager->getError());
+							return false;
+						}
+					}
+					catch(MyError $e)
+					{
+						$this->setAjaxError($e->getMessage());
+						return false;
+					}
+				}
+				else
+				{
+					$this->setAjaxError('Une erreur est survenue.');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Aucune Donnée !');
+				return false;
+			}
+		}
+		
+		/*
+			Oubli de pass
+				-> 28/08/2018
+		*/
+		
+		public function executeNewPass($data)
+		{
+			if(!empty($data))
+			{
+				$form = new Form();
+				/* Si data -> email */
+				if($form->isEmail($data[0]))
+				{
+					if($form->verifEmail($data[0]))
+					{
+						$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+						$userManager = $managers->getManagerOf('User');
+						if($userManager->setNewPass($data[0]) === true)
+						{
+							return true;
+						}
+						else
+						{
+							$this->setAjaxError($userManager->getManagerError());
+						}
+					}
+					else
+					{
+						$this->setAjaxError($form->getFormError());
+						return false;
+					}
+				}
+				/* Sinon data -> pseudo */
+				else if(strlen($data[0]) >= Form::PSEUDO_LENGTH_MIN AND strlen($data[0]) <= Form::PSEUDO_LENGTH_MAX)
+				{
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					$userManager = $managers->getManagerOf('User');
+					if($userManager->setNewPass($data[0]))
+						return true;
+					else
+						return $userManager->getManagerError();
+				}
+				else
+				{
+					$this->setAjaxError('Un pseudo est compris entre ' . Form::PSEUDO_LENGTH_MIN . ' et ' . Form::PSEUDO_LENGTH_MAX . ' caractères.');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setAjaxError('Veuillez renseigner votre pseudo ou adresse E-Mail pour reçevoir un nouveau Pass.');
 				return false;
 			}
 		}
