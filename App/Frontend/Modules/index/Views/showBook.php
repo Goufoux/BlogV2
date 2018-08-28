@@ -3,6 +3,23 @@
 	{
 		?>
 			<article class="book">
+				<span class="error"> </span>
+				<?php
+					if(!empty($_SESSION['auth']))
+					{
+						?>
+							<script>
+								setInterval(function() 
+								{
+									$('.possAct').load('ajax/funcUser?role=book&fData='+<?php echo $book->getId(); ?>+'');
+								}, 1000);
+							</script>
+							<div class="possAct">
+								<button> Initialisation </button>
+							</div>
+						<?php
+					}
+				?>
 				<h3> <?php echo $book->getName(); ?> </h3>
 				<blockquote> De <?php echo $book->getPseudo(); ?> </blockquote>
 				<blockquote> Catégorie: <?php echo $book->getListCat(); ?> </blockquote>
