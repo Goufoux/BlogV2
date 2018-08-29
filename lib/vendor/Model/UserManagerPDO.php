@@ -328,8 +328,8 @@
 								{
 									$_SESSION['membre']->hydrate([$nData[$k] => $vData[$k]]);
 								}
+								$_SESSION['success'] = 'Données mise à jour !';
 								return true;
-								
 							}
 							else
 							{
