@@ -99,7 +99,7 @@
 						if(!empty($_COOKIE['alreadySuscribe']))
 						{
 							?>
-								<button id="clConnect"> Connexion </button>
+								<button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6"> Connexion </button>
 							<?php
 						}
 						else
@@ -123,7 +123,7 @@
 			if(!empty($error))
 			{
 				?>
-					<article class="alert alert-danger fade show col-lg-5 dol-md-6 col-sm-10 col-12 alertP" role="alert">
+					<article class="alert alert-danger fade show col-lg-5 col-md-6 col-sm-10 col-12 alertP" role="alert">
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -134,7 +134,7 @@
 			if(!empty($success))
 			{
 				?>
-					<article class="alert alert-success fade show col-lg-5 dol-md-6 col-sm-10 col-12 alertP" role="alert">
+					<article class="alert alert-success fade show col-lg-5 col-md-6 col-sm-10 col-12 alertP" role="alert">
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -146,7 +146,7 @@
 			if(!empty($emptyCategory))
 			{
 				?>
-					<article class="alert alert-info fade show col-lg-5 dol-md-6 col-sm-10 col-12 alertP" role="alert">
+					<article class="alert alert-info fade show col-lg-5 col-md-6 col-sm-10 col-12 alertP" role="alert">
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>

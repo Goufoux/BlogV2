@@ -34,6 +34,7 @@
 		
 		public function executeIndex(HTTPRequest $HTTPRequest)
 		{
+			$_SESSION['success'] = 'coucou';
 			if($HTTPRequest->getExists('bSearch'))
 			{
 				$bookManager = $this->managers->getManagerOf('Book');
