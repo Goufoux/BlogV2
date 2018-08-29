@@ -1,15 +1,6 @@
 $(function()
 {
-	var el = document.getElementById('formInfo');
-	var submit = document.createElement('button');
-	submit.innerHTML = 'Mettre à jour';
-	submit.id = 'majInfo';
-	$('#formInfo').on('change', 'input', function()
-	{
-		el.appendChild(submit);
-		$('.error').html('');
-	});
-	$('#formInfo').on('click', '#majInfo', function()
+	$('body').on('click', '.uModInfo', function()
 	{
 		$.ajax({
 			type: "GET",
@@ -32,7 +23,7 @@ $(function()
 		});
 	});
 	/* modPass */
-	$('#formPass').on('click', '.uModPass', function()
+	$('body').on('click', '.uModPass', function()
 	{
 		var fData = [$('#mOldPass').val(), $('#mNewPass').val(), $('#mConfirmPass').val()];
 		$.ajax({

@@ -2,8 +2,8 @@ body, html
 {
 	height: 100%;
 	background-color: rgb(33, 37, 41);
-	margin: 0;
-	padding: 0;
+	/* margin: 0; */
+	/* padding: 0; */
 }
 input[type='button']:hover, button:hover
 {
@@ -16,11 +16,16 @@ pre
 }
 section
 {
-	margin: 0 auto;
+	/* margin: 0 auto; */
+	/* border: solid 1px red; */
 }
 .row
 {
-	margin-left: 0.1%;
+	/* margin-left: 0.1%; */
+	/* border: solid 1px blue; */
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 /* Bloc pour remplir l'espace du menu de navigation */
 .bloc
@@ -41,173 +46,166 @@ section
 /* Container principal */
 .container-fluid
 {
-	margin: 1% auto;
+	/* border: solid green; */
 	background-color: white;
 	padding: 2% 0;
-	text-align: center;
-	/* width: 100%; */
-	transition: all .5s;
+	/* text-align: center; */
 }
-.container-fluid a
+h1, h2, h3, h4, h5
+{
+	text-align: center;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a
+{
+	font-size: 15px;
+	font-style: italic;
+}
+a:hover
 {
 	text-decoration: none;
 }
-.container-fluid h1
+/* Affichage des msg */
+.alertP
+{
+	margin: 2% auto;
+}
+.alertP h4
 {
 	text-align: center;
-	padding-bottom: 1%;
+	padding: 1%;
 }
-.container-fluid h3
+.alertP #ucForm label
+{
+	text-align: left;
+	padding: 0;
+}
+.alertP span
+{
+	margin: 1% auto;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+}
+/* Book et Billet */
+.book, .billet
+{
+	background-color: rgb(33, 37, 41);
+	color: white;
+	margin: 1% auto;
+	padding: 1%;
+	overflow: hidden;
+	text-overflow: clip;
+	text-overflow: ellipsis;
+	text-overflow: "…";
+	box-shadow: 0px 0px 2px black;
+	transition: all .5s;
+}
+.book blockquote
 {
 	text-align: center;
+	font-size: 25px;
 }
-/* Affichage des books */
-.book
+.book p, .billet p
+{
+	font-size: 20px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: clip;
+	text-overflow: ellipsis;
+	text-overflow: "…";
+	transition: all .5s;
+}
+.book ul, .billet ul
+{
+	list-style: none;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+.book ul li, .billet ul li
+{
+	display: inline-block;
+	margin: 1%;
+}
+.book ul li button
+{
+	padding: 1%;
+}
+.book ul li a
+{
+	display: block;
+}
+.billet i, .prevBook i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
+	color: white;
+}
+.billet i:hover, .prevBook i:hover
+{
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
+}
+.prevBook
+{
+	margin: 1% 4%;
+	min-height: 150px;
+	max-height: 250px;
+	overflow: hidden;
+	background-color: rgb(33, 37, 41);
+	color: white;
+	text-overflow: clip;
+	text-overflow: ellipsis;
+	text-overflow: "…";
+	box-shadow: 0px 0px 2px black;
+	transition: all .5s;
+}
+.prevBook:hover
+{
+	transform: scale(1.2, 1.2);
+}
+.prevBook blockquote
+{
+	overflow: hidden;
+	text-overflow: clip;
+	text-overflow: ellipsis;
+	text-overflow: "…";
+	min-height: 100px;
+	max-height: 100px;
+}
+.prevBook ul
+{
+	list-style: none;
+}
+.prevBook ul li
+{
+	padding: 10px;
+	text-align: right;
+}
+.prevBillet
+{
+	border: solid green;
+	background-color: rgb(33, 37, 41);
+	color: white;
+}
+/* Utilisateur */
+.user
 {
 	border: solid;
 	background-color: rgb(33, 37, 41);
 	color: white;
 }
-.book .adm button
+.user input, .user button
 {
 	display: block;
 	margin: 1% auto;
 }
-.book nav ul button
+.user blockquote
 {
-	display: inline-block;
-}
-.book nav ul
-{
-	list-style: none;
-}
-.book nav ul li
-{
-	display: inline-block;
-}
-.book .possAct
-{
-	position: absolute;
-	padding: 1%;
-	/* border: solid white 1px; */
-	/* box-shadow: 2px 2px 2px black; */
-}
-/* Preview */
-.bookPreview
-{
-	border: solid;
-	display: inline-block;
-	margin: 2% auto;
-	vertical-align: top;
-	overflow: hidden;
-	background-color: rgb(33, 37, 41);
-	color: white;
-	padding: 1%;
-}
-.bookPreview h3 .hInfo
-{
-	font-size: 15px;
-	font-variant: small-caps;
-}
-.bookPreview p
-{
-	margin: 1% auto;
-}
-.bookPreview ul
-{
-	margin-top: 2%;
-	padding: 1%;
-	list-style: none;
-	text-align: right;
-}
-.bookPreview .row
-{
-	margin: auto;
-}
-.bookPreview i
-{
-	float: right;
-	opacity: 0.5;
-	margin: 0 2%;
-	transition: all .5s;
-	color: white;
-}
-.bookPreview i:hover
-{
-	transform: rotate(360deg);
-	opacity: 1;
-	cursor: pointer;
-}
-/* Affichage des billets */
-.billet
-{
-	margin: 5% auto;
-	background-color: rgb(33, 37, 41);
-	border-radius: 4px;
-	color: white;
-	overflow: hidden;
-	padding: 1%;
-}
-.billet .content
-{
-	margin: 2% auto;
-}
-.billet ul
-{
-	text-align: right;
-	list-style-type: none;
-}
-.billet i
-{
-	float: right;
-	opacity: 0.5;
-	margin: 0 2%;
-	transition: all .5s;
-	color: white;
-}
-.billet i:hover
-{
-	transform: rotate(360deg);
-	opacity: 1;
-	cursor: pointer;
-}
-/* Prévisualisation d'un billet */
-.prevBillet
-{
-	background-color: rgb(33, 37, 41);
-	color: white;
-	display: inline-block;
-	margin: 2% auto;
-	padding-top: 0.5%;
-	vertical-align: middle;
-	padding: 1%;
-}
-.prevBillet .row
-{
-	margin: auto;
-}
-.prevBillet i
-{
-	float: right;
-	opacity: 0.5;
-	margin: 0 2%;
-	transition: all .5s;
-	color: white;
-}
-.prevBillet i:hover
-{
-	transform: rotate(360deg);
-	opacity: 1;
-	cursor: pointer;
-}
-.prevBillet ul
-{
-	list-style: none;
-	color: white;
-}
-.prevBillet ul li
-{
-	color: white;
+	text-align: center;
 }
 /* Formulaire d'inscription et de connexion */
 .formGenerator
@@ -268,78 +266,14 @@ section
 {
 	height: 150px;
 }
-/* Article */
-article
-{
-	/* margin-bottom: 2%; */
-}
-article h4 a
-{
-	font-size: 15px;
-}
-/* Affichage des msg */
-.alertP
-{
-	margin: auto;
-}
-.alertP h4
-{
-	text-align: center;
-	padding: 1%;
-}
-.alertP #ucForm label
-{
-	text-align: left;
-	padding: 0;
-}
-.alertP span
-{
-	margin: 1% auto;
-	display: block;
-	text-align: center;
-	font-weight: bold;
-}
+/* Erreur sortant de js */
 .error
 {
 	display: block;
+	text-align: center;
 	font-weight: bold;
 }
-/* Utilisateur */
-.user, .userFollow
-{
-	background-color: rgb(33, 37, 41);
-	color: white;
-	/* padding: 1%; */
-}
-.user h3
-{
-	font-size: 25px;
-}
-.user h3 a
-{
-	font-size: 20px;
-}
-.user input
-{
-	margin: 1% auto;
-	text-align: center;
-}
-.user button
-{
-	display: inline-block;
-	margin: 1% auto;
-}
-.user .userFollow ul
-{
-	list-style: none;
-}
-.user .possAct
-{
-	position: absolute;
-	padding: 1%;
-	/* border: solid white 1px; */
-	/* box-shadow: 2px 2px 2px black; */
-}
+
 /* Bandeau cookie */
 .cookieInfo
 {
