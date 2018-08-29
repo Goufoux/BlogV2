@@ -712,7 +712,15 @@
 				/* Regarde si le pseudo existe pas */
 				if(!$uManager->existLogin($vData[0]))
 				{
-					return $uManager->majUser($nData, $vData);
+					if($uManager->majUser($nData, $vData))
+					{
+						return true;
+					}
+					else
+					{
+						$this->setAjaxError($uManager->getManagerError());
+						return false;
+					}
 				}
 				else
 				{
