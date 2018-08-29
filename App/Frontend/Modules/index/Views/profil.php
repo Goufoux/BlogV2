@@ -52,10 +52,10 @@
 				<article class="user col-lg-6 col-md-6 col-12">
 					<h3> Votre Profil: <a href="profil-<?php echo $_SESSION['membre']->getId(); ?>"> <?php echo $_SESSION['membre']->getPseudo(); ?> </a></h3>
 					<h3> <?php echo $style->styleCatUser($user->getCategoryUser()); ?> <a href='?modifiedCategory'> Modifier ? </a> </h3>
-						<form id="formInfo" class="row">
+						<div id="formInfo" class="row">
 								<input type="text" class="col-lg-4 col-md-4 col-sm-6 col-8" name="mPseudo" id="mPseudo" value="<?php echo $_SESSION['membre']->getPseudo(); ?>" placeholder="Pseudo" required />
 								<input type="email" class="col-lg-6 col-md-7 col-sm-6 col-8" name="mEmail" id="mEmail" value="<?php echo $_SESSION['membre']->getEmail(); ?>" placeholder="E-Mail" required />
-						</form>
+						</div>
 						<hr>
 						<div id="formPass" class="row">
 							<h4 class="col-10"> Votre Pass </h4>
