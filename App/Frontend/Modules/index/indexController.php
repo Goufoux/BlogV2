@@ -144,7 +144,6 @@
 				{
 					$this->page->addVar('title', 'Profil - ' . $_SESSION['membre']->getPseudo());
 					$this->page->addVar('userMod', true);
-					$this->hasMsg($HTTPRequest);
 					$followUser = $_SESSION['membre']->getFollowUser();
 					$followUser = [];
 					for($i = 0; $i < count($_SESSION['membre']->getFollowUser('unserialize')); $i++)
@@ -159,6 +158,7 @@
 					}
 					$this->page->addVar('followBook', $followBook);
 					$this->detectForm($HTTPRequest);
+					$this->hasMsg($HTTPRequest);
 				}
 				else
 				{
