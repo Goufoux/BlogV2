@@ -1,24 +1,19 @@
 <script src="js/book.js"></script>
-<header>
-	<h1 class="col-12"> Liste de vos Books </h1>
-</header>
 <?php
 	if(!empty($list))
 	{
 		?>
-		<blockquote class="col-12" style="text-align: center;">
+			<h3> Liste de vos Books </h3>
 			<input type="button" value="Créer un Book" id="bCreate" />
 			<span class="error"></span>
-		</blockquote>
-		<section class="row col-12">
 		<?php
 		foreach($list as $book)
 		{
 			?>
-				<article class="col-12 col-lg-3 col-md-8 col-sm-12 prevBook">
+				<article class="bookPreview col-lg-3 col-md-4 col-sm-6 col-8">
 					<div class="row col-lg-12 col-12">
-						<i class="far fa-trash-alt delBook" title="Supprimer ?" id="b_<?php echo $book->getId(); ?>"></i>
-						<a href="./modBook-<?php echo $book->getId(); ?>"><i class="far fa-edit" title="Modifier ?"></i></a>
+					<i class="far fa-trash-alt delBook" title="Supprimer ?" id="b_<?php echo $book->getId(); ?>"></i>
+					<a href="./modBook-<?php echo $book->getId(); ?>"><i class="far fa-edit" title="Modifier ?"></i></a>
 					</div>
 					<h4 class="col-12"> <a href="./<?php echo 'book-'.$book->getId(); ?>"> <?php echo $book->getName(); ?> </a> </h4>
 					<ul class="col-12">
@@ -46,5 +41,3 @@
 			</article>
 		<?php
 	}
-?>
-</section>

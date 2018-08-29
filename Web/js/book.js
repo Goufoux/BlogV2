@@ -28,7 +28,7 @@ $(function()
 				}
 				else
 				{
-					$('.errorForm').html(data);
+					$('.error').html(data);
 				}
 			}
 		});
@@ -54,4 +54,5 @@ $(function()
 				}
 			});
 	});
+	
 });

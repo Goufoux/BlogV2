@@ -2,8 +2,8 @@ body, html
 {
 	height: 100%;
 	background-color: rgb(33, 37, 41);
-	/* margin: 0; */
-	/* padding: 0; */
+	margin: 0;
+	padding: 0;
 }
 input[type='button']:hover, button:hover
 {
@@ -16,16 +16,11 @@ pre
 }
 section
 {
-	/* margin: 0 auto; */
-	/* border: solid 1px red; */
+	margin: 0 auto;
 }
 .row
 {
-	/* margin-left: 0.1%; */
-	/* border: solid 1px blue; */
-	width: 100%;
-	margin: 0;
-	padding: 0;
+	margin-left: 0.1%;
 }
 /* Bloc pour remplir l'espace du menu de navigation */
 .bloc
@@ -46,96 +41,90 @@ section
 /* Container principal */
 .container-fluid
 {
-	/* border: solid green; */
+	margin: 1% auto;
 	background-color: white;
 	padding: 2% 0;
-	/* text-align: center; */
-}
-h1, h2, h3, h4, h5
-{
 	text-align: center;
+	/* width: 100%; */
+	transition: all .5s;
 }
-h1 a, h2 a, h3 a, h4 a, h5 a
-{
-	font-size: 15px;
-	font-style: italic;
-}
-a:hover
+.container-fluid a
 {
 	text-decoration: none;
 }
-/* Affichage des msg */
-.alertP
-{
-	margin: 2% auto;
-}
-.alertP h4
+.container-fluid h1
 {
 	text-align: center;
-	padding: 1%;
+	padding-bottom: 1%;
 }
-.alertP #ucForm label
+.container-fluid h3
 {
-	text-align: left;
-	padding: 0;
-}
-.alertP span
-{
-	margin: 1% auto;
-	display: block;
 	text-align: center;
-	font-weight: bold;
 }
-/* Book et Billet */
-.book, .billet
+/* Affichage des books */
+.book
 {
+	border: solid;
 	background-color: rgb(33, 37, 41);
 	color: white;
-	margin: 1% auto;
-	padding: 1%;
-	overflow: hidden;
-	text-overflow: clip;
-	text-overflow: ellipsis;
-	text-overflow: "…";
-	box-shadow: 0px 0px 2px black;
-	transition: all .5s;
 }
-.book blockquote
-{
-	text-align: center;
-	font-size: 25px;
-}
-.book p, .billet p
-{
-	font-size: 20px;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: clip;
-	text-overflow: ellipsis;
-	text-overflow: "…";
-	transition: all .5s;
-}
-.book ul, .billet ul
-{
-	list-style: none;
-	text-align: center;
-	padding: 0;
-	margin: 0;
-}
-.book ul li, .billet ul li
-{
-	display: inline-block;
-	margin: 1%;
-}
-.book ul li button
-{
-	padding: 1%;
-}
-.book ul li a
+.book .adm button
 {
 	display: block;
+	margin: 1% auto;
 }
-.billet i, .prevBook i
+.book nav ul button
+{
+	display: inline-block;
+}
+.book nav ul
+{
+	list-style: none;
+}
+.book nav ul li
+{
+	display: inline-block;
+}
+.book .possAct
+{
+	position: absolute;
+	padding: 1%;
+	/* border: solid white 1px; */
+	/* box-shadow: 2px 2px 2px black; */
+}
+/* Preview */
+.bookPreview
+{
+	border: solid;
+	display: inline-block;
+	margin: 2% auto;
+	vertical-align: top;
+	overflow: hidden;
+	background-color: rgb(33, 37, 41);
+	color: white;
+	padding: 1%;
+}
+.bookPreview h3 .hInfo
+{
+	font-size: 15px;
+	font-variant: small-caps;
+}
+.bookPreview p
+{
+	margin: 1% auto;
+}
+.bookPreview ul
+{
+	margin-top: 2%;
+	padding: 1%;
+	list-style: none;
+	text-align: right;
+}
+.bookPreview .row
+{
+	margin: auto;
+}
+.bookPreview i
 {
 	float: right;
 	opacity: 0.5;
@@ -143,69 +132,82 @@ a:hover
 	transition: all .5s;
 	color: white;
 }
-.billet i:hover, .prevBook i:hover
+.bookPreview i:hover
 {
 	transform: rotate(360deg);
 	opacity: 1;
 	cursor: pointer;
 }
-.prevBook
+/* Affichage des billets */
+.billet
 {
-	margin: 1% 4%;
-	min-height: 150px;
-	max-height: 250px;
-	overflow: hidden;
+	margin: 5% auto;
 	background-color: rgb(33, 37, 41);
+	border-radius: 4px;
 	color: white;
-	text-overflow: clip;
-	text-overflow: ellipsis;
-	text-overflow: "…";
-	box-shadow: 0px 0px 2px black;
-	transition: all .5s;
-}
-.prevBook:hover
-{
-	transform: scale(1.2, 1.2);
-}
-.prevBook blockquote
-{
 	overflow: hidden;
-	text-overflow: clip;
-	text-overflow: ellipsis;
-	text-overflow: "…";
-	min-height: 100px;
-	max-height: 100px;
+	padding: 1%;
 }
-.prevBook ul
+.billet .content
 {
-	list-style: none;
+	margin: 2% auto;
 }
-.prevBook ul li
+.billet ul
 {
-	padding: 10px;
 	text-align: right;
+	list-style-type: none;
 }
+.billet i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
+	color: white;
+}
+.billet i:hover
+{
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
+}
+/* Prévisualisation d'un billet */
 .prevBillet
 {
-	border: solid green;
 	background-color: rgb(33, 37, 41);
 	color: white;
+	display: inline-block;
+	margin: 2% auto;
+	padding-top: 0.5%;
+	vertical-align: middle;
+	padding: 1%;
 }
-/* Utilisateur */
-.user
+.prevBillet .row
 {
-	border: solid;
-	background-color: rgb(33, 37, 41);
+	margin: auto;
+}
+.prevBillet i
+{
+	float: right;
+	opacity: 0.5;
+	margin: 0 2%;
+	transition: all .5s;
 	color: white;
 }
-.user input, .user button
+.prevBillet i:hover
 {
-	display: block;
-	margin: 1% auto;
+	transform: rotate(360deg);
+	opacity: 1;
+	cursor: pointer;
 }
-.user blockquote
+.prevBillet ul
 {
-	text-align: center;
+	list-style: none;
+	color: white;
+}
+.prevBillet ul li
+{
+	color: white;
 }
 /* Formulaire d'inscription et de connexion */
 .formGenerator
@@ -266,14 +268,78 @@ a:hover
 {
 	height: 150px;
 }
-/* Erreur sortant de js */
-.error
+/* Article */
+article
 {
+	/* margin-bottom: 2%; */
+}
+article h4 a
+{
+	font-size: 15px;
+}
+/* Affichage des msg */
+.alertP
+{
+	margin: auto;
+}
+.alertP h4
+{
+	text-align: center;
+	padding: 1%;
+}
+.alertP #ucForm label
+{
+	text-align: left;
+	padding: 0;
+}
+.alertP span
+{
+	margin: 1% auto;
 	display: block;
 	text-align: center;
 	font-weight: bold;
 }
-
+.error
+{
+	display: block;
+	font-weight: bold;
+}
+/* Utilisateur */
+.user, .userFollow
+{
+	background-color: rgb(33, 37, 41);
+	color: white;
+	/* padding: 1%; */
+}
+.user h3
+{
+	font-size: 25px;
+}
+.user h3 a
+{
+	font-size: 20px;
+}
+.user input
+{
+	margin: 1% auto;
+	text-align: center;
+}
+.user button
+{
+	display: inline-block;
+	margin: 1% auto;
+}
+.user .userFollow ul
+{
+	list-style: none;
+}
+.user .possAct
+{
+	position: absolute;
+	padding: 1%;
+	/* border: solid white 1px; */
+	/* box-shadow: 2px 2px 2px black; */
+}
 /* Bandeau cookie */
 .cookieInfo
 {

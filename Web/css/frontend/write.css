@@ -1,0 +1,15 @@
+.formAdd input
+{
+	margin: 1% auto;
+}
+.formAdd textarea
+{
+	margin: 2% auto;
+	height: 350px;
+	width: 100%;
+}
+.error
+{
+	display: block;
+	font-weight: bold;
+}

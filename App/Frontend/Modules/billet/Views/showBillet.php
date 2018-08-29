@@ -10,11 +10,7 @@
 			$('.boxComment').load('ajax/rfComment?idBillet=<?php echo $billet->getId(); ?>.php');
 		}, 1000);
 		</script>
-			<header>
-				<h1 class="col-12"> <?php echo $billet->getTitre(); ?> </h1>
-			</header>
-			<section class="row col-12">
-			<article class="col-11 col-md-10 col-lg-8 billet">
+			<article class="col-12 col-md-10 col-lg-8 billet">
 				<?php
 					if($user->isAuthentificated())
 					{
@@ -29,9 +25,10 @@
 						}
 					}
 				?>
-				<p class="col-12">
+				<h3> <?php echo $billet->getTitre(); ?> </h3>
+				<div class="content">
 					<?php echo nl2br($billet->getContenu()); ?>
-				</p>
+				</div>
 				<ul>
 					<li> Par: <?php echo $billet->getPseudo(); ?> </li>
 					<li> Publié le: <?php echo date('d-m-Y à H:i:s', $billet->getDatePub()); ?> </li>
@@ -45,16 +42,14 @@
 						?>
 					<li class="nbLike"> <?php echo $billet->getNbLike(); ?> j'aime </li>
 					<li class="nbVue"> <?php echo $billet->getNbVue(true); ?> </li>
-					<span class="error"> </span>
 			</article>
+			<span class="error"> </span>
 			<?php
 			if(!empty($_SESSION['auth']))
 			{
 				?>
-					<article class="col-12" style="text-align: center;">
-						<input type="button" value="J'aime" class="addLike" id="addLike_<?php echo $billet->getId(); ?>" />
-						<input type="button" value="Laisser un commentaire" id="cComment" />
-					</article>
+					<input type="button" value="J'aime" class="addLike" id="addLike_<?php echo $billet->getId(); ?>" />
+					<input type="button" value="Laisser un commentaire" id="cComment" />
 				<?php
 			}
 			else
@@ -75,4 +70,3 @@
 		<?php
 	}
 ?>
-</section>

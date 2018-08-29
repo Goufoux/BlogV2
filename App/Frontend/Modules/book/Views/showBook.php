@@ -2,10 +2,7 @@
 	if(!empty($book))
 	{
 		?>
-			<header>
-				<h1 class="col-12"> <?php echo $book->getName(); ?> </h1>
-			</header>
-			<article class="book col-lg-10 col-md-10 col-11">
+			<article class="book">
 				<span class="error"> </span>
 				<?php
 					if(!empty($_SESSION['auth']))
@@ -23,12 +20,13 @@
 						<?php
 					}
 				?>
-				<blockquote> De <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
+				<h3> <?php echo $book->getName(); ?> </h3>
+				<blockquote> De <?php echo $book->getPseudo(); ?> </blockquote>
 				<blockquote> Catégorie: <?php echo $book->getListCat(); ?> </blockquote>
 				<blockquote> 
 					<?php echo $book->getNbVue(true); ?>
 				</blockquote>
-				<p class="col-12">
+				<p>
 					<?php echo nl2br($book->getContent()); ?> 
 				</p>
 				
@@ -57,7 +55,7 @@
 						foreach($listBillet as $billet)
 						{
 							?>
-								<li class="col-lg-2 col-md-4 col-sm-6 col-10"> <button class="col-12"> <a href="billet-<?php echo $billet->getId(); ?>" class="col-12"> <?php echo $billet->getTitre(); ?></a>  </button> </li>
+								<li> <a href="billet-<?php echo $billet->getId(); ?>" class="linkList"> <button> <?php echo $billet->getTitre(); ?> </button></a> </li>
 							<?php
 						}
 						?>

@@ -130,13 +130,12 @@
 							$ajaxForm = new AjaxRequest('publish', $fData, $sData);
 							if($ajaxForm->run())
 							{
-								$this->app->HTTPResponse()->redirect('./addBillet-' . htmlspecialchars($HTTPRequest->getData('id')) . '?success');
+								$this->app->HTTPResponse()->redirect('./writeBillet-' . htmlspecialchars($HTTPRequest->getData('id')) . '?success');
 							}
 							else
 							{
 								$_SESSION['error'] = $ajaxForm->getAjaxError();
-								$this->app->HTTPResponse()->redirect('./addBillet-' . htmlspecialchars($HTTPRequest->getData('id')) . '?error');
-								$this->hasMsg($HTTPRequest);
+								$this->app->HTTPResponse()->redirect('./writeBillet-' . htmlspecialchars($HTTPRequest->getData('id')) . '?error');
 							}
 						}
 						else

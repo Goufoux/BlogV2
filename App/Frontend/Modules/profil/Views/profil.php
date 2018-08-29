@@ -3,10 +3,7 @@
 	if(!empty($userView))
 	{
 		?>
-			<header>
-				<h1 class="col-12"> Profil de :  <?php echo $userView->getPseudo(); ?> (<?php echo $style->styleCatUser($userView->getCategoryUser()); ?>) </h1>
-			</header>
-			<section class="col-12 user">
+			<article class="user">
 			<span class="error"></span>
 			<?php
 				if(!empty($_SESSION['auth']))
@@ -27,7 +24,8 @@
 					}
 				}
 			?>
-				<blockquote> Inscrit le <?php echo date('d-m-Y', $userView->getDti()); ?> </blockquote>
+				<h3> Profil de <?php echo $userView->getPseudo(); ?> (<?php echo $style->styleCatUser($userView->getCategoryUser()); ?>)</h3>
+				<span> Inscrit le <?php echo date('d-m-Y', $userView->getDti()); ?> </span>
 				<?php
 					if(!empty($listBook))
 					{
@@ -37,34 +35,35 @@
 						foreach($listBook as $book)
 						{
 							?>
-								<article class="prevBook col-lg-2 col-11" style="display: inline-block; min-height: auto; max-height: auto;">
+								<article class="bookPreview">
 									<h5> <a href="book-<?php echo $book->getId(); ?>"> <?php echo $book->getName(); ?> </a> </h5>
 								</article>
 							<?php
 						}
 					}
 				?>
-			</section>
+			</article>
 		<?php
 	}
 	if($user->isAuthentificated() AND !empty($userMod))
 	{
 		?>
-			<header>
-				<h1 class="col-12" style="font-size: 25px;"> Votre Profil: <a href="profil-<?php echo $_SESSION['membre']->getId(); ?>" style="font-size: 25px;"> <?php echo $_SESSION['membre']->getPseudo(); ?> </a> </h1>
-			</header>
-			<section class="row col-12 user">
-				<article class="col-lg-6">
-					<h3 class="col-12"> <?php echo $style->styleCatUser($user->getCategoryUser()); ?> <a href='?modifiedCategory'> Modifier ? </a> </h3>
-						<input type="text" class="col-lg-6 col-md-7 col-sm-6 col-10" name="mPseudo" id="mPseudo" value="<?php echo $_SESSION['membre']->getPseudo(); ?>" placeholder="Pseudo" required />
-						<input type="email" class="col-lg-6 col-md-7 col-sm-6 col-10" name="mEmail" id="mEmail" value="<?php echo $_SESSION['membre']->getEmail(); ?>" placeholder="E-Mail" required />
-						<button class="uModInfo col-lg-4 col-md-8 col-10"> Modifier </button>
+			<section class="row col-lg-12 col-12">
+				<article class="user col-lg-6 col-md-6 col-12">
+					<h3> Votre Profil: <a href="profil-<?php echo $_SESSION['membre']->getId(); ?>"> <?php echo $_SESSION['membre']->getPseudo(); ?> </a></h3>
+					<h3> <?php echo $style->styleCatUser($user->getCategoryUser()); ?> <a href='?modifiedCategory'> Modifier ? </a> </h3>
+						<div id="formInfo" class="row">
+								<input type="text" class="col-lg-4 col-md-4 col-sm-6 col-8" name="mPseudo" id="mPseudo" value="<?php echo $_SESSION['membre']->getPseudo(); ?>" placeholder="Pseudo" required />
+								<input type="email" class="col-lg-6 col-md-7 col-sm-6 col-8" name="mEmail" id="mEmail" value="<?php echo $_SESSION['membre']->getEmail(); ?>" placeholder="E-Mail" required />
+						</div>
 						<hr>
-					<h4 class="col-12"> Votre Pass </h4>
-						<input type="password" class="col-lg-4 col-md-6 col-10" name="mOldPass" id="mOldPass" placeholder="Pass actuel" required />
-						<input type="password" class="col-lg-4 col-md-6 col-10" name="mNewPass" id="mNewPass" placeholder="Nouveau Pass" required />
-						<input type="password" class="col-lg-4 col-md-6 col-10" name="mConfirmPass" id="mConfirmPass" placeholder="Confirmation" required />
-						<button class="uModPass col-lg-4 col-md-6 col-10"> Changer le Pass </button>
+						<div id="formPass" class="row">
+							<h4 class="col-10"> Votre Pass </h4>
+							<input type="password" class="col-lg-4 col-md-6 col-8" name="mOldPass" id="mOldPass" placeholder="Pass actuel" required />
+							<input type="password" class="col-lg-4 col-md-6 col-8" name="mNewPass" id="mNewPass" placeholder="Nouveau Pass" required />
+							<input type="password" class="col-lg-4 col-md-6 col-8" name="mConfirmPass" id="mConfirmPass" placeholder="Confirmation" required />
+							<button class="uModPass col-lg-4 col-md-6 col-8"> Changer le Pass </button>
+						</div>
 						<span class="error"> </span>
 						<?php
 							if($user->getCategoryUser() >= 2)
@@ -75,7 +74,7 @@
 							}
 						?>
 				</article>
-				<article class="col-lg-6">
+				<article class="userFollow col-lg-6 col-md-6 col-12">
 					<h3> Vos abonnements </h3>
 						<div>
 							<h4> Utilisateurs </h4>
@@ -92,7 +91,7 @@
 								else
 								{
 									?>
-										<h5> Aucun Abonnement. </h5>
+										<h5> Rien </h5>
 									<?php
 								}
 								?>
@@ -112,7 +111,7 @@
 									else
 									{
 										?>
-											<h5> Aucun Abonnement. </h5>
+											<h5> Rien </h5>
 										<?php
 									}
 								?>
