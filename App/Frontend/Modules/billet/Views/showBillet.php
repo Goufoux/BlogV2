@@ -14,7 +14,7 @@
 				<h1 class="col-12"> <?php echo $billet->getTitre(); ?> </h1>
 			</header>
 			<section class="row col-12">
-			<article class="col-11 col-md-10 col-lg-8 billet">
+			<article class="col-11 col-md-10 col-lg-10 billet">
 				<?php
 					if($user->isAuthentificated())
 					{
@@ -69,7 +69,7 @@
 				<?php
 			}
 			?>
-			<section class="boxComment col-12 col-lg-4 col-md-8 col-sm-10 col-12">
+			<section class="boxComment col-12 col-lg-10 col-md-8 col-sm-10 col-12">
 				<h4> Chargement des commentaires... </h4>
 			</section>
 		<?php

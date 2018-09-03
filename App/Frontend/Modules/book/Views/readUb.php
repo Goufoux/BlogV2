@@ -40,10 +40,10 @@
 	else
 	{
 		?>
-			<article>
+			<blockquote class="col-12">
 				<h4> Vous n'avez aucun Book. </h4>
 				<input type="button" value="Créer un Book" id="bCreate" />
-			</article>
+			</blockquote>
 		<?php
 	}
 ?>
