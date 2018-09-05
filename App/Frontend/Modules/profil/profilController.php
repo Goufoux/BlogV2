@@ -73,6 +73,22 @@
 						$followBook []= $this->managers->getManagerOf('Book')->getName($_SESSION['membre']->getFollowBook('unserialize')[$i]);
 					}
 					$this->page->addVar('followBook', $followBook);
+					/* Récupération de l'historique */
+					$userHistory = $this->managers->getManagerOf('User')->getHistory($_SESSION['membre']->getId());
+					if($userHistory)
+					{
+						$history = unserialize($userHistory['history']);
+						$titleHistory = [];
+						for($i = 0; $i < count($history); $i++)
+						{
+							$titleHistory[] = $this->managers->getManagerOf('Book')->getName($history[$i]);
+						}
+						$this->page->addVar('history', $titleHistory);
+					}
+					else
+					{
+						$this->page->addVar('history', $this->managers->getManagerOf('User')->getManagerError());
+					}
 					$this->detectForm($HTTPRequest);
 					$this->hasMsg($HTTPRequest);
 				}
@@ -153,7 +169,6 @@
 			{
 				if($HTTPRequest->getExists('clPass'))
 				{
-					// $this->page->addVar('title', $HTTPRequest->requestURI());
 					$userManager = $this->managers->getManagerOf('User');
 					if($userManager->addUser(htmlspecialchars($HTTPRequest->getData('clEmail')), htmlspecialchars($HTTPRequest->getData('clPass'))))
 					{
