@@ -11,6 +11,9 @@
 	border: solid white;
 	background-color: white;
 	color: black;
+	display: inline-block;
+	margin: 1% auto;
+	overflow: hidden;
 }
 .boxComment article ul
 {
