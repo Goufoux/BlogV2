@@ -15,6 +15,6 @@ Principaux changements: <br />
   -> Ajout de la possibilité de suivre un book <br />
   -> Ajout de la possibilité de suivre un écrivain <br />
   -> Modification style de profil.php <br />
-  -> Ajout d'un historique sur le book consultés
+  -> Ajout d'un historique sur les book consultés
   <br />
 Changements à venir: <br />
