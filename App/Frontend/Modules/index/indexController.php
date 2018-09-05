@@ -52,8 +52,7 @@
 			}
 			else
 			{
-				$nbBillet = $this->app->config()->get('nbBillet');
-				$this->page->addVar('title', 'Genarkys - ' . $nbBillet . ' derniers billets');
+				$this->page->addVar('title', 'Liste des derniers Books');
 				$listBook = $this->managers->getManagerOf('Book')->getBook('all', false);
 				$this->page->addVar('listBook', $listBook);
 				$this->detectForm($HTTPRequest);
