@@ -520,21 +520,28 @@
 			if(!empty($data[0]) AND (int)$data[0])
 			{
 				$form = new Form();
-				if($form->verifComment(htmlspecialchars($data[1])))
+				if(!empty($data[1]))
 				{
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
-					$cManager = $managers->getManagerOf('Comment');
-					return $cManager->addComment($data);
+					if($form->verifComment(htmlspecialchars($data[1])))
+					{
+						$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+						$cManager = $managers->getManagerOf('Comment');
+						return $cManager->addComment($data);
+					}
+					else
+					{
+						$this->setAjaxError($form->getFormError());
+						return false;
+					}
 				}
 				else
 				{
-					$this->setAjaxError($form->getFormError());
-					return false;
+					$this->setAjaxError('Commentaire vide...');
 				}
 			}
 			else
 			{
-				$this->setAjaxError($data);
+				$this->setAjaxError('Une erreur est survenue.');
 				return false;
 			}
 		}
