@@ -78,16 +78,15 @@
 					if($userHistory)
 					{
 						$history = unserialize($userHistory['history']);
-						$titleHistory = [];
-						for($i = 0; $i < count($history); $i++)
+						if(count($history) > 0)
 						{
-							$titleHistory[] = $this->managers->getManagerOf('Book')->getName($history[$i]);
+							$titleHistory = [];
+							for($i = 0; $i < count($history); $i++)
+							{
+								$titleHistory[] = $this->managers->getManagerOf('Book')->getName($history[$i]);
+							}
+							$this->page->addVar('history', $titleHistory);
 						}
-						$this->page->addVar('history', $titleHistory);
-					}
-					else
-					{
-						$this->page->addVar('history', $this->managers->getManagerOf('User')->getManagerError());
 					}
 					$this->detectForm($HTTPRequest);
 					$this->hasMsg($HTTPRequest);
