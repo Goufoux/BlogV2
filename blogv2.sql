@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 05 sep. 2018 à 10:26
+-- Généré le :  mer. 05 sep. 2018 à 10:44
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -132,7 +132,6 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `categoryUser` int(11) NOT NULL,
   `followBook` text NOT NULL,
   `followUser` text NOT NULL,
-  `history` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -140,8 +139,8 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id`, `pseudo`, `pass`, `email`, `dti`, `accessLevel`, `keyEmail`, `categoryUser`, `followBook`, `followUser`, `history`) VALUES
-(1, 'Quentin', '$2y$10$sw.uV6ApPvhiUWLiR9dtXe0MW7jn92EO/n9V5krVo/HynFq62wPu2', 'deadworldcorp@gmail.com', 1535621232, 0, 'verified', 2, 'a:1:{i:0;s:1:\"1\";}', 'a:0:{}', '');
+INSERT INTO `utilisateur` (`id`, `pseudo`, `pass`, `email`, `dti`, `accessLevel`, `keyEmail`, `categoryUser`, `followBook`, `followUser`) VALUES
+(1, 'Quentin', '$2y$10$sw.uV6ApPvhiUWLiR9dtXe0MW7jn92EO/n9V5krVo/HynFq62wPu2', 'deadworldcorp@gmail.com', 1535621232, 0, 'verified', 2, 'a:1:{i:0;s:1:\"1\";}', 'a:0:{}');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
