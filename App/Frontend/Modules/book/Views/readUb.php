@@ -10,12 +10,12 @@
 			<input type="button" value="Créer un Book" id="bCreate" />
 			<span class="error"></span>
 		</blockquote>
-		<section class="row col-12">
+		<section class="row col-11">
 		<?php
 		foreach($list as $book)
 		{
 			?>
-				<article class="col-12 col-lg-3 col-md-8 col-sm-12 prevBook">
+				<article class="col-12 col-lg-3 col-md-4 col-sm-12 prevBook">
 					<div class="row col-lg-12 col-12">
 						<i class="far fa-trash-alt delBook" title="Supprimer ?" id="b_<?php echo $book->getId(); ?>"></i>
 						<a href="./modBook-<?php echo $book->getId(); ?>"><i class="far fa-edit" title="Modifier ?"></i></a>
