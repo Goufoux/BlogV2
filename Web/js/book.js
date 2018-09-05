@@ -47,7 +47,7 @@ $(function()
 					if(data == true)
 					{
 						$('.error').html();
-						$(this).parent().parent().hide();
+						$('#'+id).parent().parent().fadeOut();
 					}
 					else
 						$('.error').html(data);
