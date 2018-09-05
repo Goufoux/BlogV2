@@ -19,7 +19,7 @@
 			foreach($listComment as $comment)
 			{
 				?>
-					<article class="col-12">
+					<article class="col-lg-2 col-12">
 						<p>
 							<?php echo nl2br($comment->getContenu()); ?>
 						</p>
@@ -27,14 +27,7 @@
 							<li> Par <?php echo $comment->getPseudo(); ?> </li>
 							<li> Le <?php echo date('d-m-Y à H:i:s', $comment->getDatePub()); ?> </li>
 						</li>
-						<?php
-							if(!empty($_SESSION['auth']))
-							{
-								?>
-									<button class="btSignaler" value="comment_<?php echo $comment->getId(); ?>" name="btSignaler"> Signaler </button>
-								<?php
-							}
-						?>
+							<button class="btSignaler" value="comment_<?php echo $comment->getId(); ?>" name="btSignaler"> Signaler </button>
 					</article>
 				<?php
 			}
