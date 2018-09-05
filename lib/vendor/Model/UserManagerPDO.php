@@ -38,6 +38,94 @@
 		protected $error = '';
 		
 		/*
+			A l'affichage de la liste des abonnements pour les books, si lors de la vérification si un id est mort, cette méthode est appelée et supprime l'id contenu dans la liste 
+			$idUser = id utilisateur
+			$idBook = id Book mort
+		*/
+		
+		public function cleanFollowBook($idUser, $idBook)
+		{
+			if(!empty($idUser) AND (int) $idUser)
+			{
+				if(!empty($idBook) AND (int) $idBook)
+				{
+					$actAbonnement = unserialize($this->getData('followBook', 'id', $idUser));
+					$key = array_search($idBook, $actAbonnement);
+					unset($actAbonnement[$key]);
+					sort($actAbonnement);
+					try
+					{
+						$req = $this->dao->prepare('UPDATE utilisateur SET followBook = :followBook WHERE id = :id');
+						$req->bindValue(':followBook', serialize($actAbonnement), \PDO::PARAM_STR);
+						$req->bindValue(':id', $idUser, \PDO::PARAM_INT);
+						if(!$req->execute())
+							throw new MyError('Une erreur est survenue');
+						return true;
+					}
+					catch(MyError $e)
+					{
+						$this->setError($e->getMessage());
+						return false;
+					}
+				}
+				else
+				{
+					$this->setError('Une erreur est survenue');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		/*
+			A l'affichage d'un historique, si lors de la vérification si un id est mort, cette méthode est appelée et supprime l'id contenu dans l'historique
+			$idUser = id utilisateur
+			$idDead = id Book mort
+		*/
+		
+		public function cleanHistory($idUser, $idDead)
+		{
+			if(!empty($idUser) AND (int) $idUser)
+			{
+				if(!empty($idDead) AND (int) $idDead)
+				{
+					$actHistory = unserialize($this->getHistory($idUser)['history']);
+					$key = array_search($idDead, $actHistory);
+					unset($actHistory[$key]);
+					sort($actHistory);
+					try
+					{
+						$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
+						$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
+						$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+						if(!$req->execute())
+							throw new MyError('Une erreur est survenue');
+						return true;
+					}
+					catch(MyError $e)
+					{
+						$this->setError($e->getMessage());
+						return false;
+					}
+				}
+				else
+				{
+					$this->setError('Une erreur est survenue');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Une erreur est survenue');
+				return false;
+			}
+		}
+		
+		/*
 			Récupère l'historique d'un utilisateur 
 			idUser -> id de l'utilisateur
 		*/
@@ -104,7 +192,24 @@
 							if(in_array($idBook, $actHistory)) /* On regarde si le book est déjà présent dans l'historique */
 							{
 								$key = array_search($idBook, $actHistory);
-								// return 'key -> ' . $key;
+								unset($actHistory[$key]);
+								sort($actHistory);
+								array_unshift($actHistory, $idBook);
+								try
+								{
+									$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
+									$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
+									$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+									if(!$req->execute())
+										throw new MyError('Une erreur est survenue. {Code -> 83}');
+									else
+										return true;
+								}
+								catch(MyError $e)
+								{
+									$this->setError($e->getMessage());
+									return false;
+								}
 							}
 							else
 							{
