@@ -96,7 +96,20 @@
 					$listBillet = $billetManager->getBillet('idBook', $book->getId());
 					/* Ajout d'une vue */
 					$addView = $bManager->addView($HTTPRequest->getData('id'), $book->getNbVue());
-					$this->page->addVar('book', $book);
+					/* Si l'utilisateur est connecté on ajoute le book à l'historique */
+					if($this->app->user()->isAuthentificated())
+					{
+						$userManager = $this->managers->getManagerOf('User');
+						$addBookHistory = $userManager->updateHistory($_SESSION['membre']->getId(), htmlspecialchars($HTTPRequest->getData('id')));
+					}
+					if($book)
+					{
+						$this->page->addVar('book', $book);
+					}
+					else
+					{
+						$this->page->addVar('book', $bManager->getManagerError());
+					}
 					$this->page->addVar('listBillet', $listBillet);
 					$this->hasMsg($HTTPRequest);
 					$this->detectForm($HTTPRequest);
