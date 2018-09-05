@@ -14,7 +14,7 @@ Principaux changements: <br />
   -> Ajout de la possibilité de récupération du mot de passe <br />
   -> Ajout de la possibilité de suivre un book <br />
   -> Ajout de la possibilité de suivre un écrivain <br />
-  -> Modification style de profil.php
+  -> Modification style de profil.php <br />
+  -> Ajout d'un historique sur le book consultés
   <br />
 Changements à venir: <br />
-  -> Ajouter un historique des books/billets consultés <br />
