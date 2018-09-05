@@ -75,7 +75,7 @@
 							}
 						?>
 				</article>
-				<article class="col-lg-6">
+				<article class="col-lg-6 follow">
 					<h3> Vos abonnements </h3>
 						<div>
 							<h4> Utilisateurs </h4>
@@ -113,6 +113,26 @@
 									{
 										?>
 											<h5> Aucun Abonnement. </h5>
+										<?php
+									}
+								?>
+						</div>
+						<div class="col-lg-6 history">
+							<h3> Historique </h3>
+								<?php
+									if(!empty($history))
+									{
+										foreach($history as $historyName)
+										{
+											?>
+												<a href="book-<?php echo $historyName['id']; ?>"> <button> <?php echo $historyName['name']; ?> </button> </a>
+											<?php
+										}
+									}
+									else
+									{
+										?>
+											<h4> Vous n'avez aucun historique pour le moment. </h4>
 										<?php
 									}
 								?>
