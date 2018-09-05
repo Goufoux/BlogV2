@@ -16,6 +16,13 @@
 		@ Mise à jour 21/08/2018
 		
 		Ajout de existId(), printUser()
+		
+		@ Mise à jour 04/03/2018
+		
+		- Ajout de updateHistory()
+		- 
+		
+		
 	*/
 
 	namespace Model;
@@ -29,6 +36,122 @@
 	class UserManagerPDO extends UserManager
 	{
 		protected $error = '';
+		
+		/*
+			Récupère l'historique d'un utilisateur 
+			idUser -> id de l'utilisateur
+		*/
+		
+		public function getHistory($idUser)
+		{
+			if(!empty($idUser) AND (int) $idUser)
+			{
+				try
+				{
+					$req = $this->dao->prepare('SELECT * FROM userHistory WHERE idUtilisateur = :idUtilisateur');
+					$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+					if(!$req->execute())
+						throw new MyError('Une erreur est survenue');
+					if(!$rs = $req->fetch())
+						throw new MyError('Une erreur est survenue');
+					return $rs;
+				}
+				catch(MyError $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
+		public function updateHistory($idUser, $idBook)
+		{
+			if(!empty($idUser))
+			{
+				if(!empty($idBook))
+				{
+					try
+					{
+						$req = $this->dao->prepare('SELECT * FROM userHistory WHERE idUtilisateur = :idUtilisateur');
+						$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+						$req->execute();
+						if(!$rs = $req->fetch()) // l'utilisateur n'existe pas car aucun historique, donc création d'une ligne dans la table pour cet utilisateur //
+						{
+							try
+							{
+								$req = $this->dao->prepare('INSERT INTO userHistory(idUtilisateur, history) VALUES(:idUtilisateur, :history)');
+								$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+								$req->bindValue(':history', serialize(array($idBook)), \PDO::PARAM_STR);
+								if(!$req->execute())
+									throw new MyError('Une erreur est survenue. {Code -> 56}');
+								else
+									return true;
+							}
+							catch(MyError $e)
+							{
+								$this->setError($e->getMessage());
+								return false;
+							}
+						}
+						else // L'utilisateur a un historique, on le met à jour //
+						{
+							$actHistory = unserialize($rs['history']);
+							if(in_array($idBook, $actHistory)) /* On regarde si le book est déjà présent dans l'historique */
+							{
+								$key = array_search($idBook, $actHistory);
+								// return 'key -> ' . $key;
+							}
+							else
+							{
+								$actHistory[] = $idBook;
+								try
+								{
+									$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
+									$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
+									$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
+									if(!$req->execute())
+										throw new MyError('Une erreur est survenue. {Code -> 83}');
+									else
+										return true;
+								}
+								catch(MyError $e)
+								{
+									$this->setError($e->getMessage());
+									return false;
+								}
+							}
+						}
+					}
+					catch(MyError $e)
+					{
+						$this->setError($e->getMessage());
+						return false;
+					}
+				}
+				else
+				{
+					$this->setError('Une erreur est survenue.');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Une erreur est survenue.');
+				return false;
+			}
+		}
+		
+		/*
+			Récupère une donnée spécifique
+			$dataName = Donnée à récupérer
+			$dataGiven = Donnée de sélection
+			$valueGiven = Valeur donnée de sélection
+		*/
 		
 		public function getData($dataName, $dataGiven, $valueGiven)
 		{
@@ -132,6 +255,11 @@
 			}
 		}
 		
+		/*
+			Vérifie l'existence d'un pseudo ou d'un email 
+			$login = pseudo ou email
+		*/
+		
 		public function existLogin($login)
 		{
 			try
@@ -151,6 +279,11 @@
 			}
 		}
 		
+		/*
+			Vérifie l'existence d'un utilisateur 
+			$id = id de l'utilisateur
+		*/
+		
 		public function existId($id)
 		{
 			try
@@ -169,6 +302,10 @@
 			}
 		}
 		
+		/*
+			récupère les données pour l'affichage sur un profil 
+		*/
+		
 		public function printUser($id)
 		{
 			$req = $this->dao->prepare('SELECT id, pseudo, dti, categoryUser FROM utilisateur WHERE id = :id');
@@ -186,6 +323,10 @@
 			}
 		}
 		
+		/*
+			Vérifie l'existence d'une email
+		*/
+		
 		public function existEmail($email)
 		{
 			$req = $this->dao->prepare('SELECT email FROM utilisateur WHERE email = :email');
@@ -197,6 +338,10 @@
 				return false;
 		}
 		
+		/*
+			Compte le nombre d'utilisateur 
+		*/
+		
 		public function countUser()
 		{
 			$req = $this->dao->query('SELECT COUNT(id) as id FROM utilisateur');
@@ -205,6 +350,12 @@
 			$nb = $rs['id'] + 1;
 			return $nb;
 		}
+		
+		/*
+			Vérifie l'email de l'utilisateur
+			$email = email de l'utilisateur
+			$key = clé fourni lors de l'inscription
+		*/
 		
 		public function userVerifiedEmail($email, $key)
 		{
@@ -261,7 +412,8 @@
 		}
 		
 		/*
-			getPseudo()
+			Retourne le pseudo et l'id en fonction de l'id donnée
+			id = id de l'utilisateur
 		*/
 		
 		public function getPseudo($id)
@@ -271,7 +423,7 @@
 				try
 				{
 					if(!$this->existId($id))
-						throw new MyError('Book introuvable');
+						throw new MyError('Utilisateur introuvable');
 					
 					$req = $this->dao->prepare('SELECT id, pseudo FROM utilisateur WHERE id = :id');
 					$req->bindValue(':id', $id, \PDO::PARAM_INT);
@@ -449,7 +601,7 @@
 						$dti = getDate();
 						$keyEmail = mt_rand($dti[0], strtotime('+30 days'));
 						$pseudo = 'Utilisateur_'.$this->countUser();
-						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser)');
+						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser, history) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser, :history)');
 						$req->bindValue(':pseudo', $pseudo, \PDO::PARAM_STR);
 						$req->bindValue(':pass', password_hash($pass, PASSWORD_BCRYPT), \PDO::PARAM_STR);
 						$req->bindValue(':email', $login, \PDO::PARAM_STR);
@@ -459,6 +611,7 @@
 						$req->bindValue(':categoryUser', 0, \PDO::PARAM_INT);
 						$req->bindValue(':followBook', serialize(array()), \PDO::PARAM_STR);
 						$req->bindValue(':followUser', serialize(array()), \PDO::PARAM_STR);
+						$req->bindValue(':history', serialize(array()), \PDO::PARAM_STR);
 						$tryAdd = $req->execute();
 						if($tryAdd)
 						{
@@ -503,7 +656,8 @@
 		
 		/* 
 			DelUser() - ADMIN 
-			
+			Supprime un utilisateur
+			$id = id de l'utilisateur à supprimer
 		*/
 		
 		public function delUser($id)
@@ -540,6 +694,7 @@
 		
 		/*
 			updAccessLevel() - ADMIN
+			Mise à jour du niveau d'accès 
 		*/
 		
 		public function updAccessLevel($id, $newAccess)
