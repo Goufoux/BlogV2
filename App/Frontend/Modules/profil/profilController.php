@@ -70,7 +70,12 @@
 					$followBook = [];
 					for($i = 0; $i < count($_SESSION['membre']->getFollowBook('unserialize')); $i++)
 					{
-						$followBook []= $this->managers->getManagerOf('Book')->getName($_SESSION['membre']->getFollowBook('unserialize')[$i]);
+						if($x = $this->managers->getManagerOf('Book')->getName($_SESSION['membre']->getFollowBook('unserialize')[$i]))
+						{
+							$followBook []= $x;
+						}
+						else
+							$this->managers->getManagerOf('User')->cleanFollowBook($_SESSION['membre']->getId(), $_SESSION['membre']->getFollowBook('unserialize')[$i]);
 					}
 					$this->page->addVar('followBook', $followBook);
 					/* Récupération de l'historique */
@@ -78,12 +83,17 @@
 					if($userHistory)
 					{
 						$history = unserialize($userHistory['history']);
-						if(count($history) > 0)
+						if(count($history) > 0) // Vérifie que l'historique n'est pas vide
 						{
 							$titleHistory = [];
 							for($i = 0; $i < count($history); $i++)
 							{
-								$titleHistory[] = $this->managers->getManagerOf('Book')->getName($history[$i]);
+								if($x = $this->managers->getManagerOf('Book')->getName($history[$i])) // Si x = true, alors id est mort
+								{
+									$titleHistory[] = $x;
+								}
+								else
+									$this->managers->getManagerOf('User')->cleanHistory($_SESSION['membre']->getId(), $history[$i]); // Maj historique pour retirer l'id mort
 							}
 							$this->page->addVar('history', $titleHistory);
 						}
