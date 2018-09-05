@@ -38,7 +38,7 @@
 		}
 		
 		/*
-			addview
+			Ajoute une vue au book correspondant
 		*/
 		
 		public function addView($id, $nb)
@@ -59,7 +59,10 @@
 							return true;
 						}
 						else
-							return 'e';
+						{
+							$this->setManagerError('Une erreur est survenue.');
+							return false;
+						}
 					}
 					else
 					{
@@ -79,6 +82,10 @@
 			}
 		}
 		
+		/*
+			Ajout un book
+		*/
+		
 		public function addBook(Book $book)
 		{
 			/* On prépare l'insertion en bdd */
@@ -94,6 +101,13 @@
 			$_SESSION['success'] = 'Book Créé !';
 			return true;
 		}
+		
+		/*
+			si
+				$cat = all -> Renvoi une liste de tous les books [$data = false]
+				$cat = id -> Renvoi le book correspondant à l'id [$data = idBook]
+				$cat = idUtilisateur ->Renvoi une liste de book correspondant à l'id d'un utilisateur [$data = $idUtilisateur]
+		*/
 		
 		public function getBook($cat, $data)
 		{
@@ -112,7 +126,7 @@
 						}
 						else
 						{
-							$this->setManagerError('Une erreur est survenue. {Code 43}');
+							$this->setManagerError('Une erreur est survenue. {Code 124}');
 							return false;
 						}
 						break;
@@ -123,7 +137,7 @@
 						}
 						else
 						{
-							$this->setManagerError('Une erreur est survenue.');
+							$this->setManagerError('Une erreur est survenue. {Code 135}');
 							return false;
 						}
 						break;
@@ -148,33 +162,41 @@
 				}
 				else if($sql != false)
 				{
-					$req = $this->dao->prepare($sql);
-					$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Book');
-					$req->bindValue(':'.$cat, $data);
-					$req->execute();
-					if($cat == 'id')
+					try
 					{
-						if($rs = $req->fetch())
+						$req = $this->dao->prepare($sql);
+						$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Book');
+						$req->bindValue(':'.$cat, $data);
+						$req->execute();
+						if($cat == 'id')
 						{
-							return $rs;
+							if($rs = $req->fetch())
+							{
+								return $rs;
+							}
+							else
+							{
+								$this->setManagerError('Aucune publication.');
+								return false;
+							}
 						}
 						else
 						{
-							$this->setManagerError('Aucune publication.');
-							return false;
+							if($rs = $req->fetchAll())
+							{
+								return $rs;
+							}
+							else
+							{
+								$this->setManagerError('Aucune publication.');
+								return false;
+							}
 						}
 					}
-					else
+					catch(MyError $e)
 					{
-						if($rs = $req->fetchAll())
-						{
-							return $rs;
-						}
-						else
-						{
-							$this->setManagerError('Aucune publication.');
-							return false;
-						}
+						$this->setManagerError('Une erreur est survenue. Code -> 166');
+						return false;
 					}
 				}
 			}
@@ -184,6 +206,10 @@
 				return false;
 			}
 		}
+		
+		/*
+			Recherche une liste de book correspondant au $name 
+		*/
 		
 		public function searchBook($name)
 		{
@@ -209,6 +235,10 @@
 				return false;
 			}
 		}
+		
+		/*
+			Vérifie l'existence d'un book en fonction de l'id transmis
+		*/
 		
 		public function existBook($id)
 		{
