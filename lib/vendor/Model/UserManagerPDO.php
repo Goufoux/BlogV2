@@ -601,7 +601,7 @@
 						$dti = getDate();
 						$keyEmail = mt_rand($dti[0], strtotime('+30 days'));
 						$pseudo = 'Utilisateur_'.$this->countUser();
-						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser, history) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser, :history)');
+						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser)');
 						$req->bindValue(':pseudo', $pseudo, \PDO::PARAM_STR);
 						$req->bindValue(':pass', password_hash($pass, PASSWORD_BCRYPT), \PDO::PARAM_STR);
 						$req->bindValue(':email', $login, \PDO::PARAM_STR);
@@ -611,7 +611,6 @@
 						$req->bindValue(':categoryUser', 0, \PDO::PARAM_INT);
 						$req->bindValue(':followBook', serialize(array()), \PDO::PARAM_STR);
 						$req->bindValue(':followUser', serialize(array()), \PDO::PARAM_STR);
-						$req->bindValue(':history', serialize(array()), \PDO::PARAM_STR);
 						$tryAdd = $req->execute();
 						if($tryAdd)
 						{
