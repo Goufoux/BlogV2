@@ -2,6 +2,9 @@
 
 	namespace Core;
 	
+	use Core\PDOFactory;
+	use Core\Managers;
+	
 	class UserFunction
 	{
 		protected $role;
@@ -36,13 +39,16 @@
 			{
 				if(!empty($_SESSION['auth']))
 				{
-					if(!$_SESSION['membre']->getFollowUser('already', $this->data))
+					$arg = [$_SESSION['membre']->getId(), $this->data, 'search', 'user'];
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $arg);
+					$historyManager = $managers->getManagerOf('History');
+					if(!$historyManager->run())
 					{
 						$this->setButton('<button value="user_'.$this->data.'" class="folUser"> S\'abonner </button>');
 					}
 					else
 					{
-						$this->setButton('<button value="book_'.$this->data.'" class="unfolUser"> Se désabonner </button>');
+						$this->setButton('<button value="user_'.$this->data.'" class="unfolUser"> Se désabonner </button>');
 					}
 					$this->constructHtml();
 					return true;
@@ -66,7 +72,10 @@
 			{
 				if(!empty($_SESSION['auth']))
 				{
-					if(!$_SESSION['membre']->getFollowBook('already', $this->data))
+					$arg = [$_SESSION['membre']->getId(), $this->data, 'search', 'book'];
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $arg);
+					$historyManager = $managers->getManagerOf('History');
+					if(!$historyManager->run())
 					{
 						$this->setButton('<button value="book_'.$this->data.'" class="folBook"> S\'abonner </button>');
 					}
