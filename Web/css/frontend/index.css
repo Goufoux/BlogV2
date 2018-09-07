@@ -164,12 +164,7 @@ a:hover
 	text-overflow: clip;
 	text-overflow: ellipsis;
 	text-overflow: "…";
-	box-shadow: 0px 0px 2px black;
 	transition: all .5s;
-}
-.prevBook:hover
-{
-	transform: scale(1.2, 1.2);
 }
 .prevBook blockquote
 {
@@ -212,9 +207,26 @@ a:hover
 {
 	text-align: center;
 }
-.user .follow div
+.user .follow div, .user .history div
 {
 	margin: 2% auto;
+}
+.user .follow div button, .user .history div button
+{
+	display: inline-block;
+	transition: all .3s;
+	color: black;
+}
+.user .follow div button a, .user .history div button a
+{
+	
+}
+.user .follow div button:hover, .user .history div button:hover
+{
+	background-color: #007bff;
+	border-color: #007bff;
+	color: white;
+	text-shadow: 0px 1px 2px black;
 }
 /* Formulaire d'inscription et de connexion */
 .formGenerator
