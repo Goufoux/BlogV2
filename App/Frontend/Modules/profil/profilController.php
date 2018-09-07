@@ -11,7 +11,12 @@
 	/*
 		Genarkys
 		
-		Ver 1.0
+		Ver 1.1
+		
+		@Ajout des l'affichage de l'historique des billets et des books
+			-> Mise à jour de executeProfil
+		
+		
 	*/
 	
 	class ProfilController extends BackController
@@ -60,44 +65,87 @@
 				{
 					$this->page->addVar('title', 'Profil - ' . $_SESSION['membre']->getPseudo());
 					$this->page->addVar('userMod', true);
-					$followUser = $_SESSION['membre']->getFollowUser();
-					$followUser = [];
-					for($i = 0; $i < count($_SESSION['membre']->getFollowUser('unserialize')); $i++)
+					$historyManager = $this->managers->getManagerOf('History');
+					$historyManager->setType('book');
+					$bookFollow = $historyManager->executePrint();
+					if($bookFollow)
 					{
-						$followUser []= $this->managers->getManagerOf('User')->getPseudo($_SESSION['membre']->getFollowUser('unserialize')[$i]);
-					}
-					$this->page->addVar('followUser', $followUser);
-					$followBook = [];
-					for($i = 0; $i < count($_SESSION['membre']->getFollowBook('unserialize')); $i++)
-					{
-						if($x = $this->managers->getManagerOf('Book')->getName($_SESSION['membre']->getFollowBook('unserialize')[$i]))
+						for($i = 0; $i < count($bookFollow); $i++)
 						{
-							$followBook []= $x;
-						}
-						else
-							$this->managers->getManagerOf('User')->cleanFollowBook($_SESSION['membre']->getId(), $_SESSION['membre']->getFollowBook('unserialize')[$i]);
-					}
-					$this->page->addVar('followBook', $followBook);
-					/* Récupération de l'historique */
-					$userHistory = $this->managers->getManagerOf('User')->getHistory($_SESSION['membre']->getId());
-					if($userHistory)
-					{
-						$history = unserialize($userHistory['history']);
-						if(count($history) > 0) // Vérifie que l'historique n'est pas vide
-						{
-							$titleHistory = [];
-							for($i = 0; $i < count($history); $i++)
+							if($x = $this->managers->getManagerOf('Book')->getName($bookFollow[$i]->getIdHistory())['name'])
 							{
-								if($x = $this->managers->getManagerOf('Book')->getName($history[$i])) // Si x = true, alors id est mort
-								{
-									$titleHistory[] = $x;
-								}
-								else
-									$this->managers->getManagerOf('User')->cleanHistory($_SESSION['membre']->getId(), $history[$i]); // Maj historique pour retirer l'id mort
+								$bookFollow[$i]->setName($x);
 							}
-							$this->page->addVar('history', $titleHistory);
+							else
+							{
+								$historyManager->setIdData($bookFollow[$i]->getIdHistory());
+								$historyManager->setidUser($_SESSION['membre']->getId());
+								$historyManager->executeUnfollow();
+								unset($bookFollow[$i]);
+							}
 						}
 					}
+					$this->page->addVar('bookFollow', $bookFollow);
+					$historyManager->setType('user');
+					$userFollow = $historyManager->executePrint();
+					if($userFollow)
+					{
+						for($i = 0; $i < count($userFollow); $i++)
+						{
+							if($x = $this->managers->getManagerOf('User')->getPseudo($userFollow[$i]->getIdHistory())['pseudo'])
+							{
+								$userFollow[$i]->setName($x);
+							}
+							else
+							{
+								$historyManager->setIdData($userFollow[$i]->getIdHistory());
+								$historyManager->setidUser($_SESSION['membre']->getId());
+								$historyManager->executeUnfollow();
+								unset($userFollow[$i]);
+							}
+						}
+					}
+					$this->page->addVar('userFollow', $userFollow);
+					$historyManager->setType('historyBook');
+					$historyBook = $historyManager->executePrint();
+					if($historyBook)
+					{
+						for($i = 0; $i < count($historyBook); $i++)
+						{
+							if($x = $this->managers->getManagerOf('Book')->getName($historyBook[$i]->getIdHistory())['name'])
+							{
+								$historyBook[$i]->setName($x);
+							}
+							else
+							{
+								$historyManager->setIdData($historyBook[$i]->getIdHistory());
+								$historyManager->setidUser($_SESSION['membre']->getId());
+								$historyManager->executeUnfollow();
+								unset($historyBook[$i]);
+							}
+						}
+					}
+					$this->page->addVar('historyBook', $historyBook);
+					$historyManager->setType('historyBillet');
+					$historyBillet = $historyManager->executePrint();
+					if($historyBillet)
+					{
+						for($i = 0; $i < count($historyBillet); $i++)
+						{
+							if($x = $this->managers->getManagerOf('Billet')->getTitre($historyBillet[$i]->getIdHistory()))
+							{
+								$historyBillet[$i]->setName($x);
+							}
+							else
+							{
+								$historyManager->setIdData($historyBillet[$i]->getIdHistory());
+								$historyManager->setidUser($_SESSION['membre']->getId());
+								$historyManager->executeUnfollow();
+								unset($historyBillet[$i]);
+							}
+						}
+					}
+					$this->page->addVar('historyBillet', $historyBillet);
 					$this->detectForm($HTTPRequest);
 					$this->hasMsg($HTTPRequest);
 				}
