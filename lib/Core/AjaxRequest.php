@@ -48,36 +48,15 @@
 			{
 				try
 				{
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					$historyParameter = array($_SESSION['membre']->getId(), $user[1], 'unfollow', 'user');
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $historyParameter);
 					if(!$managers->getManagerOf('User')->existId($user[1]))
 						throw new MyError('User introuvable');
 					
-					$e = $_SESSION['membre']->getFollowUser('unserialize');
-					
-					if(!in_array($user[1], $e))
-						return true;
-					
-					$key = array_search($user[1], $e);
-					
-					$nData = ['followUser'];
-					$nb = count($e);
-					unset($e[$key]);
-					$vData = [];
-					for($i = 0; $i < $nb; $i++)
-					{
-						if(!empty($e[$i]))
-							$vData []= $e[$i];
-					}
-					$vData = [serialize($vData)];
-					
-					$uManager = $managers->getManagerOf('User');
-					
-					if($uManager->majUser($nData, $vData) !== true)
-						throw new MyError($uManager->getManagerError());
+					if(!$userHistory = $managers->getManagerOf('History')->run())
+						throw new MyError($managers->getManagerOf('History')->getError());
 					
 					return true;
-					// $this->setAjaxError($vData);
-					// return false;
 				}
 				catch(MyError $e)
 				{
@@ -99,27 +78,14 @@
 			{
 				try
 				{
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					$historyParameter = array($_SESSION['membre']->getId(), $user[1], 'follow', 'user');
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $historyParameter);
 					if(!$managers->getManagerOf('User')->existId($user[1]))
 						throw new MyError('User introuvable');
 					
-					$e = $_SESSION['membre']->getFollowUser('unserialize');
+					if(!$userHistory = $managers->getManagerOf('History')->run())
+						throw new MyError($managers->getManagerOf('History')->getError());
 					
-					if(in_array($user[1], $e))
-						return true;
-					
-					$e []= $user[1];
-					
-					$nData = ['followUser'];
-					$vData = [serialize($e)];
-					
-					$uManager = $managers->getManagerOf('User');
-					
-					if($uManager->majUser($nData, $vData) !== true)
-						throw new MyError($uManager->getManagerError());
-					
-					// return true;
-					// $this->setAjaxError($vData);
 					return true;
 				}
 				catch(MyError $e)
@@ -142,33 +108,14 @@
 			{
 				try
 				{
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					$historyParameter = array($_SESSION['membre']->getId(), $book[1], 'unfollow', 'book');
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $historyParameter);
 					if(!$managers->getManagerOf('Book')->existBook($book[1]))
 						throw new MyError('Book introuvable');
 					
-					$e = $_SESSION['membre']->getFollowBook('unserialize');
+					if(!$userHistory = $managers->getManagerOf('History')->run())
+						throw new MyError($managers->getManagerOf('History')->getError());
 					
-					if(!in_array($book[1], $e))
-						return true;
-					
-					$key = array_search($book[1], $e);
-					
-					$nData = ['followBook'];
-					$nb = count($e);
-					unset($e[$key]);
-					$vData = [];
-					for($i = 0; $i < $nb; $i++)
-					{
-						if(!empty($e[$i]))
-							$vData []= $e[$i];
-					}
-					$vData = [serialize($vData)];
-					
-					$uManager = $managers->getManagerOf('User');
-					
-					if($uManager->majUser($nData, $vData) !== true)
-						throw new MyError($uManager->getManagerError());
-					$this->setAjaxError($vData);
 					return true;
 				}
 				catch(MyError $e)
@@ -191,24 +138,13 @@
 			{
 				try
 				{
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+					$historyParameter = array($_SESSION['membre']->getId(), $book[1], 'follow', 'book');
+					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion(), $historyParameter);
 					if(!$managers->getManagerOf('Book')->existBook($book[1]))
 						throw new MyError('Book introuvable');
 					
-					$e = $_SESSION['membre']->getFollowBook('unserialize');
-					
-					if(in_array($book[1], $e))
-						return true;
-					
-					$e []= $book[1];
-					
-					$nData = ['followBook'];
-					$vData = [serialize($e)];
-					
-					$uManager = $managers->getManagerOf('User');
-					
-					if($uManager->majUser($nData, $vData) !== true)
-						throw new MyError($uManager->getManagerError());
+					if(!$userHistory = $managers->getManagerOf('History')->run())
+						throw new MyError($managers->getManagerOf('History')->getError());
 					
 					return true;
 				}
