@@ -2,7 +2,13 @@
 
 	/*
 		Genarkys
-		Ver 1.0
+		
+		Ver 1.1
+		
+		@07/09/2018
+		
+		-> Suppression des attributs followBook et followUser
+		
 	*/
 	
 	namespace Entity;
@@ -18,8 +24,6 @@
 		protected $accessLevel;
 		protected $keyEmail;
 		protected $categoryUser;
-		protected $followBook;
-		protected $followUser;
 		
 		public function getPseudo()
 		{
@@ -54,48 +58,6 @@
 		public function getCategoryUser()
 		{
 			return $this->categoryUser;
-		}
-		
-		public function getFollowBook($module = false, $search = false)
-		{
-			if($module)
-			{
-				if($module == 'unserialize')
-				{
-					return unserialize($this->followBook);
-				}
-				if($module == 'already')
-				{
-					$list = unserialize($this->followBook);
-					if(in_array($search, $list))
-						return true;
-					else
-						return false;
-				}
-			}
-			else
-				return $this->followBook;
-		}
-		
-		public function getFollowUser($module = false, $search = false)
-		{
-			if($module)
-			{
-				if($module == 'unserialize')
-				{
-					return unserialize($this->followUser);
-				}
-				if($module == 'already')
-				{
-					$list = unserialize($this->followUser);
-					if(in_array($search, $list))
-						return true;
-					else
-						return false;
-				}
-			}
-			else
-				return $this->followBook;
 		}
 		
 		/* Setters */
@@ -133,15 +95,5 @@
 		public function setCategoryUser($categoryUser)
 		{
 			$this->categoryUser = $categoryUser;
-		}
-		
-		public function setFollowBook($followBook)
-		{
-			$this->followBook = $followBook;
-		}
-		
-		public function setFollowUser($followUser)
-		{
-			$this->followUser = $followUser;
 		}
 	}
