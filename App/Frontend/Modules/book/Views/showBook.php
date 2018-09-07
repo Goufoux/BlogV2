@@ -15,7 +15,7 @@
 								setInterval(function() 
 								{
 									$('.possAct').load('ajax/funcUser?role=book&fData='+<?php echo $book->getId(); ?>+'');
-								}, 1000);
+								}, 500);
 							</script>
 							<div class="possAct">
 								<button> Initialisation </button>
