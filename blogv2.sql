@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 05 sep. 2018 à 10:44
+-- Généré le :  ven. 07 sep. 2018 à 17:52
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -40,14 +40,7 @@ CREATE TABLE IF NOT EXISTS `billet` (
   `nbLike` text NOT NULL,
   `nbVue` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `billet`
---
-
-INSERT INTO `billet` (`id`, `titre`, `contenu`, `idUtilisateur`, `datePub`, `dateMod`, `idBook`, `nbLike`, `nbVue`) VALUES
-(1, 'test', '<p>test de billet</p>', 1, 1535875516, 0, 1, 'a:1:{i:0;s:1:\"1\";}', 12);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -66,15 +59,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `categorie` text NOT NULL,
   `nbVue` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `book`
---
-
-INSERT INTO `book` (`id`, `name`, `datePub`, `dateMod`, `content`, `idUtilisateur`, `categorie`, `nbVue`) VALUES
-(1, 'zzzzz', 1535633223, 0, 'zzzzzzzzzzzzzzzzzzz', 1, 's:10:\"Espionnage\";', 43),
-(2, 'SuperMan', 1536139784, 0, 'L\'aventure de SuperMan !', 1, 's:8:\"Aventure\";', 8);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -103,16 +88,17 @@ DROP TABLE IF EXISTS `userhistory`;
 CREATE TABLE IF NOT EXISTS `userhistory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUtilisateur` int(11) NOT NULL,
-  `history` text,
+  `typeHistory` varchar(15) NOT NULL,
+  `idHistory` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `userhistory`
 --
 
-INSERT INTO `userhistory` (`id`, `idUtilisateur`, `history`) VALUES
-(1, 1, 'a:2:{i:0;s:1:\"1\";i:1;s:1:\"2\";}');
+INSERT INTO `userhistory` (`id`, `idUtilisateur`, `typeHistory`, `idHistory`) VALUES
+(27, 2, 'user', 1);
 
 -- --------------------------------------------------------
 
@@ -130,17 +116,16 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `accessLevel` int(11) NOT NULL,
   `keyEmail` varchar(20) NOT NULL,
   `categoryUser` int(11) NOT NULL,
-  `followBook` text NOT NULL,
-  `followUser` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id`, `pseudo`, `pass`, `email`, `dti`, `accessLevel`, `keyEmail`, `categoryUser`, `followBook`, `followUser`) VALUES
-(1, 'Quentin', '$2y$10$sw.uV6ApPvhiUWLiR9dtXe0MW7jn92EO/n9V5krVo/HynFq62wPu2', 'deadworldcorp@gmail.com', 1535621232, 0, 'verified', 2, 'a:1:{i:0;s:1:\"1\";}', 'a:0:{}');
+INSERT INTO `utilisateur` (`id`, `pseudo`, `pass`, `email`, `dti`, `accessLevel`, `keyEmail`, `categoryUser`) VALUES
+(1, 'Quentin', '$2y$10$sw.uV6ApPvhiUWLiR9dtXe0MW7jn92EO/n9V5krVo/HynFq62wPu2', 'deadworldcorp@gmail.com', 1535621232, 0, 'verified', 2),
+(2, 'Tony', '$2y$10$iSdhwBUQt9z54nqxhh2hP.Ch4ftFr4gqR4CrWYuWAj5UFEwi8pH4i', 'genarkys.company@gmail.com', 1536329736, 0, 'verified', 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
