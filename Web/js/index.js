@@ -60,7 +60,7 @@ window.onload = function()
 				success: function(data)
 				{
 					if(data == true)
-						$('.error').html("Abonnement ajoutée").fadeIn().delay(2000).slideUp();
+						$('.error').html("Abonnement ajouté").fadeIn().delay(2000).slideUp();
 					else
 						$('.error').html(data);
 				}
@@ -82,7 +82,6 @@ window.onload = function()
 			});
 		});
 		/* Follow User */
-		/* Follow Book */
 		$('.possAct').on('click', '.folUser', function()
 		{
 			$.ajax({
