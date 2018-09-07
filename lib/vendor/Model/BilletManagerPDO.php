@@ -63,6 +63,12 @@
 			}
 		}
 		
+		/*
+			Ajoute une vue sur un billet
+			$id = id du billet
+			$nb = nouveau compteur
+		*/
+		
 		public function addVue($id, $nb)
 		{
 			try
@@ -93,6 +99,16 @@
 				return false;
 			}
 		}
+		
+		/*
+			Récupère un billet ou plusieurs billet en fonction du paramètre choisi
+			$cat = 
+					all: récupère tous les billets 
+					idUtilisateur: Récupère les billets en fonction de l'idUtilisateur
+					id: Récupère le billet correspondant à l'id
+					idBook: Récupère tous les billets correspondant à l'idBook
+			$data = $id en fonction de $cat
+		*/
 		
 		public function getBillet($cat, $data = false)
 		{
@@ -222,6 +238,12 @@
 			}
 		}
 		
+		/*
+			Supprime un billet
+			$id = id du billet à supprimé
+				-> Supprime les commentaires associés
+		*/
+		
 		public function delBillet($id)
 		{
 			if($this->existBillet($id))
@@ -240,11 +262,12 @@
 			$cmt = $this->dao->prepare('DELETE FROM comment WHERE idAttach = :idAttach');
 			$cmt->bindValue(':idAttach', $id, \PDO::PARAM_INT);
 			$cmt->execute();
-			
-			$req = $this->dao->prepare('DELETE FROM view WHERE idView = :idView');
-			$req->bindValue(':idView', $id, \PDO::PARAM_INT);
-			$req->execute();
 		}
+		
+		/*
+			Mise à jour des champs d'un billet
+			$billet = Billet()
+		*/
 		
 		public function updBillet(Billet $billet)
 		{
@@ -257,6 +280,10 @@
 			$_SESSION['success'] = 'Le billet a bien été modifié !';
 			return true;
 		}
+		
+		/*
+			Ajoute un nouveau billet dans le bdd 
+		*/
 		
 		public function addBillet(Billet $billet)
 		{
@@ -283,16 +310,25 @@
 			}
 		}
 		
-		public function existTitle($title)
+		
+		/*
+			Récupère le titre d'un billet en fonction de l'id donné
+		*/
+		
+		public function getTitre($idBillet)
 		{
-			$req = $this->dao->prepare('SELECT titre FROM billet WHERE titre = :titre');
-			$req->bindValue(':titre', $title, \PDO::PARAM_STR);
+			$req = $this->dao->prepare('SELECT titre FROM billet WHERE id = :id');
+			$req->bindValue(':id', $idBillet, \PDO::PARAM_INT);
 			$req->execute();
 			if($rs = $req->fetch())
-				return true;
+				return $rs['titre'];
 			else
 				return false;
 		}
+		
+		/*
+			Compte le nombre de billet appartenant à l'idBook
+		*/
 		
 		public function getNbBilletOfBook($idBook)
 		{
@@ -317,13 +353,18 @@
 			}
 		}
 		
-		public function setManagerError($error)
-		{
-			$this->managerError = $error;
-		}
+		/* Getters */
 		
 		public function getManagerError()
 		{
 			return $this->managerError;
 		}
+		
+		/* Setters */
+		
+		public function setManagerError($error)
+		{
+			$this->managerError = $error;
+		}
+		
 	}
