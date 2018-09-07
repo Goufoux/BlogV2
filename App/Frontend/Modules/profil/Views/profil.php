@@ -77,65 +77,88 @@
 				</article>
 				<article class="col-lg-6 follow">
 					<h3> Vos abonnements </h3>
-						<div>
+						<div class="col-12">
 							<h4> Utilisateurs </h4>
-							<?php 
-								if(!empty($followUser))
-								{
-									foreach($followUser as $userData)
+								<?php
+									if(!empty($userFollow))
+									{
+										foreach($userFollow as $user)
+										{
+											?>
+												<a href="profil-<?php echo $user->getIdHistory(); ?>"> <button> <?php echo $user->getName(); ?> </button> </a>
+											<?php
+										}
+									}
+									else
 									{
 										?>
-											<a href="profil-<?php echo $userData['id']; ?>"> <button> <?php echo $userData['pseudo']; ?> </button> </a>	
+											<h4> Aucun abonnement </h4>
 										<?php
 									}
-								}
-								else
-								{
-									?>
-										<h5> Aucun Abonnement. </h5>
-									<?php
-								}
 								?>
 						</div>
-						<div>
+						<div class="col-12">
 							<h4> Books </h4>
 								<?php
-									if(!empty($followBook))
+									if(!empty($bookFollow))
 									{
-										foreach($followBook as $bookName)
+										foreach($bookFollow as $book)
 										{
 											?>
-												<a href="book-<?php echo $bookName['id']; ?>"> <button> <?php echo $bookName['name']; ?> </button> </a>
+												<a href="book-<?php echo $book->getIdHistory(); ?>"> <button> <?php echo $book->getName(); ?> </button> </a>
 											<?php
 										}
 									}
 									else
 									{
 										?>
-											<h5> Aucun Abonnement. </h5>
+											<h4> Aucun abonnement </h4>
 										<?php
 									}
 								?>
 						</div>
-						<div class="col-lg-6 history">
+						<div class="col-lg-12 history">
 							<h3> Historique </h3>
-								<?php
-									if(!empty($history))
-									{
-										foreach($history as $historyName)
-										{
-											?>
-												<a href="book-<?php echo $historyName['id']; ?>"> <button> <?php echo $historyName['name']; ?> </button> </a>
-											<?php
-										}
-									}
-									else
-									{
-										?>
-											<h4> Vous n'avez aucun historique pour le moment. </h4>
+								<div class="col-12">
+									<h4> Books </h4>
 										<?php
-									}
-								?>
+											if(!empty($historyBook))
+											{
+												foreach($historyBook as $Hisbook)
+												{
+													?>
+														<a href="book-<?php echo $Hisbook->getIdHistory(); ?>"> <button> <?php echo $Hisbook->getName(); ?> </button> </a>
+													<?php
+												}
+											}
+											else
+											{
+												?>
+													<h4> Aucun Historique. </h4>
+												<?php
+											}
+										?>
+								</div>
+								<div class="col-12">
+									<h4> Billets </h4>
+										<?php
+											if(!empty($historyBillet))
+											{
+												foreach($historyBillet as $HisBillet)
+												{
+													?>
+														<a href="billet-<?php echo $HisBillet->getIdHistory(); ?>"> <button> <?php echo $HisBillet->getName(); ?> </button> </a>
+													<?php
+												}
+											}
+											else
+											{
+												?>
+													<h4> Aucun Historique. </h4>
+												<?php
+											}
+										?>
+								</div>
 						</div>
 				</article>
 			</section>
