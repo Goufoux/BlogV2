@@ -96,6 +96,14 @@
 					$billet = $this->managers->getManagerOf('Billet')->getBillet('id', $HTTPRequest->getData('id'));
 					$listComment = $this->managers->getManagerOf('Comment')->getComment($billet->getId(), 'list');
 					$this->page->addVar('billet', $billet);
+					if($this->app->user()->isAuthentificated())
+					{
+						$historyManager = $this->managers->getManagerOf('History');
+						$historyManager->setType('historyBillet');
+						$historyManager->setIdData($HTTPRequest->getData('id'));
+						$historyManager->setIdUser($_SESSION['membre']->getId());
+						$historyManager->executeAddHistory();
+					}
 					/* AJout d'une vue */
 					$nb = $billet->getNbVue() + 1;
 					$this->managers->getManagerOf('Billet')->addVue($billet->getId(), $nb);
