@@ -7,6 +7,10 @@
 	
 	abstract class BookManager extends Manager
 	{
+		abstract public function getName($id);
+		
+		abstract public function addView($id, $nb);
+		
 		abstract public function addBook(Book $book);
 		
 		abstract public function getBook($cat, $data);

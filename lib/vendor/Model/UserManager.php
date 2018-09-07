@@ -6,6 +6,10 @@
 	
 	abstract class UserManager extends Manager
 	{
+		abstract public function getData($dataName, $dataGiven, $valueGiven);
+		
+		abstract public function setNewPass($login);
+		
 		abstract public function getUser($module, $id = false);
 		
 		abstract public function existLogin($login);
