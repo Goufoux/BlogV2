@@ -91,31 +91,39 @@
 					/* Récupération du book */
 					$bManager = $this->managers->getManagerOf('Book');
 					$book = $bManager->getBook('id', $HTTPRequest->getData('id'));
-					/* Récupération des billets du book */
-					$billetManager = $this->managers->getManagerOf('Billet');
-					$listBillet = $billetManager->getBillet('idBook', $book->getId());
-					/* Ajout d'une vue */
-					$addView = $bManager->addView($HTTPRequest->getData('id'), $book->getNbVue());
-					/* Si l'utilisateur est connecté on ajoute le book à l'historique */
-					if($this->app->user()->isAuthentificated())
-					{
-						$historyManager = $this->managers->getManagerOf('History');
-						$historyManager->setType('historyBook');
-						$historyManager->setIdData($HTTPRequest->getData('id'));
-						$historyManager->setIdUser($_SESSION['membre']->getId());
-						$historyManager->executeAddHistory();
-					}
 					if($book)
 					{
-						$this->page->addVar('book', $book);
+						/* Récupération des billets du book */
+						$billetManager = $this->managers->getManagerOf('Billet');
+						$listBillet = $billetManager->getBillet('idBook', $book->getId());
+						/* Ajout d'une vue */
+						$addView = $bManager->addView($HTTPRequest->getData('id'), $book->getNbVue());
+						/* Si l'utilisateur est connecté on ajoute le book à l'historique */
+						if($this->app->user()->isAuthentificated())
+						{
+							$historyManager = $this->managers->getManagerOf('History');
+							$historyManager->setType('historyBook');
+							$historyManager->setIdData($HTTPRequest->getData('id'));
+							$historyManager->setIdUser($_SESSION['membre']->getId());
+							$historyManager->executeAddHistory();
+						}
+						if($book)
+						{
+							$this->page->addVar('book', $book);
+						}
+						else
+						{
+							$this->page->addVar('book', $bManager->getManagerError());
+						}
+						$this->page->addVar('listBillet', $listBillet);
+						$this->hasMsg($HTTPRequest);
+						$this->detectForm($HTTPRequest);
 					}
 					else
 					{
-						$this->page->addVar('book', $bManager->getManagerError());
+						$_SESSION['error'] = 'Une erreur est survenue. Ce book est introuvable.';
+						$this->app->HTTPResponse()->redirect('./?error');
 					}
-					$this->page->addVar('listBillet', $listBillet);
-					$this->hasMsg($HTTPRequest);
-					$this->detectForm($HTTPRequest);
 				}
 				else
 				{
