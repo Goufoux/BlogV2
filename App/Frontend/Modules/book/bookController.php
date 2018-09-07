@@ -99,8 +99,11 @@
 					/* Si l'utilisateur est connecté on ajoute le book à l'historique */
 					if($this->app->user()->isAuthentificated())
 					{
-						$userManager = $this->managers->getManagerOf('User');
-						$addBookHistory = $userManager->updateHistory($_SESSION['membre']->getId(), htmlspecialchars($HTTPRequest->getData('id')));
+						$historyManager = $this->managers->getManagerOf('History');
+						$historyManager->setType('historyBook');
+						$historyManager->setIdData($HTTPRequest->getData('id'));
+						$historyManager->setIdUser($_SESSION['membre']->getId());
+						$historyManager->executeAddHistory();
 					}
 					if($book)
 					{
