@@ -17,12 +17,6 @@
 		
 		Ajout de existId(), printUser()
 		
-		@ Mise à jour 04/03/2018
-		
-		- Ajout de updateHistory()
-		- 
-		
-		
 	*/
 
 	namespace Model;
@@ -36,220 +30,6 @@
 	class UserManagerPDO extends UserManager
 	{
 		protected $error = '';
-		
-		/*
-			A l'affichage de la liste des abonnements pour les books, si lors de la vérification si un id est mort, cette méthode est appelée et supprime l'id contenu dans la liste 
-			$idUser = id utilisateur
-			$idBook = id Book mort
-		*/
-		
-		public function cleanFollowBook($idUser, $idBook)
-		{
-			if(!empty($idUser) AND (int) $idUser)
-			{
-				if(!empty($idBook) AND (int) $idBook)
-				{
-					$actAbonnement = unserialize($this->getData('followBook', 'id', $idUser));
-					$key = array_search($idBook, $actAbonnement);
-					unset($actAbonnement[$key]);
-					sort($actAbonnement);
-					try
-					{
-						$req = $this->dao->prepare('UPDATE utilisateur SET followBook = :followBook WHERE id = :id');
-						$req->bindValue(':followBook', serialize($actAbonnement), \PDO::PARAM_STR);
-						$req->bindValue(':id', $idUser, \PDO::PARAM_INT);
-						if(!$req->execute())
-							throw new MyError('Une erreur est survenue');
-						return true;
-					}
-					catch(MyError $e)
-					{
-						$this->setError($e->getMessage());
-						return false;
-					}
-				}
-				else
-				{
-					$this->setError('Une erreur est survenue');
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError('Une erreur est survenue');
-				return false;
-			}
-		}
-		
-		/*
-			A l'affichage d'un historique, si lors de la vérification si un id est mort, cette méthode est appelée et supprime l'id contenu dans l'historique
-			$idUser = id utilisateur
-			$idDead = id Book mort
-		*/
-		
-		public function cleanHistory($idUser, $idDead)
-		{
-			if(!empty($idUser) AND (int) $idUser)
-			{
-				if(!empty($idDead) AND (int) $idDead)
-				{
-					$actHistory = unserialize($this->getHistory($idUser)['history']);
-					$key = array_search($idDead, $actHistory);
-					unset($actHistory[$key]);
-					sort($actHistory);
-					try
-					{
-						$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
-						$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
-						$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-						if(!$req->execute())
-							throw new MyError('Une erreur est survenue');
-						return true;
-					}
-					catch(MyError $e)
-					{
-						$this->setError($e->getMessage());
-						return false;
-					}
-				}
-				else
-				{
-					$this->setError('Une erreur est survenue');
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError('Une erreur est survenue');
-				return false;
-			}
-		}
-		
-		/*
-			Récupère l'historique d'un utilisateur 
-			idUser -> id de l'utilisateur
-		*/
-		
-		public function getHistory($idUser)
-		{
-			if(!empty($idUser) AND (int) $idUser)
-			{
-				try
-				{
-					$req = $this->dao->prepare('SELECT * FROM userHistory WHERE idUtilisateur = :idUtilisateur');
-					$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-					if(!$req->execute())
-						throw new MyError('Une erreur est survenue');
-					if(!$rs = $req->fetch())
-						throw new MyError('Une erreur est survenue');
-					return $rs;
-				}
-				catch(MyError $e)
-				{
-					$this->setError($e->getMessage());
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError('Une erreur est survenue.');
-				return false;
-			}
-		}
-		
-		public function updateHistory($idUser, $idBook)
-		{
-			if(!empty($idUser))
-			{
-				if(!empty($idBook))
-				{
-					try
-					{
-						$req = $this->dao->prepare('SELECT * FROM userHistory WHERE idUtilisateur = :idUtilisateur');
-						$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-						$req->execute();
-						if(!$rs = $req->fetch()) // l'utilisateur n'existe pas car aucun historique, donc création d'une ligne dans la table pour cet utilisateur //
-						{
-							try
-							{
-								$req = $this->dao->prepare('INSERT INTO userHistory(idUtilisateur, history) VALUES(:idUtilisateur, :history)');
-								$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-								$req->bindValue(':history', serialize(array($idBook)), \PDO::PARAM_STR);
-								if(!$req->execute())
-									throw new MyError('Une erreur est survenue. {Code -> 56}');
-								else
-									return true;
-							}
-							catch(MyError $e)
-							{
-								$this->setError($e->getMessage());
-								return false;
-							}
-						}
-						else // L'utilisateur a un historique, on le met à jour //
-						{
-							$actHistory = unserialize($rs['history']);
-							if(in_array($idBook, $actHistory)) /* On regarde si le book est déjà présent dans l'historique */
-							{
-								$key = array_search($idBook, $actHistory);
-								unset($actHistory[$key]);
-								sort($actHistory);
-								array_unshift($actHistory, $idBook);
-								try
-								{
-									$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
-									$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
-									$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-									if(!$req->execute())
-										throw new MyError('Une erreur est survenue. {Code -> 83}');
-									else
-										return true;
-								}
-								catch(MyError $e)
-								{
-									$this->setError($e->getMessage());
-									return false;
-								}
-							}
-							else
-							{
-								$actHistory[] = $idBook;
-								try
-								{
-									$req = $this->dao->prepare('UPDATE userHistory SET history = :history WHERE idUtilisateur = :idUtilisateur');
-									$req->bindValue(':history', serialize($actHistory), \PDO::PARAM_STR);
-									$req->bindValue(':idUtilisateur', $idUser, \PDO::PARAM_INT);
-									if(!$req->execute())
-										throw new MyError('Une erreur est survenue. {Code -> 83}');
-									else
-										return true;
-								}
-								catch(MyError $e)
-								{
-									$this->setError($e->getMessage());
-									return false;
-								}
-							}
-						}
-					}
-					catch(MyError $e)
-					{
-						$this->setError($e->getMessage());
-						return false;
-					}
-				}
-				else
-				{
-					$this->setError('Une erreur est survenue.');
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError('Une erreur est survenue.');
-				return false;
-			}
-		}
 		
 		/*
 			Récupère une donnée spécifique
@@ -308,7 +88,6 @@
 					try
 					{
 						$emailSend = $email->launch();
-						// $emailSend = true;
 						if(!$emailSend)
 							throw new MyError($email->getError());
 						else
@@ -706,7 +485,7 @@
 						$dti = getDate();
 						$keyEmail = mt_rand($dti[0], strtotime('+30 days'));
 						$pseudo = 'Utilisateur_'.$this->countUser();
-						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser, followBook, followUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser, :followBook, :followUser)');
+						$req = $this->dao->prepare('INSERT INTO utilisateur(pseudo, pass, email, dti, accessLevel, keyEmail, categoryUser) VALUES(:pseudo, :pass, :email, :dti, :accessLevel, :keyEmail, :categoryUser)');
 						$req->bindValue(':pseudo', $pseudo, \PDO::PARAM_STR);
 						$req->bindValue(':pass', password_hash($pass, PASSWORD_BCRYPT), \PDO::PARAM_STR);
 						$req->bindValue(':email', $login, \PDO::PARAM_STR);
@@ -714,8 +493,6 @@
 						$req->bindValue(':accessLevel', 0, \PDO::PARAM_INT);
 						$req->bindValue(':keyEmail', $keyEmail, \PDO::PARAM_INT);
 						$req->bindValue(':categoryUser', 0, \PDO::PARAM_INT);
-						$req->bindValue(':followBook', serialize(array()), \PDO::PARAM_STR);
-						$req->bindValue(':followUser', serialize(array()), \PDO::PARAM_STR);
 						$tryAdd = $req->execute();
 						if($tryAdd)
 						{
