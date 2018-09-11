@@ -17,6 +17,7 @@ var Form = {
 	
 	el: null,
 	form: null,
+	cat: null,
 	input: [],
 	title: null,
 	imgClose: null,
@@ -79,6 +80,14 @@ var Form = {
 		
 		Form.imgClose.appendChild(span);
 		
+		/*
+			Catégorie 
+		*/
+		Form.cat = document.createElement('article');
+		Form.cat.id = 'formCat';
+		
+		
+		
 		Form.imgClose.addEventListener('click', Form.deleteForm, false);
 	},
 	
@@ -92,7 +101,7 @@ var Form = {
 		{
 			for(var j = 0; j < Form.formCatInput.length; j++)
 			{
-				Form.form.removeChild(Form.formCatInput[j]);
+				Form.cat.removeChild(Form.formCatInput[j]);
 			}
 		}
 		Form.el.removeChild(Form.form);
@@ -147,7 +156,6 @@ var Form = {
 				Form.newMdp();
 			});
 		}
-		
 		Form.input.push(input);
 	},
 	
@@ -166,6 +174,10 @@ var Form = {
 		Form.title.innerHTML = 'Inscription';
 	},
 	
+	/*
+		Launcher formulaire de connexion
+	*/
+	
 	createFormConnect: function()
 	{
 		var login = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Pseudo ou Email', true);
@@ -177,6 +189,10 @@ var Form = {
 		Form.title.innerHTML = 'Connexion';
 	},
 	
+	/*
+		Launcher formulaire commentaire
+	*/
+	
 	createFormComment: function()
 	{
 		var contenu = Form.createInput('textarea', 'cDesc', 'cDesc', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Commentaire', true);
@@ -185,6 +201,10 @@ var Form = {
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Commenter !';
 	},
+	
+	/*
+		Launcher formulaire nouveau pass 
+	*/
 	
 	createFormNewPass: function()
 	{
@@ -195,10 +215,27 @@ var Form = {
 		Form.title.innerHTML = 'Nouveau Pass';
 	},
 	
+	/*
+		Launcher formulaire création de catégorie
+	*/
+	
+	createFormAddCategory: function()
+	{
+		var name = Form.createInput('text', 'catName', 'catName', false, 'col-12', 'Nom', true);
+		var comment = Form.createInput('textarea', 'catDesc', 'catDesc', false, 'col-12', 'Commentaire', true);
+		var send = Form.createInput('button', 'addCat', 'addCat', 'Créer', 'col-12', false, false);
+		Form.title = document.createElement('h3');
+		Form.title.id = 'formTitle';
+		Form.title.innerHTML = 'Nouvelle Catégorie';
+	},
+	
+	/*
+		Launcher du formulaire de création de book
+	*/
+	
 	createFormCBook: function()
 	{
 		var name = Form.createInput('text', 'bName', 'bName', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Nom du Book', true);
-		var cat = Form.createCategorie();
 		var content = Form.createInput('textarea', 'bContenu', 'bContenu', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Description du Book', true);
 		var send = Form.createInput('button', 'bCreateBook', 'bCreateBook', 'Créer', 'col-lg-10 col-md-10 col-sm-12 col-12 sButton', false, false);
 		Form.title = document.createElement('h3');
@@ -206,24 +243,37 @@ var Form = {
 		Form.title.innerHTML = 'Création de Book';
 	},
 	
+	/*
+		Récupération des catégories à la création d'un Book
+	*/
+		
 	createCategorie: function()
 	{
-		Form.formCatList = ['Aventure', 'Action', 'Classique', 'Espionnage', 'Fantastique', 'Frisson', 'Terreur', 'Guerre', 'Historique', 'Policier', 'Roman', 'Science-Fiction', 'Thriller', 'Western'];
-		for(var i = 0; i < Form.formCatList.length; i++)
+		ajaxGet.init('ajax/json/category.json', function(response)
 		{
-			var cat = document.createElement('input');
-			cat.type = 'button';
-			cat.value = Form.formCatList[i];
-			cat.id = 'cat_'+Form.formCatList[i];
-			cat.className = 'formCatEl';
-			cat.setAttribute('data-sel', '0');
-			cat.addEventListener('click', function()
+			var category = JSON.parse(response);
+			for(var i = 0; i < category.length; i++)
 			{
-				Form.addCategorie(this);
-			});
-			Form.formCatInput.push(cat);
-		}
+				var cat = document.createElement('input');
+				cat.type = 'button';
+				cat.value = category[i].name;
+				cat.title = category[i].comment;
+				cat.id = 'cat_'+category[i].id;
+				cat.className = 'formCatEl';
+				cat.setAttribute('data-sel', '0');
+				cat.addEventListener('click', function()
+				{
+					Form.addCategorie(this);
+				});
+				Form.formCatInput.push(cat);
+				Form.cat.appendChild(cat);
+			}
+		});
 	},
+	
+	/*
+		Launcher du formulaire de nouveau mot de passe 
+	*/
 	
 	newMdp: function()
 	{
@@ -231,14 +281,23 @@ var Form = {
 		Form.showForm();
 	},
 	
+	/*
+		Observateur declenchée au clique sur une catégorie, l'active si elle est désactivée et inversement
+	*/
+	
 	addCategorie: function(cat)
 	{
+		console.log("Element ajouté:");
 		var e = cat.getAttribute('data-sel');
 		if(e == '1')
 			cat.setAttribute('data-sel', '0');
 		else
 			cat.setAttribute('data-sel', '1');
 	},
+	
+	/*
+		Identifie les catégories cochées au moment de la création d'un Book
+	*/
 	
 	recupCategorie: function()
 	{
@@ -271,13 +330,8 @@ var Form = {
 		
 		Form.form.appendChild(Form.imgClose);
 		Form.form.appendChild(Form.title);
-		if(type == 'CBook')
-		{
-			for(var j = 0; j < Form.formCatInput.length; j++)
-			{
-				Form.form.appendChild(Form.formCatInput[j]);
-			}
-		}
+		Form.form.appendChild(Form.cat);
+		
 		for(var i = 0; i < Form.input.length; i++)
 		{
 			Form.form.appendChild(Form.input[i]);
@@ -285,6 +339,10 @@ var Form = {
 		Form.form.appendChild(Form.formError);
 		Form.launch = true;
 	},
+	
+	/*
+		Fait apparaître le formulaire
+	*/
 	
 	showForm: function()
 	{
