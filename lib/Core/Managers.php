@@ -11,12 +11,15 @@
 	*/
 	namespace Core;
 	
+	use Core\MyError;
+	
 	class Managers
 	{
 		protected $api = null;
 		protected $dao = null;
 		protected $parameter = false;
 		protected $managers = [];
+		protected $error = null;
 		
 		public function __construct($api, $dao, $parameter = false)
 		{
@@ -45,9 +48,30 @@
 			{
 				$manager = '\\Model\\'.$module.'Manager'.$this->api;
 				
-				$this->managers[$module] = new $manager($this->dao, $this->parameter);
+				try
+				{
+					if(!class_exists($manager))
+						throw new MyError('Une erreur est survenue. La classe n\'existe pas.');
+					if(!$this->managers[$module] = new $manager($this->dao, $this->parameter))
+						throw new MyError('Une erreur est survenue. Impossible d\'instancier la classe.');
+				}
+				catch(MyError $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
 			}
 			
 			return $this->managers[$module];
+		}
+		
+		public function getError()
+		{
+			return $this->error;
+		}
+		
+		protected function setError($error)
+		{
+			$this->error = $error;
 		}
 	}

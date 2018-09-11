@@ -386,6 +386,8 @@
 							if(!empty($idCat[0]))
 							{
 								$bookCategory = $managers->getManagerOf('BookCategory');
+								if(!$bookCategory)
+									throw new MyError($managers->getError());
 								for($i = 0; $i < count($idCat); $i++)
 								{
 									$categoryBook = new CategoryBook([

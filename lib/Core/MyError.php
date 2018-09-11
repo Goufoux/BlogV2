@@ -2,8 +2,12 @@
 
 namespace Core;
 
-class MyError extends \ErrorException
+class MyError extends \Exception
 {
+	public function __construct($message, $code = 0)
+	{
+		parent::__construct($message, $code);
+	}
 	public function __toString()
 	{
 		switch ($this->severity)
