@@ -92,7 +92,7 @@
 									else
 									{
 										?>
-											<h4> Aucun abonnement </h4>
+											<h5> Aucun abonnement </h5>
 										<?php
 									}
 								?>
@@ -112,7 +112,7 @@
 									else
 									{
 										?>
-											<h4> Aucun abonnement </h4>
+											<h5> Aucun abonnement </h5>
 										<?php
 									}
 								?>
@@ -134,7 +134,7 @@
 											else
 											{
 												?>
-													<h4> Aucun Historique. </h4>
+													<h5> Pas d'historique. </h5>
 												<?php
 											}
 										?>
@@ -154,7 +154,7 @@
 											else
 											{
 												?>
-													<h4> Aucun Historique. </h4>
+													<h5> Pas d'historique. </h5>
 												<?php
 											}
 										?>
