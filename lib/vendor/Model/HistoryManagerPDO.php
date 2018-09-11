@@ -84,7 +84,7 @@
 				{
 					try 
 					{
-						$req = $this->dao->prepare('SELECT * FROM userHistory WHERE idUtilisateur = :idUtilisateur AND typeHistory = :typeHistory ORDER BY id DESC');
+						$req = $this->dao->prepare('SELECT * FROM userhistory WHERE idUtilisateur = :idUtilisateur AND typeHistory = :typeHistory ORDER BY id DESC');
 						$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\History');
 						$req->bindValue(':idUtilisateur', $_SESSION['membre']->getId(), \PDO::PARAM_INT);
 						$req->bindValue(':typeHistory', $this->getType(), \PDO::PARAM_STR);
@@ -119,7 +119,7 @@
 			{
 				try
 				{
-					$req = $this->dao->prepare('DELETE FROM userHistory WHERE idUtilisateur = :idUtilisateur AND idHistory = :idHistory AND typeHistory = :typeHistory');
+					$req = $this->dao->prepare('DELETE FROM userhistory WHERE idUtilisateur = :idUtilisateur AND idHistory = :idHistory AND typeHistory = :typeHistory');
 					$req->bindValue(':idUtilisateur', $this->idUser, \PDO::PARAM_INT);
 					$req->bindValue(':idHistory', $this->idData, \PDO::PARAM_INT);
 					$req->bindValue(':typeHistory', $this->type, \PDO::PARAM_STR);
@@ -148,7 +148,7 @@
 			{
 				try
 				{
-					$req = $this->dao->prepare('SELECT * FROM userHistory WHERE typeHistory = :typeHistory AND idUtilisateur = :idUtilisateur AND idHistory = :idHistory');
+					$req = $this->dao->prepare('SELECT * FROM userhistory WHERE typeHistory = :typeHistory AND idUtilisateur = :idUtilisateur AND idHistory = :idHistory');
 					$req->bindValue(':idUtilisateur', $this->idUser, \PDO::PARAM_INT);
 					$req->bindValue(':idHistory', $this->idData, \PDO::PARAM_INT);
 					$req->bindValue(':typeHistory', $this->type, \PDO::PARAM_STR);
@@ -182,7 +182,7 @@
 			{
 				try
 				{
-					$req = $this->dao->prepare('INSERT INTO userHistory(idUtilisateur, typeHistory, idHistory) VALUES(:idUtilisateur, :typeHistory, :idHistory)');
+					$req = $this->dao->prepare('INSERT INTO userhistory(idUtilisateur, typeHistory, idHistory) VALUES(:idUtilisateur, :typeHistory, :idHistory)');
 					$req->bindValue(':idUtilisateur', $this->idUser, \PDO::PARAM_INT);
 					$req->bindValue(':typeHistory', $this->type, \PDO::PARAM_STR);
 					$req->bindValue(':idHistory', $this->idData, \PDO::PARAM_INT);
@@ -213,7 +213,7 @@
 				{
 					if(!$this->executeSearch())
 					{
-						$req = $this->dao->prepare('INSERT INTO userHistory(idUtilisateur, typeHistory, idHistory) VALUES(:idUtilisateur, :typeHistory, :idHistory)');
+						$req = $this->dao->prepare('INSERT INTO userhistory(idUtilisateur, typeHistory, idHistory) VALUES(:idUtilisateur, :typeHistory, :idHistory)');
 						$req->bindValue(':idUtilisateur', $this->idUser, \PDO::PARAM_INT);
 						$req->bindValue(':typeHistory', $this->type, \PDO::PARAM_STR);
 						$req->bindValue(':idHistory', $this->idData, \PDO::PARAM_INT);
