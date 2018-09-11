@@ -99,22 +99,23 @@
 						if(!empty($_COOKIE['alreadySuscribe']))
 						{
 							?>
-								<button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6"> Connexion </button>
+								<li><button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6"> Connexion </button></li>
 							<?php
 						}
 						else
 						{
 							?>
-								<button id="clSuscribe"> Inscription </button>
-								<button id="clConnect"> Connexion </button>
+								<li><button id="clSuscribe"> Inscription </button></li>
+								<li><button id="clConnect"> Connexion </button></li>
 							<?php
 						}
 					}
 				?>
 				</ul>
 			</div>
-			<form class="form-inline my-2 my-lg-0" type="get" action="./">
-				<input class="form-control mr-sm-0 col-sm-8 col-8 col-md-8" type="search" name="bSearch" placeholder="Rechercher un Book" aria-label="Search">
+			<form class="form-inline my-2 my-lg-0" method="get" action="./">
+				<label style="display: none;" for="bSearch">Chercher</label>
+				<input class="form-control mr-sm-0 col-sm-8 col-8 col-md-8" id="bSearch" type="search" name="bSearch" placeholder="Rechercher un Book" aria-label="Search">
 				<button class="btn btn-outline-success my-2 my-sm-0">Search</button>
 			</form>
 		</nav>
@@ -169,7 +170,10 @@
 			{
 				?>
 					<section class="cookieInfo">
-						En naviguant sur notre site vous acceptez l'utilisation de cookie qui améliorent votre expérience. <button class="cookie" id="clAcceptCookie"> Ok </button> <button class="cookie" id="refuseCookie"> Refuser </button>
+						<h4> A propos de vos données. </h4>
+						<p>
+							En naviguant sur notre site vous acceptez l'utilisation de cookie qui améliorent votre expérience. <button class="cookie" id="clAcceptCookie"> Ok </button> <button class="cookie" id="refuseCookie"> Refuser </button>
+						</p>
 					</section>
 				<?php
 			}

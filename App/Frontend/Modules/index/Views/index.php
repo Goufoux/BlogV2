@@ -9,7 +9,7 @@
 		{
 			?>
 				<article class="col-11 col-lg-3 col-md-5 col-sm-11 prevBook">
-					<h3> <a href="book-<?php echo $book->getId(); ?>"> <?php echo $book->getName(); ?> </a> <a href="profil-<?php echo $book->getIdUtilisateur(); ?>" class="hInfo"> Par <?php echo $book->getPseudo(); ?> </a></h3>
+					<h2> <a href="book-<?php echo $book->getId(); ?>"> <?php echo $book->getName(); ?> </a> <a href="profil-<?php echo $book->getIdUtilisateur(); ?>" class="hInfo"> Par <?php echo $book->getPseudo(); ?> </a></h2>
 					<blockquote class="col-12">
 						<?php echo nl2br($book->getContent()); ?>
 					</blockquote>
