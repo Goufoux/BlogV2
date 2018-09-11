@@ -11,7 +11,6 @@
 		protected $dateMod;
 		protected $content;
 		protected $idUtilisateur;
-		protected $categorie = [];
 		protected $nbVue;
 		protected $pseudo;
 		
@@ -40,16 +39,6 @@
 		public function getIdUtilisateur()
 		{
 			return $this->idUtilisateur;
-		}
-		
-		public function getCategorie()
-		{
-			return $this->categorie;
-		}
-		
-		public function getListCat()
-		{
-			return unserialize($this->categorie);
 		}
 		
 		public function getNbVue($module = false)
@@ -95,11 +84,6 @@
 		public function setIdUtilisateur($idUtilisateur)
 		{
 			$this->idUtilisateur = $idUtilisateur;
-		}
-		
-		public function setCategorie($categorie)
-		{
-			$this->categorie = $categorie;
 		}
 		
 		public function setNbVue($vue)
