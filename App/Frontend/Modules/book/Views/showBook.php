@@ -24,7 +24,26 @@
 					}
 				?>
 				<blockquote> De <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
-				<blockquote> Catégorie: <?php echo $book->getListCat(); ?> </blockquote>
+				<blockquote class="affCat"> 
+					<h5> Catégorie </h5>
+					<?php
+						if(!empty($bookCategory) AND $bookCategory != null)
+						{
+							foreach($bookCategory as $category)
+							{
+								?>
+									<button title="<?php echo $category->getComment(); ?>"> <?php echo $category->getName(); ?> </button>
+								<?php
+							}
+						}
+						else
+						{
+							?>
+								<h5> Ce book n'a pas de catégorie. </h5>
+							<?php
+						}
+					?>
+				</blockquote>
 				<blockquote> 
 					<?php echo $book->getNbVue(true); ?>
 				</blockquote>
