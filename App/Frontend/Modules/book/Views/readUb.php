@@ -1,4 +1,5 @@
 <script src="js/book.js"></script>
+<script src="js/admin/ajaxGet.js"></script>
 <header>
 	<h1 class="col-12"> Liste de vos Books </h1>
 </header>
