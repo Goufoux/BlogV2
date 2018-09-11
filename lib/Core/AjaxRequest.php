@@ -10,6 +10,7 @@
 	
 	use Entity\Billet;
 	use Entity\Book;
+	use Entity\CategoryBook;
 	
 	class AjaxRequest
 	{
@@ -361,27 +362,54 @@
 			{
 				if($formBook->verifContenu($val[1]))
 				{
-					if(!empty($this->sData))
+					try
 					{
-						if(!$formBook->verifCategorie($this->sData))
+						$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+						if(!empty($this->sData))
 						{
-							$this->setAjaxError($formBook->getFormError());
+							if(!$formBook->verifCategorie($this->sData))
+								$this->setAjaxError($formBook->getFormError());
+						}
+						else
+						{
+							$this->sData = null;
+						}
+						$bManager = $managers->getManagerOf('Book');
+						$book = new Book([
+							'name' => $val[0],
+							'content' => $val[1],
+							'idUtilisateur' => $_SESSION['membre']->getId()
+						]);
+						if($idBook = $bManager->addBook($book))
+						{
+							$idCat = explode(',', $this->sData);
+							if(!empty($idCat[0]))
+							{
+								$bookCategory = $managers->getManagerOf('BookCategory');
+								for($i = 0; $i < count($idCat); $i++)
+								{
+									$categoryBook = new CategoryBook([
+										'idCategory' => $idCat[$i],
+										'idBook' => $idBook
+									]);
+									if(!$x = $bookCategory->addBookCategory($categoryBook))
+										throw new MyError('Une erreur est survenue.');
+								}
+							}
+							$_SESSION['success'] = 'Le book <em>' . $book->getName() . '</em> a été créé avec succès !';
+							return true;
+						}
+						else
+						{
+							$this->setAjaxError($bManager->getManagerError());
 							return false;
 						}
 					}
-					else
+					catch(MyError $e)
 					{
-						$this->sData = 'Aucune';
+						$this->setAjaxError($e->getMessage());
+						return false;
 					}
-					$managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
-					$bManager = $managers->getManagerOf('Book');
-					$book = new Book([
-						'name' => $val[0],
-						'content' => $val[1],
-						'idUtilisateur' => $_SESSION['membre']->getId(),
-						'categorie' => $this->sData
-					]);
-					return $bManager->addBook($book);
 				}
 				else
 				{
