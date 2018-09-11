@@ -96,6 +96,12 @@
 						/* Récupération des billets du book */
 						$billetManager = $this->managers->getManagerOf('Billet');
 						$listBillet = $billetManager->getBillet('idBook', $book->getId());
+						/* Récupération des catégories */
+						$bookCategory = $this->managers->getManagerOf('BookCategory')->getBookCategory($book->getId());
+						if($bookCategory)
+							$this->page->addVar('bookCategory', $bookCategory);
+						else
+							$this->page->addVar('bookCategory', $this->managers->getManagerOf('BookCategory')->getManagerError());
 						/* Ajout d'une vue */
 						$addView = $bManager->addView($HTTPRequest->getData('id'), $book->getNbVue());
 						/* Si l'utilisateur est connecté on ajoute le book à l'historique */
