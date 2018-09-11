@@ -14,6 +14,8 @@
 	
 	class IndexController extends BackController
 	{
+		/* Index */
+		
 		public function executeIndex(HTTPRequest $HTTPRequest)
 		{
 			if($this->app->user()->isAuthentificated())
@@ -106,6 +108,61 @@
 			else
 			{
 				$this->app->HTTPResponse()->redirect('../');
+			}
+		}
+		
+		/* GestionCategory */
+		
+		public function executeGestionCategory(HTTPRequest $HTTPRequest)
+		{
+			$bookCategoryList = $this->managers->getManagerOf('BookCategoryList')->getBookCategoryList();
+			if($bookCategoryList)
+				$this->page->addVar('bookCategoryList', $bookCategoryList);
+			else
+				$this->page->addVar('bookCategoryList',  $this->managers->getManagerOf('BookCategoryList')->getManagerError());
+			$this->hasMsg($HTTPRequest);
+		}
+		
+		public function hasMsg($request)
+		{
+			$req = explode('?', $request->requestURI());
+			if(count($req) >= 2)
+			{
+				switch($req[1])
+				{
+					case 'success':
+						if(!empty($_SESSION['success']))
+						{
+							$this->page->addVar('success', $_SESSION['success']);
+							unset($_SESSION['success']);
+						}
+						else
+							$alreadyPrint = true;
+							break;
+					case 'error':
+						if(!empty($_SESSION['error']))
+						{
+							$this->page->addVar('error', $_SESSION['error']);
+							unset($_SESSION['error']);
+						}
+						else
+							$alreadyPrint = true;
+							break;
+					case 'modifiedCategory':
+						if(!empty($_SESSION['modifiedChanged']))
+						{
+							unset($_SESSION['modifiedChanged']);
+							$this->app->HTTPResponse()->redirectClean($request->requestURI());
+						}
+						else
+						{
+							$this->page->addVar('emptyCategory', 'true');
+							$_SESSION['modifiedChanged'] = true;
+						}
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	}
