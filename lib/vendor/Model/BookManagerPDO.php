@@ -3,6 +3,7 @@
 	namespace Model;
 	
 	use \Entity\Book;
+	use \Entity\BookCategory;
 	use \Core\MyError;
 	
 	class BookManagerPDO extends BookManager
@@ -88,18 +89,36 @@
 		
 		public function addBook(Book $book)
 		{
-			/* On prépare l'insertion en bdd */
-			$req = $this->dao->prepare('INSERT INTO book(name, datePub, dateMod, content, idUtilisateur, categorie, nbVue) VALUES(:name, :datePub, :dateMod, :content, :idUtilisateur, :categorie, :nbVue)');
-			$req->bindValue(':name', $book->getName(), \PDO::PARAM_STR);
-			$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
-			$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
-			$req->bindValue(':content', $book->getContent(), \PDO::PARAM_STR);
-			$req->bindValue(':idUtilisateur', $book->getIdUtilisateur(), \PDO::PARAM_INT);
-			$req->bindValue(':categorie', serialize($book->getCategorie()), \PDO::PARAM_STR);
-			$req->bindValue(':nbVue', 0, \PDO::PARAM_INT);
-			$req->execute();
-			$_SESSION['success'] = 'Book Créé !';
-			return true;
+			if(!empty($book))
+			{
+				try
+				{
+					/* On prépare l'insertion en bdd du Book */
+					$req = $this->dao->prepare('INSERT INTO book(name, datePub, dateMod, content, idUtilisateur, nbVue) VALUES(:name, :datePub, :dateMod, :content, :idUtilisateur, :nbVue)');
+					$req->bindValue(':name', $book->getName(), \PDO::PARAM_STR);
+					$req->bindValue(':datePub', time(), \PDO::PARAM_INT);
+					$req->bindValue(':dateMod', 0, \PDO::PARAM_INT);
+					$req->bindValue(':content', $book->getContent(), \PDO::PARAM_STR);
+					$req->bindValue(':idUtilisateur', $book->getIdUtilisateur(), \PDO::PARAM_INT);
+					$req->bindValue(':nbVue', 0, \PDO::PARAM_INT);
+					if(!$req->execute())
+						throw new MyError('Impossible d\'ajouter le Book.');
+					$idBook = $this->dao->lastInsertId();
+					if(empty($idBook))
+						throw new MyError('Une erreur est survenue après l\'insertion. IdBook->' . $idBook);
+					return $idBook;
+				}
+				catch(MyError $e)
+				{
+					$this->setManagerError($e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setManagerError('Object Book vide.');
+				return false;
+			}
 		}
 		
 		/*
