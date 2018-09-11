@@ -3,4 +3,5 @@
 	<route url="/openclassroom/BlogV2/Web/admin/" module="index" action="index"></route>
 	<route url="/openclassroom/BlogV2/Web/admin/commentReport" module="index" action="commentReport"></route>
 	<route url="/openclassroom/BlogV2/Web/admin/listUser" module="index" action="listUser"></route>
+	<route url="/openclassroom/BlogV2/Web/admin/gestionCategory" module="index" action="gestionCategory"></route>
 </routes>
