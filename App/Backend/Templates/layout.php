@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/backend/index.css" />
 		<link rel="stylesheet" media="screen and (min-width: 768px)" href="../css/backend/md.css" />
+		<link rel="stylesheet" media="screen and (min-width: 1px)" href="../css/backend/sm.css" />
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/admin/index.js"></script>
@@ -13,7 +14,7 @@
 		<title><?= isset($title) ? $title : 'Genarkys' ?></title>
 	</head>
   
-	<body>
+	<body id="bd">
 		<!-- NAVBAR -->
 		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="../"> Blog </a>
@@ -48,7 +49,7 @@
 			if(!empty($error))
 			{
 				?>
-					<article class="alert alert-danger fade show col-lg-5 dol-md-6 col-sm-10 col-12" role="alert">
+					<article class="alert alert-danger fade show col-lg-5 dol-md-6 col-sm-10 col-12 alertP" role="alert">
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -59,7 +60,7 @@
 			if(!empty($success))
 			{
 				?>
-					<article class="alert alert-success fade show col-lg-5 dol-md-6 col-sm-10 col-12" role="alert">
+					<article class="alert alert-success fade show col-lg-5 dol-md-6 col-sm-10 col-12 alertP" role="alert">
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -68,20 +69,17 @@
 				<?php
 			}
 		?>
-		<div class="container-fluid">
-			<nav class="col-12 col-lg-12 col-sm-4">
-				<h3 class="col-12"> Administration </h3>
-					<ul>
-						<li> <a href="commentReport"> <button> Commentaire signalé </button> </a> </li>
-						<li> <a href="listUser"> <button> Liste des utilisateurs </button> </a> </li>
-					</ul>
-			</nav>
-			<div class="contentAdmin col-12 col-sm-12 col-md-12 col-lg-12">
-				<h5 class="errorForm"> </h5>
-				<p>
-					<?= $content; ?>
-				</p>
-			</div>
+		<nav class="col-12 col-lg-12 panelAdmin">
+			<h3 class="col-12"> Administration </h3>
+				<a href="commentReport"> <button> Commentaire signalé </button> </a>
+				<a href="listUser"> <button> Liste des utilisateurs </button> </a>
+				<a href="gestionCategory"> <button> Gérer les catégories </button> </a>
+		</nav>
+		<div class="container-fluid col-12">
+			<h5 class="error"> </h5>
+			<p>
+				<?= $content; ?>
+			</p>
 		</div>
 	</body>
 </html>
