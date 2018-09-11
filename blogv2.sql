@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 07 sep. 2018 à 17:52
+-- Généré le :  mar. 11 sep. 2018 à 09:29
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -56,8 +56,35 @@ CREATE TABLE IF NOT EXISTS `book` (
   `dateMod` int(11) NOT NULL,
   `content` text NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
-  `categorie` text NOT NULL,
   `nbVue` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `bookcategory`
+--
+
+DROP TABLE IF EXISTS `bookcategory`;
+CREATE TABLE IF NOT EXISTS `bookcategory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idBook` int(11) NOT NULL,
+  `idCategory` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `bookcategorylist`
+--
+
+DROP TABLE IF EXISTS `bookcategorylist`;
+CREATE TABLE IF NOT EXISTS `bookcategorylist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `comment` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -91,14 +118,7 @@ CREATE TABLE IF NOT EXISTS `userhistory` (
   `typeHistory` varchar(15) NOT NULL,
   `idHistory` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `userhistory`
---
-
-INSERT INTO `userhistory` (`id`, `idUtilisateur`, `typeHistory`, `idHistory`) VALUES
-(27, 2, 'user', 1);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -117,15 +137,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `keyEmail` varchar(20) NOT NULL,
   `categoryUser` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`id`, `pseudo`, `pass`, `email`, `dti`, `accessLevel`, `keyEmail`, `categoryUser`) VALUES
-(1, 'Quentin', '$2y$10$sw.uV6ApPvhiUWLiR9dtXe0MW7jn92EO/n9V5krVo/HynFq62wPu2', 'deadworldcorp@gmail.com', 1535621232, 0, 'verified', 2),
-(2, 'Tony', '$2y$10$iSdhwBUQt9z54nqxhh2hP.Ch4ftFr4gqR4CrWYuWAj5UFEwi8pH4i', 'genarkys.company@gmail.com', 1536329736, 0, 'verified', 2);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
