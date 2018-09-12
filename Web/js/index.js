@@ -209,7 +209,7 @@ window.onload = function()
 				d.setTime(d.getTime() + (30*24*60*60*1000));
 				var expires = d.toUTCString();
 				document.cookie = "cookieAccept=true;" + expires + ";path=/";
-				$(this).parent().slideUp();
+				$('.cookieInfo').slideUp();
 			}
 			else
 				document.location = "https://google.com/";
