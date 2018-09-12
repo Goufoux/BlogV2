@@ -1,5 +1,13 @@
 <?php
 
+	/*
+		Genarkys
+		
+		Ver 1.0
+		
+		AjaxRequest gère toutes les requêtes Ajax du frontend
+	*/
+
 	namespace Core;
 	
 	use Core\PDOFactory;
@@ -14,9 +22,9 @@
 	
 	class AjaxRequest
 	{
-		protected $role;
-		protected $data = [];
-		protected $ajaxError;
+		protected $role; // méthode à exécuter 
+		protected $data = []; // liste des données simples
+		protected $ajaxError; // Si une erreur survient elle sera stockée dans cette variable
 		protected $sData = []; // Données spéciales
 		
 		public function __construct($role, $data = false, $sData = false)
@@ -41,6 +49,10 @@
 				return false;
 			}
 		}
+		
+		/*
+			désabonnement utilisateur
+		*/
 		
 		public function executeUnfollowUser($data)
 		{
@@ -72,6 +84,10 @@
 			}
 		}
 		
+		/*
+			abonnement utilisateur
+		*/
+		
 		public function executeFollowUser($data)
 		{
 			$user = explode('_', $data[0]);
@@ -102,6 +118,10 @@
 			}
 		}
 		
+		/*
+			désabonnement d'un Book
+		*/
+		
 		public function executeUnfollowBook($data)
 		{
 			$book = explode("_", $data[0]);
@@ -131,6 +151,10 @@
 				return false;
 			}
 		}
+		
+		/*
+			abonnement à un Book
+		*/
 		
 		public function executeFollowBook($data)
 		{
