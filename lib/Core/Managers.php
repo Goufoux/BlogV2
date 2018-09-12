@@ -7,7 +7,7 @@
 		@07/09/18
 			-> Ajout de l'attribut parameter, qui contiendra les éventuelles paramètres d'un manager
 			-> Modification du constructeur
-			-> 
+			-> Managers stocke ses erreurs dans l'attribut error 
 	*/
 	namespace Core;
 	
