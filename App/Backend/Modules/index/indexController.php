@@ -115,12 +115,26 @@
 		
 		public function executeGestionCategory(HTTPRequest $HTTPRequest)
 		{
-			$bookCategoryList = $this->managers->getManagerOf('BookCategoryList')->getBookCategoryList();
-			if($bookCategoryList)
-				$this->page->addVar('bookCategoryList', $bookCategoryList);
+			if($this->app->user()->isAuthentificated())
+			{
+				if($this->app->user()->getUserLevel() >= 2)
+				{
+					$bookCategoryList = $this->managers->getManagerOf('BookCategoryList')->getBookCategoryList();
+					if($bookCategoryList)
+						$this->page->addVar('bookCategoryList', $bookCategoryList);
+					else
+						$this->page->addVar('bookCategoryList',  $this->managers->getManagerOf('BookCategoryList')->getManagerError());
+					$this->hasMsg($HTTPRequest);
+				}
+				else
+				{
+					$this->app->HTTPResponse()->redirect('../');
+				}
+			}
 			else
-				$this->page->addVar('bookCategoryList',  $this->managers->getManagerOf('BookCategoryList')->getManagerError());
-			$this->hasMsg($HTTPRequest);
+			{
+				$this->app->HTTPResponse()->redirect('../');
+			}
 		}
 		
 		public function hasMsg($request)
