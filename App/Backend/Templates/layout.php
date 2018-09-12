@@ -10,6 +10,7 @@
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/admin/index.js"></script>
+		<script src="../js/form.js"></script>
 		<link rel="icon" type="image/x-icon" href="../img/logo.png" />
 		<title><?= isset($title) ? $title : 'Genarkys' ?></title>
 	</head>

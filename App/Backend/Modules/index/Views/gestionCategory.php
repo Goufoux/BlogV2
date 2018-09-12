@@ -1,5 +1,4 @@
 <script src="../js/admin/gestionCategory.js"></script>
-<script src="../js/form.js"></script>
 <script src="../js/admin/ajaxGet.js"></script>
 <nav class="col-4 col-lg-2 panel">
 	<button class="ajouterCategory col-12 col-lg-12"> Nouvelle Catégorie </button>

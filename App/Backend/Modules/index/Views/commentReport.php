@@ -1,4 +1,3 @@
-<script src="../js/admin/index.js"></script>
 <?php
 	if(!empty($report))
 	{
