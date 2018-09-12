@@ -25,7 +25,7 @@ window.onload = function()
 			if(e > 0)
 			{
 				$('.ucError').html("");
-				var nData = [$('#ucForm #ucRead:checked').val(), $('#ucForm #ucWrite:checked').val(), $('#ucForm #ucNothing:checked').val()];
+				var nData = [$('#ucForm #ucRead:checked').val(), $('#ucForm #ucWrite:checked').val()];
 				$.ajax({
 					type: "GET",
 					url: "ajax/form.php",
