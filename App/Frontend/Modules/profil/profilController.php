@@ -40,9 +40,13 @@
 						if($userView->getCategoryUser() >= 2)
 						{
 							$bookManager = $this->managers->getManagerOf('Book');
-							$listBook = $bookManager->getBook('idUtilisateur', $HTTPRequest->getData('id'));
+							if($HTTPRequest->getExists('pageUserBook') AND (int) $HTTPRequest->getData('pageUserBook'))
+								$listBook = $bookManager->getBook('idUtilisateur', $HTTPRequest->getData('id'), 6, $HTTPRequest->getData('pageUserBook'));
+							else
+								$listBook = $bookManager->getBook('idUtilisateur', $HTTPRequest->getData('id'), 6);
 							$this->page->addVar('title', 'profil de ' . $userView->getPseudo());
 							$this->page->addVar('listBook', $listBook);
+							$this->page->addVar('pagUserBook', $bookManager->getNumberPage());
 							$this->detectForm($HTTPRequest);
 							$this->hasMsg($HTTPRequest);
 						}
@@ -66,8 +70,12 @@
 					$this->page->addVar('title', 'Profil - ' . $_SESSION['membre']->getPseudo());
 					$this->page->addVar('userMod', true);
 					$historyManager = $this->managers->getManagerOf('History');
+					/* Récupération des abonnements au book */
 					$historyManager->setType('book');
-					$bookFollow = $historyManager->executePrint();
+					if($HTTPRequest->getExists('pageFolBook') AND (int) $HTTPRequest->getData('pageFolBook'))
+						$bookFollow = $historyManager->executePrint($HTTPRequest->getData('pageFolBook'));
+					else
+						$bookFollow = $historyManager->executePrint();
 					if($bookFollow)
 					{
 						for($i = 0; $i < count($bookFollow); $i++)
@@ -86,8 +94,15 @@
 						}
 					}
 					$this->page->addVar('bookFollow', $bookFollow);
+					$this->page->addVar('pagFolBook', $historyManager->getNb());
+					
+					/* Récupération abonnements aux utilisateurs */
+					
 					$historyManager->setType('user');
-					$userFollow = $historyManager->executePrint();
+					if($HTTPRequest->getExists('pageFolUser') AND (int) $HTTPRequest->getData('pageFolUser'))
+						$userFollow = $historyManager->executePrint($HTTPRequest->getData('pageFolUser'));
+					else
+						$userFollow = $historyManager->executePrint();
 					if($userFollow)
 					{
 						for($i = 0; $i < count($userFollow); $i++)
@@ -106,8 +121,14 @@
 						}
 					}
 					$this->page->addVar('userFollow', $userFollow);
+					$this->page->addVar('pagFolUser', $historyManager->getNb());
+					/* Récupération historique book */
+					
 					$historyManager->setType('historyBook');
-					$historyBook = $historyManager->executePrint();
+					if($HTTPRequest->getExists('pageHisBook') AND (int) $HTTPRequest->getData('pageHisBook'))
+						$historyBook = $historyManager->executePrint($HTTPRequest->getData('pageHisBook'));
+					else
+						$historyBook = $historyManager->executePrint();
 					if($historyBook)
 					{
 						for($i = 0; $i < count($historyBook); $i++)
@@ -126,8 +147,15 @@
 						}
 					}
 					$this->page->addVar('historyBook', $historyBook);
+					$this->page->addVar('pagHisBook', $historyManager->getNb());
+					
+					/* Récupération historique billets */
+					
 					$historyManager->setType('historyBillet');
-					$historyBillet = $historyManager->executePrint();
+					if($HTTPRequest->getExists('pageHisBillet') AND (int) $HTTPRequest->getData('pageHisBillet'))
+						$historyBillet = $historyManager->executePrint($HTTPRequest->getData('pageHisBillet'));
+					else
+						$historyBillet = $historyManager->executePrint();
 					if($historyBillet)
 					{
 						for($i = 0; $i < count($historyBillet); $i++)
@@ -146,6 +174,7 @@
 						}
 					}
 					$this->page->addVar('historyBillet', $historyBillet);
+					$this->page->addVar('pagHisBillet', $historyManager->getNb());
 					$this->detectForm($HTTPRequest);
 					$this->hasMsg($HTTPRequest);
 				}

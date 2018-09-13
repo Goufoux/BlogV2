@@ -52,9 +52,15 @@
 			}
 			else
 			{
-				$this->page->addVar('title', 'Liste des derniers Books');
-				$listBook = $this->managers->getManagerOf('Book')->getBook('all', false);
+				$bookManager = $this->managers->getManagerOf('Book');
+				if($HTTPRequest->getExists('page') AND (int) $HTTPRequest->getData('page'))
+					$listBook = $bookManager->getBook('all', false, 5, $HTTPRequest->getData('page'));
+				else
+					$listBook = $bookManager->getBook('all', false, 5);
+					
+				$this->page->addVar('title', 'Liste des derniers Books - ');
 				$this->page->addVar('listBook', $listBook);
+				$this->page->addVar('pagination', $bookManager->getNumberPage());
 				$this->detectForm($HTTPRequest);
 				$this->hasMsg($HTTPRequest);
 			}

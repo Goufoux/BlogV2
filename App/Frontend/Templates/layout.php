@@ -19,7 +19,7 @@
 	<body id="bd">
 		<!-- NAVBAR -->
 		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="."> Blog </a>
+			<a class="navbar-brand" href="."> <i class="fas fa-home"></i> Blog </a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -34,7 +34,7 @@
 									<i class="fas fa-user"></i>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="profil"> Profil </a>
+									<a class="dropdown-item" href="profil"> <i class="far fa-user-circle"></i> Profil </a>
 									<?php
 										switch($_SESSION['membre']->getCategoryUser())
 									{
@@ -44,12 +44,12 @@
 											break;
 										case '2':
 											?>
-												<a href="readUb" class="dropdown-item" title="Consultez vos Books"> Book </a>
+												<a href="readUb" class="dropdown-item" title="Consultez vos Books"> <i class="fas fa-book"></i> Book </a>
 											<?php
 											break;
 										case '3':
 											?>
-												<a href="readUb" class="dropdown-item" title="Consultez vos Book"> Book </a>
+												<a href="readUb" class="dropdown-item" title="Consultez vos Book"> <i class="fas fa-book"></i> Book </a>
 											<?php
 											break;
 										default:
@@ -59,14 +59,14 @@
 								</div>
 							</li>
 							<li class="nav-item">
-								<a href="deconnect" class="nav-link" title="deco"> <i class="fas fa-sign-out-alt"></i> </a>
+								<a href="deconnect" class="nav-link" title="Se déconnecter ?"> <i class="fas fa-sign-out-alt"></i> </a>
 							</li>
 						<?php
 							if($_SESSION['membre']->getAccessLevel() >= 3)
 							{
 								?>
 									<li class="nav-item">
-										<a href="admin/" class="nav-link" title="deco"> Admin </a>
+										<a href="admin/" class="nav-link" title="Accès Administration"> <i class="fas fa-unlock-alt"></i> Admin </a>
 									</li>
 								<?php
 							}
@@ -79,14 +79,14 @@
 								case '2':
 									?>
 										<li class="nav-item">
-											<a href="readUb" class="nav-link" title="Écrire ?"> Publier </a>
+											<a href="readUb" class="nav-link" title="Écrire ?"> <i class="fas fa-pencil-alt"></i> Publier </a>
 										</li>
 									<?php
 									break;
 								case '3':
 									?>
 										<li class="nav-item">
-											<a href="readUb" class="nav-link" title="Écrire ?"> Publier </a>
+											<a href="readUb" class="nav-link" title="Écrire ?"> <i class="fas fa-pencil-alt"></i> Publier </a>
 										</li>
 									<?php
 									break;
@@ -99,14 +99,14 @@
 						if(!empty($_COOKIE['alreadySuscribe']))
 						{
 							?>
-								<li><button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6"> Connexion </button></li>
+								<li class="nav-item"><button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6 btn btn-secondary"> Connexion </button></li>
 							<?php
 						}
 						else
 						{
 							?>
-								<li><button id="clSuscribe"> Inscription </button></li>
-								<li><button id="clConnect"> Connexion </button></li>
+								<li class="nav-item"><button id="clSuscribe" class="col-lg-12 col-md-4 col-sm-6 col-6 btn btn-secondary"> Inscription </button></li>
+								<li class="nav-item"><button id="clConnect" class="col-lg-12 col-md-4 col-sm-6 col-6 btn btn-secondary"> Connexion </button></li>
 							<?php
 						}
 					}
@@ -162,7 +162,7 @@
 				<?php
 			}
 		?>
-		<section class="container-fluid col-12">
+		<section class="container-fluid col-12 col-sm-12">
 				<?= $content; ?>
 		</section>
 		<?php
@@ -172,7 +172,7 @@
 					<section class="cookieInfo">
 						<h4> A propos de vos données. </h4>
 						<p>
-							En naviguant sur notre site vous acceptez l'utilisation de cookie qui améliorent votre expérience. <button class="cookie" id="clAcceptCookie"> Ok </button> <button class="cookie" id="refuseCookie"> Refuser </button>
+							En naviguant sur notre site vous acceptez l'utilisation de cookie qui améliorent votre expérience. <button class="cookie btn btn-success" id="clAcceptCookie"> Ok </button> <button class="cookie btn btn-warning" id="refuseCookie"> Refuser </button>
 						</p>
 					</section>
 				<?php

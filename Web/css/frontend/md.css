@@ -5,4 +5,17 @@
 		width: 70%;
 		left: 15%;
 	}
+	.prevBook h2
+	{
+		font-size: 20px;
+	}
+	.prevBook blockquote
+	{
+		overflow: hidden;
+		text-overflow: clip;
+		text-overflow: ellipsis;
+		text-overflow: "…";
+		font-size: 15px;
+		max-height: 180px;
+	}
 }

@@ -9,6 +9,7 @@
 	class BookManagerPDO extends BookManager
 	{
 		protected $managerError;
+		protected $numberPage;
 		
 		public function getName($id)
 		{
@@ -128,20 +129,23 @@
 				$cat = idUtilisateur ->Renvoi une liste de book correspondant à l'id d'un utilisateur [$data = $idUtilisateur]
 		*/
 		
-		public function getBook($cat, $data)
+		public function getBook($cat, $data, $limite = 10, $page = 1)
 		{
 			if(is_string($cat))
 			{
+				if(!(int) $limite OR $limite <= 0)
+					$limite = 10;
+				$debut = ($page - 1) * $limite;
 				$sql = '';
 				switch($cat)
 				{
 					case 'all':	
-						$sql = 'SELECT b.*, u.pseudo FROM utilisateur u INNER JOIN book b ON b.idUtilisateur = u.id ORDER BY datePub DESC';
+						$sql = 'SELECT SQL_CALC_FOUND_ROWS b.*, u.pseudo FROM utilisateur u INNER JOIN book b ON b.idUtilisateur = u.id ORDER BY datePub DESC LIMIT ' . $limite . ' OFFSET ' . $debut;
 							break;
 					case 'idUtilisateur':
 						if(!empty($data))
 						{
-							$sql = 'SELECT b.*, u.pseudo AS pseudo FROM utilisateur u INNER JOIN book b ON b.idUtilisateur = u.id WHERE b.idUtilisateur = :idUtilisateur ORDER BY datePub DESC';
+							$sql = 'SELECT SQL_CALC_FOUND_ROWS b.*, u.pseudo AS pseudo FROM utilisateur u INNER JOIN book b ON b.idUtilisateur = u.id WHERE b.idUtilisateur = :idUtilisateur ORDER BY datePub DESC LIMIT ' . $limite . ' OFFSET ' . $debut;
 						}
 						else
 						{
@@ -171,6 +175,8 @@
 					$req->execute();
 					if($rs = $req->fetchAll())
 					{
+						$nbPage = $this->dao->query('SELECT found_rows()'); // Calcul le nombre d'entrée
+						$this->setNumberPage(ceil($nbPage->fetchColumn() / $limite)); // stocke le nombre de page 
 						return $rs;
 					}
 					else
@@ -203,6 +209,11 @@
 						{
 							if($rs = $req->fetchAll())
 							{
+								if($cat == 'idUtilisateur')
+								{	
+									$nbPage = $this->dao->query('SELECT found_rows()'); // Calcul le nombre d'entrée
+									$this->setNumberPage(ceil($nbPage->fetchColumn() / $limite)); // stocke le nombre de page 
+								}
 								return $rs;
 							}
 							else
@@ -337,10 +348,20 @@
 			return $this->managerError;
 		}
 		
+		public function getNumberPage()
+		{
+			return $this->numberPage;
+		}
+		
 		/* Setters */
 		
 		public function setManagerError($error)
 		{
 			$this->managerError = $error;
+		}
+		
+		public function setNumberPage($numberPage)
+		{
+			$this->numberPage = $numberPage;
 		}
 	}

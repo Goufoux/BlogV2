@@ -126,7 +126,7 @@ window.onload = function()
 					{
 						var nbLike = $(this).text();
 						nbLike++;
-						$('.nbLike').html(nbLike + ' j\'aime');
+						$('.nbLike').html('<i class="far fa-thumbs-up" title="Nombre de J\'aime"></i> ' + nbLike + ' j\'aime');
 					}
 				}
 			});

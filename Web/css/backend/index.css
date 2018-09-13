@@ -7,31 +7,33 @@ header
 {
 	text-align: center;
 }
-input[type='button']:hover, button:hover, input[type='submit']:hover
+.row
 {
-	cursor: pointer;
-	box-shadow: 0px 0px 5px black;
+	padding: 0;
+	margin: 0;
+}
+a:hover
+{
+	text-decoration: none;
 }
 h1, h2, h3, h4, h5
 {
 	text-align: center;
+	color: #17a2b8;
 }
-h1 a, h2 a, h3 a, h4 a, h5 a
+blockquote
 {
-	font-size: 15px;
-	font-style: italic;
+	text-align: center;
 }
 /* Bloc pour remplir l'espace du menu de navigation */
 .bloc
 {
 	height: 60px;
 }
-/* Container principal */
 .container-fluid
 {
-	margin: 1% auto;
 	background-color: white;
-	padding: 2%;
+	padding: 2% 0;
 }
 .panel
 {
@@ -57,40 +59,22 @@ h1 a, h2 a, h3 a, h4 a, h5 a
 	color: white;
 	text-align: center;
 }
-.panelAdmin a
-{
-	text-decoration: none;
-	color: black;
-}
 .panelAdmin button
 {
 	transition: all .3s;
 }
-.panel button
+.panelAdmin button
 {
 	transition : all .3s;
-	margin: 1% auto;
-}
-.panelAdmin button:hover, .panel button:hover
-{
-	background-color: #007bff;
-	border-color: #007bff;
-	cursor: pointer;
-	color: white;
+	margin: 1% 8%;
 }
 /* Gestion Category */
-.gestCategory article
+.gestCategory .card
 {
 	display: inline-block;
-	background-color: rgb(33, 37, 41);
-	color: white;
-	padding: 1%;
-	margin: 1% auto;
 }
-.gestCategory article p
+.gestCategory .card .card-text
 {
-	text-align: center;
-	padding: 1%;
 }
 /* Form Generator */
 .formGenerator
@@ -111,39 +95,18 @@ h1 a, h2 a, h3 a, h4 a, h5 a
 {
 	text-align: center;
 }
-.comment
+.boxComment .card
 {
-	padding: 2%;
-	margin: 1% auto;
-	background-color: rgb(33, 37, 41);
-	border-radius: 4px;
-	color: white;
-}
-.comment p 
-{
-	margin: 2% auto;
-}
-.comment ul
-{
-	text-align: right;
-	list-style-type: none;
+	display: inline-block;
 }
 /* Utilisateur */
 .user
 {
 	display: inline-block;
-	background-color: rgb(33, 37, 41);
-	color: white;
-	margin: 1%;
 }
-.user ul
+.user button, input[type='button']
 {
-	list-style: none;
-}
-.user ul li
-{
-	margin: 1% auto;
-	text-align: center;
+	display: block;
 }
 /* Affichage des msg */
 .alertP

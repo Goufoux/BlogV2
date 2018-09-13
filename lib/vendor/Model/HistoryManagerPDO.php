@@ -25,6 +25,8 @@
 		protected $module = 'null';
 		protected $type = 'null';
 		protected $error;
+		protected $nb;
+		protected $limite = 5;
 		
 		
 		public function run()
@@ -76,15 +78,18 @@
 			}
 		}
 		
-		public function executePrint()
+		public function executePrint($page = 1)
 		{
 			if(!empty($this->type) AND $this->type != 'null')
 			{
 				if(!empty($_SESSION['membre']))
 				{
+					if(!(int) $this->limite OR $this->limite <= 0)
+						$this->limite = 5;
+					$debut = ($page - 1) * $this->limite;
 					try 
 					{
-						$req = $this->dao->prepare('SELECT * FROM userhistory WHERE idUtilisateur = :idUtilisateur AND typeHistory = :typeHistory ORDER BY id DESC');
+						$req = $this->dao->prepare('SELECT SQL_CALC_FOUND_ROWS * FROM userhistory WHERE idUtilisateur = :idUtilisateur AND typeHistory = :typeHistory ORDER BY id DESC LIMIT ' . $this->limite . ' OFFSET ' . $debut);
 						$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\History');
 						$req->bindValue(':idUtilisateur', $_SESSION['membre']->getId(), \PDO::PARAM_INT);
 						$req->bindValue(':typeHistory', $this->getType(), \PDO::PARAM_STR);
@@ -92,6 +97,8 @@
 							throw new \PDOException('Une erreur est survenue');
 						if(!$rs = $req->fetchAll())
 							return false;
+						$nbPage = $this->dao->query('SELECT found_rows()'); // Calcul le nombre d'entrée
+						$this->setNb(ceil($nbPage->fetchColumn() / $this->limite)); // stocke le nombre de page 
 						return $rs;
 					}
 					catch(\PDOException $e)
@@ -267,6 +274,11 @@
 			return $this->idUser;
 		}
 		
+		public function getNb()
+		{
+			return $this->nb;
+		}
+		
 		/* Setters */
 		
 		public function setError($error)
@@ -304,5 +316,10 @@
 				$this->idUser = $idUser;
 			else
 				$this->idUser = 0;
+		}
+		
+		public function setNb($nb)
+		{
+			$this->nb = $nb;
 		}
 	}

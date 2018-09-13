@@ -29,7 +29,7 @@ window.onload = function()
 		});
 		
 		/* ListUser */
-		$('article').on('click', '.delUser', function()
+		$('div').on('click', '.delUser', function()
 		{
 			var id = $(this).attr('id');
 			$.ajax({
@@ -50,11 +50,12 @@ window.onload = function()
 			});
 		});
 		
-		$('article').on('click', '.modLevelUser', function()
+		$('div').on('click', '.modLevelUser', function()
 		{
 			if(!alreadyMod)
 			{
-				var e = document.getElementById("dtlU");
+				var id = $(this).parent().attr('id');
+				var e = document.getElementById(id);
 				var newLevel = document.createElement('input');
 				newLevel.type = 'number';
 				newLevel.placeholder = 'Nouveau niveau d\'accès';
@@ -62,17 +63,19 @@ window.onload = function()
 				newLevel.max = 3;
 				newLevel.required = true;
 				newLevel.id = $(this).attr('id');
-				newLevel.className = 'iLvl';
-				var vd = document.createElement('button');
-				vd.className = "vdNewLevel";
-				vd.innerHTML = "Valider";
+				newLevel.className = 'iLvl form-control col-lg-10 col-12 my-2 mx-auto';
+				var vd = document.createElement('input');
+				vd.type = 'button';
+				vd.className = "vdNewLevel btn btn-success col-lg-4 col-sm-6 my-1 mx-auto";
+				vd.value = "Valider";
+				vd.style = "display: block;";
 				e.appendChild(newLevel);
 				e.appendChild(vd);
 				alreadyMod = true;
 			}
 		});
 		
-		$('article').on('click', '.vdNewLevel', function()
+		$('div').on('click', '.vdNewLevel', function()
 		{
 			if($('.iLvl').val() == '0')
 				$val = 'aucun';

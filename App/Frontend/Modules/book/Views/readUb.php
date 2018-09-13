@@ -8,31 +8,32 @@
 	{
 		?>
 		<blockquote class="col-12" style="text-align: center;">
-			<input type="button" value="Créer un Book" id="bCreate" />
+			<input type="button" value="Créer un Book" id="bCreate" class="btn btn-primary"/>
 			<span class="error"></span>
 		</blockquote>
-		<section class="row col-11">
+		<section class="row col-12 col-sm-12">
 		<?php
 		foreach($list as $book)
 		{
 			?>
-				<article class="col-12 col-lg-3 col-md-4 col-sm-12 prevBook">
-					<div class="row col-lg-12 col-12">
+				<article class="col-12 col-lg-5 col-md-5 col-sm-12 my-lg-5 my-5 my-sm-5 ml-auto mr-auto prevBook">
 						<i class="far fa-trash-alt delBook" title="Supprimer ?" id="b_<?php echo $book->getId(); ?>"></i>
 						<a href="./modBook-<?php echo $book->getId(); ?>"><i class="far fa-edit" title="Modifier ?"></i></a>
-					</div>
 					<h4 class="col-12"> <a href="./<?php echo 'book-'.$book->getId(); ?>"> <?php echo $book->getName(); ?> </a> </h4>
-					<ul class="col-12">
-						<li> Publié le: <?php echo date('d-m-Y à H:i:s', $book->getDatePub()); ?> </li>
+					<blockquote class="blockquote">
+						<p> <?php echo nl2br($book->getContent()); ?> </p>
+					</blockquote>
+					<ul class="list-group col-12">
+						<li class="list-group-item"> <i class="far fa-calendar-alt"></i> <?php echo date('d-m-Y à H:i:s', $book->getDatePub()); ?> </li>
 						<?php
 							if(!empty($book->getDateMod()))
 							{
 								?>
-									<li> Modifié il y a : <?php echo $style->styleDate($book->getDateMod()); ?> </li>
+									<li class="list-group-item"> <i class="fas fa-user-edit"></i> <?php echo $style->styleDate($book->getDateMod()); ?> </li>
 								<?php
 							}
 						?>
-						<li> <?php echo $book->getNbVue(true); ?> </li>
+						<li class="list-group-item"> <i class="far fa-eye"></i> <?php echo $book->getNbVue(true); ?> </li>
 					</ul>
 				</article>
 			<?php

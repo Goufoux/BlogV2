@@ -23,44 +23,13 @@
 						<?php
 					}
 				?>
-				<blockquote> De <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
-				<blockquote class="affCat"> 
-					<h5> Catégorie </h5>
-					<?php
-						if(!empty($bookCategory) AND $bookCategory != null)
-						{
-							foreach($bookCategory as $category)
-							{
-								?>
-									<button title="<?php echo $category->getComment(); ?>"> <?php echo $category->getName(); ?> </button>
-								<?php
-							}
-						}
-						else
-						{
-							?>
-								<h5> Ce book n'a pas de catégorie. </h5>
-							<?php
-						}
-					?>
-				</blockquote>
-				<blockquote> 
-					<?php echo $book->getNbVue(true); ?>
-				</blockquote>
-				<p class="col-12">
+				<blockquote class="blockquote"><i class="far fa-user"></i> <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
+				
+				<p class="col-12 blockquote">
 					<?php echo nl2br($book->getContent()); ?> 
 				</p>
 				
 				<?php
-					if($user->isAuthentificated())
-					{
-						if($_SESSION['membre']->getId() == $book->getIdUtilisateur())
-						{
-							?>
-								<a href="addBillet-<?php echo $book->getId(); ?>" class="adm"> <button> Ajouter un Billet </button> </a>
-							<?php
-						}
-					}
 					if(!empty($listBillet))
 					{
 						$nb = count($listBillet);
@@ -71,17 +40,15 @@
 						?>
 							<h4> <?php echo $nb; ?> </h4>
 							<nav>
-								<ul>
-						<?php
-						foreach($listBillet as $billet)
-						{
-							?>
-								<li class="col-lg-2 col-md-4 col-sm-6 col-10"> <button class="col-12"> <a href="billet-<?php echo $billet->getId(); ?>" class="col-12"> <?php echo $billet->getTitre(); ?></a>  </button> </li>
-							<?php
-						}
-						?>
-							</ul>
-						</nav>
+								<?php
+								foreach($listBillet as $billet)
+								{
+									?>
+										<a href="billet-<?php echo $billet->getId(); ?>" class="col-12" title="Consulter le chapitre ?"> <button class="btn btn-info my-2">  <i class="far fa-file-alt"></i> <?php echo $billet->getTitre(); ?> </button></a>
+									<?php
+								}
+								?>
+							</nav>
 						<?php
 					}
 					else
@@ -89,6 +56,43 @@
 						?>
 							<h4> Aucun billet dans ce book... </h4>
 						<?php
+					}
+					
+					?>
+					
+					<blockquote class="affCat blockquote"> 
+						<i class="fas fa-ellipsis-h"></i><br />
+						<?php
+							if(!empty($bookCategory) AND $bookCategory != null)
+							{
+								foreach($bookCategory as $category)
+								{
+									?>
+										<button class="btn btn-info" title="<?php echo $category->getComment(); ?>"> <?php echo $category->getName(); ?> </button>
+									<?php
+								}
+							}
+							else
+							{
+								?>
+									<h5> Ce book n'a pas de catégorie. </h5>
+								<?php
+							}
+						?>
+						<br />
+						<i class="far fa-eye mt-5"></i> <?php echo $book->getNbVue(true); ?>
+					</blockquote>
+					
+					<?php
+					
+					if($user->isAuthentificated())
+					{
+						if($_SESSION['membre']->getId() == $book->getIdUtilisateur())
+						{
+							?>
+								<a href="addBillet-<?php echo $book->getId(); ?>" class="adm"> <button class="btn btn-primary mr-auto ml-auto"> Ajouter un Billet </button> </a>
+							<?php
+						}
 					}
 				?>
 			</article>

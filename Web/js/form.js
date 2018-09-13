@@ -131,6 +131,8 @@ var Form = {
 			input.id = id;
 			if(value)
 				input.value = value;
+			if(className)
+				input.className = className;
 			
 		}
 		else
@@ -166,9 +168,9 @@ var Form = {
 	
 	createFormSuscribe: function()
 	{
-		var email = Form.createInput('email', 'clEmail', 'clEmail', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Adresse E-Mail', true);
-		var pass = Form.createInput('password', 'clPass', 'clPass', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Password', true);
-		var send = Form.createInput('submit', false, false, 'Inscription');
+		var email = Form.createInput('email', 'clEmail', 'clEmail', false, 'col-lg-5 col-md-5 col-sm-5 col-12 form-control', 'Adresse E-Mail', true);
+		var pass = Form.createInput('password', 'clPass', 'clPass', false, 'col-lg-5 col-md-5 col-sm-5 col-12 form-control', 'Password', true);
+		var send = Form.createInput('submit', false, false, 'Inscription', 'btn btn-primary');
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Inscription';
@@ -180,10 +182,10 @@ var Form = {
 	
 	createFormConnect: function()
 	{
-		var login = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Pseudo ou Email', true);
-		var pass = Form.createInput('password', 'uPass', 'uPass', false, 'col-lg-5 col-md-5 col-sm-5 col-12', 'Pass', true);
-		var send = Form.createInput('submit', false, false, 'Connexion');
-		var mdp = Form.createInput('button', 'uMdp', 'uMdp', 'Pass oublié ?', 'sButton');
+		var login = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-5 col-md-5 col-sm-5 col-12 form-control', 'Pseudo ou Email', true);
+		var pass = Form.createInput('password', 'uPass', 'uPass', false, 'col-lg-5 col-md-5 col-sm-5 col-12 form-control', 'Pass', true);
+		var send = Form.createInput('submit', false, false, 'Connexion', 'btn btn-primary');
+		var mdp = Form.createInput('button', 'uMdp', 'uMdp', 'Pass oublié ?', 'sButton btn btn-info');
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Connexion';
@@ -195,8 +197,8 @@ var Form = {
 	
 	createFormComment: function()
 	{
-		var contenu = Form.createInput('textarea', 'cDesc', 'cDesc', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Commentaire', true);
-		var send = Form.createInput('button', 'uComment', 'uComment', 'Envoyer', 'col-lg-5 col-md-5 col-sm-5 col-12 sButton', false, false);
+		var contenu = Form.createInput('textarea', 'cDesc', 'cDesc', false, 'col-lg-10 col-md-10 col-sm-12 col-12 form-control', 'Commentaire', true);
+		var send = Form.createInput('button', 'uComment', 'uComment', 'Envoyer', 'btn col-lg-5 col-md-5 col-sm-5 col-12 sButton btn-primary', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Commenter !';
@@ -208,8 +210,8 @@ var Form = {
 	
 	createFormNewPass: function()
 	{
-		var pass = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Pseudo/E-Mail', true);
-		var send = Form.createInput('button', 'unPass', 'unPass', 'Nouveau Pass', 'col-lg-5 col-md-8 col-sm-12 col-12 sButton', false, false);
+		var pass = Form.createInput('text', 'uLogin', 'uLogin', false, 'col-lg-10 col-md-10 col-sm-12 col-12 form-control', 'Pseudo/E-Mail', true);
+		var send = Form.createInput('button', 'unPass', 'unPass', 'Nouveau Pass', 'btn col-lg-5 col-md-8 col-sm-12 col-12 sButton btn-primary', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Nouveau Pass';
@@ -221,9 +223,9 @@ var Form = {
 	
 	createFormAddCategory: function()
 	{
-		var name = Form.createInput('text', 'catName', 'catName', false, 'col-12', 'Nom', true);
-		var comment = Form.createInput('textarea', 'catDesc', 'catDesc', false, 'col-12', 'Commentaire', true);
-		var send = Form.createInput('button', 'addCat', 'addCat', 'Créer', 'col-12', false, false);
+		var name = Form.createInput('text', 'catName', 'catName', false, 'col-12 form-control', 'Nom', true);
+		var comment = Form.createInput('textarea', 'catDesc', 'catDesc', false, 'col-12 form-control', 'Commentaire', true);
+		var send = Form.createInput('button', 'addCat', 'addCat', 'Créer', 'btn col-12 btn-primary', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Nouvelle Catégorie';
@@ -235,9 +237,9 @@ var Form = {
 	
 	createFormCBook: function()
 	{
-		var name = Form.createInput('text', 'bName', 'bName', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Nom du Book', true);
-		var content = Form.createInput('textarea', 'bContenu', 'bContenu', false, 'col-lg-10 col-md-10 col-sm-12 col-12', 'Description du Book', true);
-		var send = Form.createInput('button', 'bCreateBook', 'bCreateBook', 'Créer', 'col-lg-10 col-md-10 col-sm-12 col-12 sButton', false, false);
+		var name = Form.createInput('text', 'bName', 'bName', false, 'col-lg-10 col-md-10 col-sm-12 col-12 form-control', 'Nom du Book', true);
+		var content = Form.createInput('textarea', 'bContenu', 'bContenu', false, 'col-lg-10 col-md-10 col-sm-12 col-12 form-control', 'Description du Book', true);
+		var send = Form.createInput('button', 'bCreateBook', 'bCreateBook', 'Créer', 'btn col-lg-10 col-md-10 col-sm-12 col-12 sButton btn btn-primary', false, false);
 		Form.title = document.createElement('h3');
 		Form.title.id = 'formTitle';
 		Form.title.innerHTML = 'Création de Book';
@@ -259,7 +261,7 @@ var Form = {
 				cat.value = category[i].name;
 				cat.title = category[i].comment;
 				cat.id = 'cat_'+category[i].id;
-				cat.className = 'formCatEl';
+				cat.className = 'formCatEl btn';
 				cat.setAttribute('data-sel', '0');
 				cat.addEventListener('click', function()
 				{

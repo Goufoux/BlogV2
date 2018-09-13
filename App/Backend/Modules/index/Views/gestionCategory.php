@@ -1,13 +1,13 @@
 <script src="../js/admin/gestionCategory.js"></script>
 <script src="../js/admin/ajaxGet.js"></script>
 <nav class="col-4 col-lg-2 panel">
-	<button class="ajouterCategory col-12 col-lg-12"> Nouvelle Catégorie </button>
-	<button class="createJSONCat col-12 col-lg-12"> Mettre à jour fichier JSON </button>
+	<button class="btn ajouterCategory col-12 my-1 btn-primary"> Nouvelle Catégorie </button>
+	<button class="btn createJSONCat col-12 my-1 btn-primary"> Mettre à jour fichier JSON </button>
 </nav>
 <header>
 	<h2> Gestion des Catégories </h2>
 </header>
-<section class="col-12 col-lg-12 gestCategory">
+<section class="row col-12">
 	<h4 class="col-12"> Liste des catégories </h4>
 	<?php
 		if(!empty($bookCategoryList) AND !is_string($bookCategoryList))
@@ -15,10 +15,14 @@
 			foreach($bookCategoryList as $cat)
 			{
 				?>
-					<article class="col-12 col-lg-3">
-						<h5> Nom: <?php echo $cat->getName(); ?> </h5>
-						<p> <?php echo nl2br($cat->getComment()); ?> </p>
-					</article>
+					<div class="card bg-dark text-white col-3 mx-5 my-2">
+						<div class="card-header">
+							<h5 class="card-title"> Nom: <?php echo $cat->getName(); ?> </h5>
+						</div>
+						<div class="card-body">
+							<p class="card-text"> <?php echo nl2br($cat->getComment()); ?> </p>
+						</div>
+					</div>
 				<?php
 			}
 		}

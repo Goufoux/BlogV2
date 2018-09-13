@@ -4,6 +4,10 @@
 	{
 		font-size: 18px;
 	}
+	.panelAdmin button
+	{
+		margin: 1% 4%;
+	}
 	.formGenerator
 	{
 		left: 25%;

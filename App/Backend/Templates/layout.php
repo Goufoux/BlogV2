@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../css/backend/index.css" />
 		<link rel="stylesheet" media="screen and (min-width: 768px)" href="../css/backend/md.css" />
 		<link rel="stylesheet" media="screen and (min-width: 1px)" href="../css/backend/sm.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/admin/index.js"></script>
@@ -72,15 +73,13 @@
 		?>
 		<nav class="col-12 col-lg-12 panelAdmin">
 			<h3 class="col-12"> Administration </h3>
-				<a href="commentReport"> <button> Commentaire signalé </button> </a>
-				<a href="listUser"> <button> Liste des utilisateurs </button> </a>
-				<a href="gestionCategory"> <button> Gérer les catégories </button> </a>
+					<a href="commentReport"> <button class="btn btn-primary col-md-4 col-lg-2 col-10">  Commentaire signalé  </button></a>
+					<a href="listUser"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> Liste des utilisateurs </button></a>
+					<a href="gestionCategory"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> Gérer les catégories </button></a>
 		</nav>
-		<div class="container-fluid col-12">
+		<section class="container-fluid col-12">
 			<h5 class="error"> </h5>
-			<p>
 				<?= $content; ?>
-			</p>
-		</div>
+		</section>
 	</body>
 </html>

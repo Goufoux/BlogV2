@@ -251,6 +251,10 @@
 				$req = $this->dao->prepare('DELETE FROM billet WHERE id = :id');
 				$req->bindValue(':id', $id, \PDO::PARAM_INT);
 				$req->execute();
+				
+				$cmt = $this->dao->prepare('DELETE FROM comment WHERE idBillet = :idBillet');
+				$cmt->bindValue(':idBillet', $id, \PDO::PARAM_INT);
+				$cmt->execute();
 				return true;
 			}
 			else
@@ -258,10 +262,6 @@
 				$this->setManagerError('Une erreur est survenue. {Code : 200}');
 				return false;
 			}
-			
-			$cmt = $this->dao->prepare('DELETE FROM comment WHERE idAttach = :idAttach');
-			$cmt->bindValue(':idAttach', $id, \PDO::PARAM_INT);
-			$cmt->execute();
 		}
 		
 		/*

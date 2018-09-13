@@ -16,7 +16,6 @@ $(function()
 				}
 				else
 				{
-					el.removeChild(submit);
 					$('.error').html(data);
 				}
 			}

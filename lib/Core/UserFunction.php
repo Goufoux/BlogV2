@@ -44,11 +44,11 @@
 					$historyManager = $managers->getManagerOf('History');
 					if(!$historyManager->run())
 					{
-						$this->setButton('<button value="user_'.$this->data.'" class="folUser"> S\'abonner </button>');
+						$this->setButton('<button value="user_'.$this->data.'" class="folUser btn btn-outline-link"> S\'abonner </button>');
 					}
 					else
 					{
-						$this->setButton('<button value="user_'.$this->data.'" class="unfolUser"> Se désabonner </button>');
+						$this->setButton('<button value="user_'.$this->data.'" class="unfolUser btn btn-outline-link"> Se désabonner </button>');
 					}
 					$this->constructHtml();
 					return true;
@@ -77,11 +77,11 @@
 					$historyManager = $managers->getManagerOf('History');
 					if(!$historyManager->run())
 					{
-						$this->setButton('<button value="book_'.$this->data.'" class="folBook"> S\'abonner </button>');
+						$this->setButton('<button value="book_'.$this->data.'" class="folBook btn btn-outline-link"> S\'abonner </button>');
 					}
 					else
 					{
-						$this->setButton('<button value="book_'.$this->data.'" class="unfolBook"> Se désabonner </button>');
+						$this->setButton('<button value="book_'.$this->data.'" class="unfolBook btn btn-outline-link"> Se désabonner </button>');
 					}
 					$this->constructHtml();
 					return true;
