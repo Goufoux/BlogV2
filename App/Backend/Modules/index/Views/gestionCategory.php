@@ -1,8 +1,8 @@
 <script src="../js/admin/gestionCategory.js"></script>
 <script src="../js/admin/ajaxGet.js"></script>
 <nav class="col-4 col-lg-2 panel">
-	<button class="btn ajouterCategory col-12 my-1 btn-primary"> Nouvelle Catégorie </button>
-	<button class="btn createJSONCat col-12 my-1 btn-primary"> Mettre à jour fichier JSON </button>
+	<button class="btn ajouterCategory col-12 my-1 btn-primary"> <i class="fas fa-plus"></i> Nouvelle Catégorie </button>
+	<button class="btn createJSONCat col-12 my-1 btn-primary"> <i class="fas fa-external-link-alt"></i> Mettre à jour fichier JSON </button>
 </nav>
 <header>
 	<h2> Gestion des Catégories </h2>

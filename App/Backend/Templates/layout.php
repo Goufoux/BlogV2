@@ -19,7 +19,7 @@
 	<body id="bd">
 		<!-- NAVBAR -->
 		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="../"> Blog </a>
+			<a class="navbar-brand" href="../"> <i class="fas fa-home"></i> Blog </a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -32,13 +32,13 @@
 							{
 								?>
 									<li class="nav-item">
-										<a href="./" class="nav-link" title="Admin"> Admin </a>
+										<a href="./" class="nav-link" title="Panneau d'administration"> <i class="fas fa-unlock-alt"></i> Admin </a>
 									</li>
 								<?php
 							}
 							?>
 								<li class="nav-item">
-									<a href="../deconnect" class="nav-link" title="deco"> Déco </a>
+									<a href="../deconnect" class="nav-link" title="Se déconnecter ?"> <i class="fas fa-sign-out-alt"></i> </a>
 								</li>
 							<?php
 						}
@@ -73,9 +73,9 @@
 		?>
 		<nav class="col-12 col-lg-12 panelAdmin">
 			<h3 class="col-12"> Administration </h3>
-					<a href="commentReport"> <button class="btn btn-primary col-md-4 col-lg-2 col-10">  Commentaire signalé  </button></a>
-					<a href="listUser"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> Liste des utilisateurs </button></a>
-					<a href="gestionCategory"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> Gérer les catégories </button></a>
+					<a href="commentReport"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> <i class="fas fa-comment-slash"></i> Commentaire signalé  </button></a>
+					<a href="listUser"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> <i class="fas fa-users"></i> Liste des utilisateurs </button></a>
+					<a href="gestionCategory"> <button class="btn btn-primary col-md-4 col-lg-2 col-10"> <i class="fas fa-tag"></i> Gérer les catégories </button></a>
 		</nav>
 		<section class="container-fluid col-12">
 			<h5 class="error"> </h5>

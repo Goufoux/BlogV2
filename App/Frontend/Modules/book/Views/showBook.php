@@ -3,7 +3,7 @@
 	{
 		?>
 			<header>
-				<h1 class="col-12"> <?php echo $book->getName(); ?> </h1>
+				<h1 class="col-12"><i class="fas fa-book" title="Book <?php echo $book->getName(); ?>"></i> <?php echo $book->getName(); ?> </h1>
 			</header>
 			<article class="book col-lg-10 col-md-10 col-11">
 				<span class="error"> </span>
@@ -23,7 +23,7 @@
 						<?php
 					}
 				?>
-				<blockquote class="blockquote"><i class="far fa-user"></i> <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
+				<blockquote class="blockquote"><i class="far fa-user" title="Auteur"></i> <a href="profil-<?php echo $book->getIdUtilisateur(); ?>"> <?php echo $book->getPseudo(); ?> </a> </blockquote>
 				
 				<p class="col-12 blockquote">
 					<?php echo nl2br($book->getContent()); ?> 
