@@ -55,7 +55,7 @@
 						<button type="button" class="close col-1" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="col-11"> <?php var_dump($error); ?> </h4>
+						<h4 class="col-11"> <?php echo $error; ?> </h4>
 					</article>
 				<?php
 			}
